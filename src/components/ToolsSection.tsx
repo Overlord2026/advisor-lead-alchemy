@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Launch } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 interface ToolsSectionProps {
   goalId: string;
@@ -12,17 +12,17 @@ export const ToolsSection = ({ goalId }: ToolsSectionProps) => {
     {
       name: "Retirement Calculator",
       action: "Launch",
-      icon: Launch,
+      icon: ExternalLink,
     },
     {
       name: "Pension Analysis",
       action: "Launch",
-      icon: Launch,
+      icon: ExternalLink,
     },
     {
       name: "Schedule Review Call",
       action: "Ask for Help",
-      icon: Launch,
+      icon: ExternalLink,
     },
   ];
 
