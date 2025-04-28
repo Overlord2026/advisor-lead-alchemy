@@ -1,272 +1,433 @@
 
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useEffect } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { BarChart, ChevronRight, ClipboardList, Mail, Mic, Users } from "lucide-react";
+import { 
+  BarChart, ChevronRight, ClipboardList, Mail, 
+  Mic, Users, Sparkles, Play, Settings, LineChart 
+} from "lucide-react";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { initSalesProcessAutomation } from "@/utils/salesProcessAutomation";
 
 const AdvisorDashboard = () => {
-  // Mock data for dashboard metrics
-  const metrics = {
-    prospects: 42,
-    activeLeads: 28,
-    meetingsScheduled: 15,
-    conversions: 8,
-    questionnairesCompleted: 22,
-    emailsSent: 67
-  };
+  useEffect(() => {
+    // Initialize sales process automation
+    initSalesProcessAutomation();
+  }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Advisor Dashboard</h1>
-        <p className="text-muted-foreground">Overview of your sales process and prospect activity</p>
+    <div className="space-y-10">
+      <Toaster />
+      
+      {/* Header Section */}
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-2">Sales Process Automation System</h1>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Streamline your client acquisition and relationship management process
+        </p>
       </div>
 
-      {/* Summary Metrics */}
+      {/* Main Feature Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Prospects</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metrics.prospects}</div>
-            <p className="text-xs text-muted-foreground">
-              +4 from last month
-            </p>
+        <Card className="card-gradient-purple overflow-hidden border-none">
+          <CardContent className="p-6">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-white/10 rounded-lg">
+                  <Users className="h-8 w-8 text-white" />
+                </div>
+                <div className="ai-badge">
+                  <Sparkles className="h-3 w-3" />
+                  AI Enhanced
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold mb-2">Prospect Management</h3>
+              
+              <p className="text-sm text-white/80 mb-4">
+                AI-powered analytics and scoring to identify high-value prospects and optimize your sales pipeline.
+              </p>
+              
+              <ul className="text-sm text-white/80 mb-6 space-y-1">
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Pipeline visualization
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  HNW scoring
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Automated follow-ups
+                </li>
+              </ul>
+              
+              <div className="mt-auto">
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to="/advisor/prospects">
+                    Access Prospects
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Leads</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metrics.activeLeads}</div>
-            <p className="text-xs text-muted-foreground">
-              +2 from last month
-            </p>
+        <Card className="card-gradient-indigo overflow-hidden border-none">
+          <CardContent className="p-6">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-white/10 rounded-lg">
+                  <Mic className="h-8 w-8 text-white" />
+                </div>
+                <div className="ai-badge">
+                  <Sparkles className="h-3 w-3" />
+                  AI Enhanced
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold mb-2">Meeting Intelligence</h3>
+              
+              <p className="text-sm text-white/80 mb-4">
+                Record, transcribe, and analyze client meetings to extract insights and automate follow-up actions.
+              </p>
+              
+              <ul className="text-sm text-white/80 mb-6 space-y-1">
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  AI transcription
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Key moment detection
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Action item extraction
+                </li>
+              </ul>
+              
+              <div className="mt-auto">
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to="/advisor/recordings">
+                    Access Recordings
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Meetings Scheduled</CardTitle>
-            <Mic className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metrics.meetingsScheduled}</div>
-            <p className="text-xs text-muted-foreground">
-              +5 from last month
-            </p>
+        <Card className="card-gradient-blue overflow-hidden border-none">
+          <CardContent className="p-6">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-white/10 rounded-lg">
+                  <ClipboardList className="h-8 w-8 text-white" />
+                </div>
+                <div className="ai-badge">
+                  <Sparkles className="h-3 w-3" />
+                  AI Enhanced
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold mb-2">Smart Questionnaires</h3>
+              
+              <p className="text-sm text-white/80 mb-4">
+                Dynamic questionnaires that adapt based on client inputs, with AI analysis of responses.
+              </p>
+              
+              <ul className="text-sm text-white/80 mb-6 space-y-1">
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Adaptive questions
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Response sentiment analysis
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Auto-recommended solutions
+                </li>
+              </ul>
+              
+              <div className="mt-auto">
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to="/advisor/questionnaires">
+                    Access Questionnaires
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversions</CardTitle>
-            <BarChart className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metrics.conversions}</div>
-            <p className="text-xs text-muted-foreground">
-              +3 from last month
-            </p>
+        <Card className="card-gradient-teal overflow-hidden border-none">
+          <CardContent className="p-6">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-white/10 rounded-lg">
+                  <Mail className="h-8 w-8 text-white" />
+                </div>
+                <div className="ai-badge">
+                  <Sparkles className="h-3 w-3" />
+                  AI Enhanced
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold mb-2">Email Automation</h3>
+              
+              <p className="text-sm text-white/80 mb-4">
+                Personalized email templates and automated sequences based on client interactions and preferences.
+              </p>
+              
+              <ul className="text-sm text-white/80 mb-6 space-y-1">
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Dynamic personalization
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Sequence automation
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Performance analytics
+                </li>
+              </ul>
+              
+              <div className="mt-auto">
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to="/advisor/templates">
+                    Access Templates
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Questionnaires Completed</CardTitle>
-            <ClipboardList className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metrics.questionnairesCompleted}</div>
-            <p className="text-xs text-muted-foreground">
-              +8 from last month
-            </p>
+        <Card className="card-gradient-pink overflow-hidden border-none">
+          <CardContent className="p-6">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-white/10 rounded-lg">
+                  <BarChart className="h-8 w-8 text-white" />
+                </div>
+                <div className="ai-badge">
+                  <Sparkles className="h-3 w-3" />
+                  AI Enhanced
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold mb-2">ROI Analytics</h3>
+              
+              <p className="text-sm text-white/80 mb-4">
+                Track marketing ROI and sales performance with advanced analytics and predictive modeling.
+              </p>
+              
+              <ul className="text-sm text-white/80 mb-6 space-y-1">
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Channel attribution
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Conversion path analysis
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  AI-powered forecasting
+                </li>
+              </ul>
+              
+              <div className="mt-auto">
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to="/advisor/roi">
+                    Access ROI Data
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Emails Sent</CardTitle>
-            <Mail className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{metrics.emailsSent}</div>
-            <p className="text-xs text-muted-foreground">
-              +12 from last month
-            </p>
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+          <CardContent className="p-6">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-white/10 rounded-lg">
+                  <Settings className="h-8 w-8 text-white" />
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold mb-2">System Settings</h3>
+              
+              <p className="text-sm text-white/80 mb-4">
+                Configure your sales process automation settings and integrations.
+              </p>
+              
+              <ul className="text-sm text-white/80 mb-6 space-y-1">
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  API connections
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  Automation rules
+                </li>
+                <li className="flex items-center">
+                  <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                  User permissions
+                </li>
+              </ul>
+              
+              <div className="mt-auto">
+                <Button 
+                  variant="secondary" 
+                  className="w-full" 
+                  onClick={() => toast.info("Settings module coming soon!")}
+                >
+                  Configure Settings
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Quick Access Cards */}
-      <h2 className="text-xl font-semibold mt-8">Sales Process Tools</h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg">
-                <Users className="h-5 w-5 text-blue-700 dark:text-blue-300" />
-              </div>
-              <CardTitle>Prospect Management</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Manage your prospect pipeline and verify potential clients.
-            </CardDescription>
-          </CardContent>
-          <div className="px-6 pb-4">
-            <Button asChild>
-              <Link to="/advisor/prospects">View Prospects</Link>
-            </Button>
-          </div>
-        </Card>
+      {/* Process Flow Section */}
+      <div className="mt-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-2">Streamlined Sales Process</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Our integrated system enables a cohesive 5-step approach to client acquisition and management
+          </p>
+        </div>
         
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-lg">
-                <Mic className="h-5 w-5 text-indigo-700 dark:text-indigo-300" />
-              </div>
-              <CardTitle>Meeting Recordings</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Record, transcribe, and analyze your client meetings.
-            </CardDescription>
-          </CardContent>
-          <div className="px-6 pb-4">
-            <Button asChild>
-              <Link to="/advisor/recordings">View Recordings</Link>
-            </Button>
+        <div className="space-y-8 max-w-3xl mx-auto">
+          <div className="process-step">
+            <div className="process-step-number">1</div>
+            <h3 className="text-xl font-bold mb-2">Prospect Identification & Qualification</h3>
+            <p className="text-muted-foreground">
+              Use AI-powered scoring to identify and prioritize high-value prospects based on multiple factors, including wealth indicators, behavioral signals, and referral sources.
+            </p>
           </div>
-        </Card>
+          
+          <div className="process-step">
+            <div className="process-step-number">2</div>
+            <h3 className="text-xl font-bold mb-2">Meeting Intelligence & Analysis</h3>
+            <p className="text-muted-foreground">
+              Record and automatically analyze client conversations to extract insights, action items, and sentiment data to inform your approach.
+            </p>
+          </div>
+          
+          <div className="process-step">
+            <div className="process-step-number">3</div>
+            <h3 className="text-xl font-bold mb-2">Personalized Data Collection</h3>
+            <p className="text-muted-foreground">
+              Deploy smart questionnaires that adapt based on previous inputs and meeting insights to gather comprehensive client information efficiently.
+            </p>
+          </div>
+          
+          <div className="process-step">
+            <div className="process-step-number">4</div>
+            <h3 className="text-xl font-bold mb-2">Automated Communication</h3>
+            <p className="text-muted-foreground">
+              Send timely, personalized emails that integrate insights from all previous interactions, with optimal timing determined by AI analysis.
+            </p>
+          </div>
+          
+          <div className="process-step">
+            <div className="process-step-number">5</div>
+            <h3 className="text-xl font-bold mb-2">Performance Tracking & Optimization</h3>
+            <p className="text-muted-foreground">
+              Track ROI and conversion rates across your entire sales process, with AI recommendations for improving performance.
+            </p>
+          </div>
+        </div>
         
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-lg">
-                <ClipboardList className="h-5 w-5 text-purple-700 dark:text-purple-300" />
-              </div>
-              <CardTitle>Questionnaires</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Create and manage questionnaires for your prospects and clients.
-            </CardDescription>
-          </CardContent>
-          <div className="px-6 pb-4">
-            <Button asChild>
-              <Link to="/advisor/questionnaires">View Questionnaires</Link>
-            </Button>
-          </div>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="bg-green-100 dark:bg-green-900 p-2 rounded-lg">
-                <Mail className="h-5 w-5 text-green-700 dark:text-green-300" />
-              </div>
-              <CardTitle>Email Templates</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Manage your email templates for efficient client communication.
-            </CardDescription>
-          </CardContent>
-          <div className="px-6 pb-4">
-            <Button asChild>
-              <Link to="/advisor/templates">Manage Templates</Link>
-            </Button>
-          </div>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="bg-orange-100 dark:bg-orange-900 p-2 rounded-lg">
-                <BarChart className="h-5 w-5 text-orange-700 dark:text-orange-300" />
-              </div>
-              <CardTitle>ROI Tracker</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              Track your marketing ROI and analyze campaign performance.
-            </CardDescription>
-          </CardContent>
-          <div className="px-6 pb-4">
-            <Button asChild>
-              <Link to="/advisor/roi">View ROI Data</Link>
-            </Button>
-          </div>
-        </Card>
+        <div className="mt-10 text-center">
+          <Button 
+            variant="default" 
+            size="lg" 
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            onClick={() => {
+              toast.success("Demo mode activated", {
+                description: "All features are fully functional in this demo version."
+              });
+            }}
+          >
+            <Play className="mr-2 h-4 w-4" />
+            Start Demo Walkthrough
+          </Button>
+        </div>
       </div>
 
-      {/* Recent Activity */}
-      <h2 className="text-xl font-semibold mt-8">Recent Activity</h2>
-      <Card>
-        <CardHeader>
-          <CardTitle>Activity Feed</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-start gap-4 border-b pb-4">
-              <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
-                <Users className="h-4 w-4 text-blue-700 dark:text-blue-300" />
+      {/* Demo Data Stats */}
+      <div className="grid gap-6 md:grid-cols-4 mt-10">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex flex-col">
+              <div className="bg-primary/10 p-2 rounded-full w-fit mb-4">
+                <LineChart className="h-5 w-5 text-primary" />
               </div>
-              <div>
-                <p className="font-medium">New prospect added</p>
-                <p className="text-sm text-muted-foreground">John Smith - Referred by James Wilson</p>
-                <p className="text-xs text-muted-foreground">2 hours ago</p>
-              </div>
+              <p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
+              <p className="mt-2 text-3xl font-bold">18.7%</p>
+              <p className="text-sm text-green-600 mt-2">+3.2% vs. last quarter</p>
             </div>
-            
-            <div className="flex items-start gap-4 border-b pb-4">
-              <div className="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-full">
-                <Mic className="h-4 w-4 text-indigo-700 dark:text-indigo-300" />
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex flex-col">
+              <div className="bg-primary/10 p-2 rounded-full w-fit mb-4">
+                <Users className="h-5 w-5 text-primary" />
               </div>
-              <div>
-                <p className="font-medium">Meeting recording complete</p>
-                <p className="text-sm text-muted-foreground">Initial consultation with Sarah Johnson</p>
-                <p className="text-xs text-muted-foreground">Yesterday at 2:30 PM</p>
-              </div>
+              <p className="text-sm font-medium text-muted-foreground">New Clients</p>
+              <p className="mt-2 text-3xl font-bold">24</p>
+              <p className="text-sm text-green-600 mt-2">+6 vs. last quarter</p>
             </div>
-            
-            <div className="flex items-start gap-4 border-b pb-4">
-              <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
-                <ClipboardList className="h-4 w-4 text-purple-700 dark:text-purple-300" />
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex flex-col">
+              <div className="bg-primary/10 p-2 rounded-full w-fit mb-4">
+                <BarChart className="h-5 w-5 text-primary" />
               </div>
-              <div>
-                <p className="font-medium">Questionnaire completed</p>
-                <p className="text-sm text-muted-foreground">Michael Brown completed the Risk Assessment</p>
-                <p className="text-xs text-muted-foreground">Yesterday at 11:15 AM</p>
-              </div>
+              <p className="text-sm font-medium text-muted-foreground">AUM Growth</p>
+              <p className="mt-2 text-3xl font-bold">$42.5M</p>
+              <p className="text-sm text-green-600 mt-2">+$12.3M vs. last quarter</p>
             </div>
-            
-            <div className="flex items-start gap-4">
-              <div className="bg-green-100 dark:bg-green-900 p-2 rounded-full">
-                <Mail className="h-4 w-4 text-green-700 dark:text-green-300" />
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex flex-col">
+              <div className="bg-primary/10 p-2 rounded-full w-fit mb-4">
+                <Mail className="h-5 w-5 text-primary" />
               </div>
-              <div>
-                <p className="font-medium">Email template created</p>
-                <p className="text-sm text-muted-foreground">New "Estate Planning Follow-up" template</p>
-                <p className="text-xs text-muted-foreground">2 days ago</p>
-              </div>
+              <p className="text-sm font-medium text-muted-foreground">Email Open Rate</p>
+              <p className="mt-2 text-3xl font-bold">68.9%</p>
+              <p className="text-sm text-green-600 mt-2">+12.4% vs. industry avg.</p>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

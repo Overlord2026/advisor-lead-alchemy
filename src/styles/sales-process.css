@@ -1,0 +1,76 @@
+
+/* Sales Process Automation System Styles */
+
+/* Card gradients */
+.card-gradient-blue {
+  background: linear-gradient(135deg, #2a4365 0%, #3182ce 100%);
+  color: white;
+}
+
+.card-gradient-purple {
+  background: linear-gradient(135deg, #44337a 0%, #805ad5 100%);
+  color: white;
+}
+
+.card-gradient-indigo {
+  background: linear-gradient(135deg, #3c366b 0%, #667eea 100%);
+  color: white;
+}
+
+.card-gradient-teal {
+  background: linear-gradient(135deg, #234e52 0%, #38b2ac 100%);
+  color: white;
+}
+
+.card-gradient-pink {
+  background: linear-gradient(135deg, #702459 0%, #ed64a6 100%);
+  color: white;
+}
+
+/* AI Badge */
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.ai-badge svg {
+  margin-right: 0.25rem;
+}
+
+/* Process Step */
+.process-step {
+  position: relative;
+  padding-left: 3rem;
+}
+
+.process-step-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3182ce 0%, #805ad5 100%);
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process-step:not(:last-child):before {
+  content: '';
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+  height: calc(100% - 2rem);
+  width: 1px;
+  background: #e2e8f0;
+}

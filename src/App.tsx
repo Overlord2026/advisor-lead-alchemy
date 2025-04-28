@@ -16,6 +16,8 @@ import TemplatesPage from "./pages/advisor/TemplatesPage";
 import RoiTrackerPage from "./pages/advisor/RoiTrackerPage";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "@/contexts/AppContext";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +41,8 @@ const App = () => (
             <Route path="/advisor/roi" element={<Layout><RoiTrackerPage /></Layout>} />
             <Route path="*" element={<Layout><NotFound /></Layout>} />
           </Routes>
+          <Toaster />
+          <SonnerToaster />
         </BrowserRouter>
       </TooltipProvider>
     </AppProvider>

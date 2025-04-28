@@ -108,10 +108,13 @@ const Header = () => {
   const isAdvisorSection = location.pathname.startsWith('/advisor');
 
   return (
-    <header className="bg-background border-b p-4 flex justify-between items-center">
-      <div className="flex gap-2 items-center">
+    <header className="bg-background border-b p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+      <div className="flex gap-4 items-center">
         <SidebarTrigger onClick={toggleSidebar} />
-        <h1 className="text-xl font-bold">
+        <Link to={isAdvisorSection ? "/advisor" : "/"} className="flex items-center">
+          <img src="/logo.svg" alt="Boutique Family Office" className="h-10 mr-4" />
+        </Link>
+        <h1 className="text-xl font-bold hidden sm:block">
           {isAdvisorSection ? "Advisor Portal" : "Client Portal"}
         </h1>
       </div>
@@ -154,15 +157,15 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
     <div className="flex min-h-screen w-full">
       <Sidebar>
         <SidebarHeader className="p-4">
-          <h2 className="text-lg font-semibold">
-            {isAdvisorSection ? "Advisor Portal" : "Financial Portal"}
-          </h2>
+          <div className="flex items-center">
+            <img src="/logo.svg" alt="Boutique Family Office" className="h-8 w-auto" />
+          </div>
         </SidebarHeader>
         <NavigationContent />
       </Sidebar>
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <main className="flex-1 overflow-auto p-6 pt-20">{children}</main>
       </div>
     </div>
   );
