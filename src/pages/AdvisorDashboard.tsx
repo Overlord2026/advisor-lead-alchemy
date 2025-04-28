@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Toaster } from "@/components/ui/sonner";
 import { initSalesProcessAutomation } from "@/utils/salesProcessAutomation";
 import DashboardHeader from '@/components/advisor-dashboard/DashboardHeader';
+import CompanyInfo from '@/components/advisor-dashboard/CompanyInfo';
 import FeatureCards from '@/components/advisor-dashboard/FeatureCards';
 import ProcessFlow from '@/components/advisor-dashboard/ProcessFlow';
 import StatsCards from '@/components/advisor-dashboard/StatsCards';
@@ -19,6 +20,9 @@ const AdvisorDashboard = () => {
       
       {/* Header Section */}
       <DashboardHeader />
+
+      {/* Company Information */}
+      <CompanyInfo />
 
       {/* Main Feature Cards */}
       <FeatureCards />
