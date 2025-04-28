@@ -9,6 +9,11 @@ import Accounts from "./pages/Accounts";
 import Onboarding from "./pages/Onboarding";
 import Training from "./pages/Training";
 import AdvisorDashboard from "./pages/AdvisorDashboard";
+import ProspectDashboard from "./pages/advisor/ProspectDashboard";
+import RecordingsPage from "./pages/advisor/RecordingsPage";
+import QuestionnairesPage from "./pages/advisor/QuestionnairesPage";
+import TemplatesPage from "./pages/advisor/TemplatesPage";
+import RoiTrackerPage from "./pages/advisor/RoiTrackerPage";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "@/contexts/AppContext";
 
@@ -27,7 +32,11 @@ const App = () => (
             <Route path="/onboarding/:id" element={<Layout><Onboarding /></Layout>} />
             <Route path="/training" element={<Layout><Training /></Layout>} />
             <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
-            <Route path="/advisor/templates" element={<Layout><AdvisorDashboard /></Layout>} />
+            <Route path="/advisor/prospects" element={<Layout><ProspectDashboard /></Layout>} />
+            <Route path="/advisor/recordings" element={<Layout><RecordingsPage /></Layout>} />
+            <Route path="/advisor/questionnaires" element={<Layout><QuestionnairesPage /></Layout>} />
+            <Route path="/advisor/templates" element={<Layout><TemplatesPage /></Layout>} />
+            <Route path="/advisor/roi" element={<Layout><RoiTrackerPage /></Layout>} />
             <Route path="*" element={<Layout><NotFound /></Layout>} />
           </Routes>
         </BrowserRouter>

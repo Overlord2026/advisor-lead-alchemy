@@ -1,7 +1,6 @@
-
-import React, { useEffect } from "react";
+import React from "react";
 import { useLocation, Link } from "react-router-dom";
-import { NAV_ITEMS } from "@/constants/navigation";
+import { NAV_ITEMS, ADVISOR_NAV_ITEMS } from "@/constants/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -16,37 +15,67 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useToast } from "@/hooks/use-toast";
-import { AppProvider, useApp } from "@/contexts/AppContext";
+import { useApp } from "@/contexts/AppContext";
 import { NotificationCenter } from "@/components/NotificationCenter";
-import { Button } from "@/components/ui/button";
+import { LayoutDashboard } from "lucide-react";
 
 const NavigationContent = () => {
   const location = useLocation();
-  const { isMobile } = useApp();
+  const isAdvisorSection = location.pathname.startsWith('/advisor');
+  
+  const navItems = isAdvisorSection ? ADVISOR_NAV_ITEMS : NAV_ITEMS;
   
   return (
     <SidebarContent>
       <SidebarGroup>
-        <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+        <SidebarGroupLabel>{isAdvisorSection ? "Advisor Portal" : "Navigation"}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {NAV_ITEMS.map((item) => (
-              <SidebarMenuItem key={item.label}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={location.pathname === item.path}
-                  tooltip={item.label}
-                >
-                  <Link to={item.path}>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            {navItems.map((item) => {
+              const isActive = isAdvisorSection
+                ? location.pathname === item.path || 
+                  (item.path === "/advisor" && location.pathname === "/advisor")
+                : location.pathname === item.path;
+                
+              return (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive}
+                    tooltip={item.label}
+                  >
+                    <Link to={item.path}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
+      
+      {!isAdvisorSection && (
+        <SidebarGroup>
+          <SidebarGroupLabel>Sales Process</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  tooltip="Advisor Dashboard"
+                >
+                  <Link to="/advisor">
+                    <LayoutDashboard />
+                    <span>Advisor Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      )}
     </SidebarContent>
   );
 };
@@ -54,12 +83,16 @@ const NavigationContent = () => {
 const Header = () => {
   const { toast } = useToast();
   const { toggleSidebar } = useApp();
+  const location = useLocation();
+  const isAdvisorSection = location.pathname.startsWith('/advisor');
 
   return (
     <header className="bg-background border-b p-4 flex justify-between items-center">
       <div className="flex gap-2 items-center">
         <SidebarTrigger onClick={toggleSidebar} />
-        <h1 className="text-xl font-bold">Client Portal</h1>
+        <h1 className="text-xl font-bold">
+          {isAdvisorSection ? "Advisor Portal" : "Client Portal"}
+        </h1>
       </div>
       <div className="flex items-center gap-4">
         <NotificationCenter />
@@ -68,7 +101,9 @@ const Header = () => {
           onClick={() => 
             toast({
               title: "Welcome!",
-              description: "This is a demo of the client portal.",
+              description: isAdvisorSection 
+                ? "This is a demo of the advisor portal." 
+                : "This is a demo of the client portal.",
             })
           }
         >
@@ -80,11 +115,16 @@ const Header = () => {
 };
 
 const LayoutContent = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+  const isAdvisorSection = location.pathname.startsWith('/advisor');
+
   return (
     <div className="flex min-h-screen w-full">
       <Sidebar>
         <SidebarHeader className="p-4">
-          <h2 className="text-lg font-semibold">Financial Portal</h2>
+          <h2 className="text-lg font-semibold">
+            {isAdvisorSection ? "Advisor Portal" : "Financial Portal"}
+          </h2>
         </SidebarHeader>
         <NavigationContent />
       </Sidebar>
