@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -12,6 +11,7 @@ export interface Prospect {
   id: string;
   name: string;
   email: string;
+  avatar?: string;
 }
 
 export interface Question {
@@ -34,6 +34,8 @@ export interface Questionnaire {
   prospect?: Prospect;
   createdAt?: Date;
   updatedAt?: Date;
+  sentDate?: string;
+  dueDate?: string;
 }
 
 export const QuestionnairesTab: React.FC = () => {
@@ -43,7 +45,6 @@ export const QuestionnairesTab: React.FC = () => {
   const [isAiSuggestionsOpen, setIsAiSuggestionsOpen] = useState<boolean>(false);
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<Questionnaire | null>(null);
 
-  // Sample questionnaire data
   const questionnaires: Questionnaire[] = [
     {
       id: "q1",
@@ -186,12 +187,15 @@ export const QuestionnairesTab: React.FC = () => {
 
   const handleSaveQuestionnaire = (questionnaire: Questionnaire) => {
     setIsBuilderOpen(false);
-    // In a real app, we would save the questionnaire to the backend here
     console.log("Saved questionnaire:", questionnaire);
   };
 
   const handleOpenAiSuggestions = () => {
     setIsAiSuggestionsOpen(true);
+  };
+
+  const handleSendQuestionnaire = (questionnaire: Questionnaire) => {
+    console.log("Sending questionnaire:", questionnaire);
   };
 
   return (
@@ -240,6 +244,7 @@ export const QuestionnairesTab: React.FC = () => {
                 questionnaire={questionnaire}
                 onEdit={() => handleEditQuestionnaire(questionnaire)}
                 onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+                onSend={() => handleSendQuestionnaire(questionnaire)}
               />
             ))}
           </div>
@@ -253,6 +258,7 @@ export const QuestionnairesTab: React.FC = () => {
                 questionnaire={questionnaire}
                 onEdit={() => handleEditQuestionnaire(questionnaire)}
                 onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+                onSend={() => handleSendQuestionnaire(questionnaire)}
               />
             ))}
           </div>
@@ -266,6 +272,7 @@ export const QuestionnairesTab: React.FC = () => {
                 questionnaire={questionnaire}
                 onEdit={() => handleEditQuestionnaire(questionnaire)}
                 onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+                onSend={() => handleSendQuestionnaire(questionnaire)}
               />
             ))}
           </div>
@@ -279,6 +286,7 @@ export const QuestionnairesTab: React.FC = () => {
                 questionnaire={questionnaire}
                 onEdit={() => handleEditQuestionnaire(questionnaire)}
                 onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+                onSend={() => handleSendQuestionnaire(questionnaire)}
               />
             ))}
           </div>
@@ -301,8 +309,8 @@ export const QuestionnairesTab: React.FC = () => {
       )}
       
       <AiSuggestionsDialog
-        open={isAiSuggestionsOpen}
-        onOpenChange={setIsAiSuggestionsOpen}
+        type="questions"
+        onClose={() => setIsAiSuggestionsOpen(false)}
       />
     </div>
   );

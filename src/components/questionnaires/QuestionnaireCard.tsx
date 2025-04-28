@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Send, ArrowRight, Check } from "lucide-react";
+import { Eye, Edit, Send, ArrowRight } from "lucide-react";
 import { type Questionnaire } from "./QuestionnairesTab";
 
 interface QuestionnaireCardProps {
@@ -34,11 +34,11 @@ export const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
     switch (status) {
       case "draft":
         return "bg-muted text-muted-foreground";
-      case "sent":
+      case "active":
         return "bg-blue-100 text-blue-800";
       case "completed":
         return "bg-green-100 text-green-800";
-      case "expired":
+      case "archived":
         return "bg-red-100 text-red-800";
       default:
         return "bg-muted text-muted-foreground";
@@ -49,12 +49,12 @@ export const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
     switch (status) {
       case "draft":
         return "Draft";
-      case "sent":
-        return "Sent";
+      case "active":
+        return "Active";
       case "completed":
         return "Completed";
-      case "expired":
-        return "Expired";
+      case "archived":
+        return "Archived";
       default:
         return status;
     }
