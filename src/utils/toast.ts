@@ -38,9 +38,14 @@ export const toast = {
       title: message,
       duration: options?.duration,
       action: options?.action
-        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
-            {options.action.label}
-          </ToastAction>
+        ? React.createElement(
+            ToastAction,
+            { 
+              altText: options.action.label,
+              onClick: options.action.onClick 
+            },
+            options.action.label
+          )
         : undefined,
     });
   },
@@ -66,9 +71,14 @@ export const toast = {
       variant: "default",
       duration: options?.duration,
       action: options?.action
-        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
-            {options.action.label}
-          </ToastAction>
+        ? React.createElement(
+            ToastAction,
+            { 
+              altText: options.action.label,
+              onClick: options.action.onClick 
+            },
+            options.action.label
+          )
         : undefined,
     });
   },
@@ -94,9 +104,14 @@ export const toast = {
       variant: "destructive",
       duration: options?.duration,
       action: options?.action
-        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
-            {options.action.label}
-          </ToastAction>
+        ? React.createElement(
+            ToastAction,
+            { 
+              altText: options.action.label,
+              onClick: options.action.onClick 
+            },
+            options.action.label
+          )
         : undefined,
     });
   },
@@ -122,9 +137,14 @@ export const toast = {
       variant: "default",
       duration: options?.duration,
       action: options?.action
-        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
-            {options.action.label}
-          </ToastAction>
+        ? React.createElement(
+            ToastAction,
+            { 
+              altText: options.action.label,
+              onClick: options.action.onClick 
+            },
+            options.action.label
+          )
         : undefined,
     });
   },
@@ -150,9 +170,14 @@ export const toast = {
       variant: "default",
       duration: options?.duration,
       action: options?.action
-        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
-            {options.action.label}
-          </ToastAction>
+        ? React.createElement(
+            ToastAction,
+            { 
+              altText: options.action.label,
+              onClick: options.action.onClick 
+            },
+            options.action.label
+          )
         : undefined,
     });
   },
