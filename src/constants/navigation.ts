@@ -1,7 +1,7 @@
 
 import { 
   Home, FileText, Landmark, UserPlus, BookOpen, 
-  LayoutDashboard, Users, Mic, ClipboardList, Mail, BarChart 
+  LayoutDashboard, Users, Mic, ClipboardList, Mail, BarChart, Calendar
 } from "lucide-react";
 
 export const NAV_ITEMS = [
@@ -19,4 +19,5 @@ export const ADVISOR_NAV_ITEMS = [
   { label: "Questionnaires", path: "/advisor/questionnaires", icon: ClipboardList },
   { label: "Templates", path: "/advisor/templates", icon: Mail },
   { label: "ROI Tracker", path: "/advisor/roi", icon: BarChart },
+  { label: "Calendar", path: "/advisor/calendar", icon: Calendar },
 ];

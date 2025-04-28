@@ -14,6 +14,7 @@ import RecordingsPage from "./pages/advisor/RecordingsPage";
 import QuestionnairesPage from "./pages/advisor/QuestionnairesPage";
 import TemplatesPage from "./pages/advisor/TemplatesPage";
 import RoiTrackerPage from "./pages/advisor/RoiTrackerPage";
+import CalendarIntegrationPage from "./pages/advisor/CalendarIntegrationPage";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "@/contexts/AppContext";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/advisor/questionnaires" element={<Layout><QuestionnairesPage /></Layout>} />
             <Route path="/advisor/templates" element={<Layout><TemplatesPage /></Layout>} />
             <Route path="/advisor/roi" element={<Layout><RoiTrackerPage /></Layout>} />
+            <Route path="/advisor/calendar" element={<Layout><CalendarIntegrationPage /></Layout>} />
             <Route path="*" element={<Layout><NotFound /></Layout>} />
           </Routes>
           <Toaster />

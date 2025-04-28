@@ -8,6 +8,7 @@ import './styles/roi-tracker.css'
 import './styles/recordings.css'
 import './styles/questionnaires.css'
 import './styles/sales-process.css'
+import './styles/calendar.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
