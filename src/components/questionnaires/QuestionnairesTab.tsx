@@ -1,305 +1,309 @@
 
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Plus, Calendar, ArrowRight, FileCheck } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { useQuery } from "@tanstack/react-query";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Plus, FileText, LayoutGrid, Filter } from "lucide-react";
 import { QuestionnaireCard } from "./QuestionnaireCard";
 import { QuestionnaireBuilder } from "./QuestionnaireBuilder";
 import { QuestionnairePreview } from "./QuestionnairePreview";
 import { AiSuggestionsDialog } from "./AiSuggestionsDialog";
 
-// Define questionnaire types
-export interface Questionnaire {
+export interface Prospect {
   id: string;
   name: string;
-  type: string;
-  description: string;
-  questions: Question[];
-  sentDate?: string;
-  dueDate?: string;
-  prospect?: {
-    id: string;
-    name: string;
-    avatar?: string;
-  };
-  completionPercentage: number;
-  status: "draft" | "sent" | "completed" | "expired";
-  responses?: QuestionnaireResponse[];
+  email: string;
 }
 
 export interface Question {
   id: string;
   text: string;
-  type: "text" | "multiple_choice" | "checkbox" | "dropdown" | "rating" | "date";
+  type: "text" | "multiple_choice" | "checkbox" | "date";
   options?: string[];
   required: boolean;
   section?: string;
 }
 
-export interface QuestionnaireResponse {
-  questionId: string;
-  answer: string | string[];
-  timestamp: string;
+export interface Questionnaire {
+  id: string;
+  name: string;
+  type: string;
+  description?: string;
+  questions: Question[];
+  completionPercentage: number;
+  status: "draft" | "active" | "completed" | "archived";
+  prospect?: Prospect;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
-
-// Mock data for questionnaires
-const mockQuestionnaires: Questionnaire[] = [
-  {
-    id: "q1",
-    name: "Comprehensive Financial Planning",
-    type: "Intake",
-    description: "Initial financial assessment for new clients",
-    questions: [
-      {
-        id: "q1_1",
-        text: "What are your primary financial goals?",
-        type: "text",
-        required: true,
-        section: "Goals"
-      },
-      {
-        id: "q1_2",
-        text: "How would you describe your risk tolerance?",
-        type: "multiple_choice",
-        options: ["Conservative", "Moderate", "Aggressive"],
-        required: true,
-        section: "Risk Assessment"
-      }
-    ],
-    sentDate: "2025-04-21",
-    dueDate: "2025-05-05",
-    prospect: {
-      id: "p1",
-      name: "John Doe",
-      avatar: "https://randomuser.me/api/portraits/men/41.jpg"
-    },
-    completionPercentage: 75,
-    status: "sent"
-  },
-  {
-    id: "q2",
-    name: "Risk Tolerance Assessment",
-    type: "Risk Assessment",
-    description: "Detailed assessment of client's investment risk tolerance",
-    questions: [
-      {
-        id: "q2_1",
-        text: "If your portfolio lost 20% of its value in one month, what would you do?",
-        type: "multiple_choice",
-        options: ["Sell everything", "Sell some investments", "Do nothing", "Buy more"],
-        required: true,
-        section: "Risk Response"
-      }
-    ],
-    sentDate: "2025-04-15",
-    dueDate: "2025-04-29",
-    prospect: {
-      id: "p2",
-      name: "Jane Smith",
-      avatar: "https://randomuser.me/api/portraits/women/22.jpg"
-    },
-    completionPercentage: 30,
-    status: "sent"
-  },
-  {
-    id: "q3",
-    name: "Estate Planning Checklist",
-    type: "Estate Planning",
-    description: "Comprehensive estate planning assessment",
-    questions: [
-      {
-        id: "q3_1",
-        text: "Do you have an up-to-date will?",
-        type: "multiple_choice",
-        options: ["Yes", "No", "Unsure"],
-        required: true
-      }
-    ],
-    sentDate: "2025-04-10",
-    dueDate: "2025-04-24",
-    prospect: {
-      id: "p3",
-      name: "Michael Johnson",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg"
-    },
-    completionPercentage: 100,
-    status: "completed"
-  }
-];
 
 export const QuestionnairesTab: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("all");
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [showBuilder, setShowBuilder] = useState<boolean>(false);
-  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [isBuilderOpen, setIsBuilderOpen] = useState<boolean>(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
+  const [isAiSuggestionsOpen, setIsAiSuggestionsOpen] = useState<boolean>(false);
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<Questionnaire | null>(null);
-  const [showAiSuggestions, setShowAiSuggestions] = useState<boolean>(false);
-  const [suggestionType, setSuggestionType] = useState<"questions" | "sections" | "improvements">("questions");
 
-  const { data: questionnaires, isLoading } = useQuery({
-    queryKey: ["questionnaires"],
-    queryFn: async () => {
-      // In a real app, fetch from API
-      return mockQuestionnaires;
+  // Sample questionnaire data
+  const questionnaires: Questionnaire[] = [
+    {
+      id: "q1",
+      name: "Retirement Planning Questionnaire",
+      type: "Retirement Planning",
+      description: "Comprehensive questionnaire to assess retirement readiness and goals",
+      questions: [
+        {
+          id: "q1-1",
+          text: "At what age do you plan to retire?",
+          type: "text",
+          required: true
+        },
+        {
+          id: "q1-2",
+          text: "What are your primary concerns about retirement?",
+          type: "multiple_choice",
+          options: ["Running out of money", "Healthcare costs", "Market volatility", "Inflation", "Other"],
+          required: true
+        },
+        {
+          id: "q1-3",
+          text: "Do you plan to work part-time during retirement?",
+          type: "checkbox",
+          options: ["Yes", "No", "Unsure"],
+          required: false
+        }
+      ],
+      completionPercentage: 0,
+      status: "active"
     },
-  });
+    {
+      id: "q2",
+      name: "Risk Assessment",
+      type: "Risk Assessment",
+      description: "Evaluate risk tolerance and investment preferences",
+      questions: [
+        {
+          id: "q2-1",
+          text: "How would you rate your overall risk tolerance on a scale of 1-10?",
+          type: "text",
+          required: true
+        },
+        {
+          id: "q2-2",
+          text: "How would you react if your portfolio lost 20% in one month?",
+          type: "multiple_choice",
+          options: [
+            "Sell everything immediately",
+            "Sell some investments",
+            "Do nothing",
+            "Buy more at lower prices"
+          ],
+          required: true
+        }
+      ],
+      completionPercentage: 0,
+      status: "draft"
+    },
+    {
+      id: "q3",
+      name: "Estate Planning Needs",
+      type: "Estate Planning",
+      description: "Assess estate planning situation and needs",
+      questions: [
+        {
+          id: "q3-1",
+          text: "Do you have a will?",
+          type: "checkbox",
+          options: ["Yes", "No"],
+          required: true
+        },
+        {
+          id: "q3-2",
+          text: "Do you have a trust?",
+          type: "checkbox",
+          options: ["Yes", "No"],
+          required: true
+        }
+      ],
+      completionPercentage: 100,
+      status: "completed",
+      prospect: {
+        id: "p1",
+        name: "John Smith",
+        email: "john.smith@example.com"
+      }
+    },
+    {
+      id: "q4",
+      name: "Investment Preferences",
+      type: "Investment Preferences",
+      description: "Understand investment goals and preferences",
+      questions: [
+        {
+          id: "q4-1",
+          text: "What are your primary investment goals?",
+          type: "multiple_choice",
+          options: [
+            "Growth",
+            "Income",
+            "Preservation of capital",
+            "Tax efficiency"
+          ],
+          required: true
+        }
+      ],
+      completionPercentage: 50,
+      status: "active",
+      prospect: {
+        id: "p2",
+        name: "Sarah Johnson",
+        email: "sarah.johnson@example.com"
+      }
+    }
+  ];
 
-  const filteredQuestionnaires = questionnaires?.filter(q => {
-    if (activeTab !== "all" && q.status !== activeTab) return false;
-    if (searchTerm && !q.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-    return true;
+  const filteredQuestionnaires = questionnaires.filter(questionnaire => {
+    if (activeTab === "all") return true;
+    if (activeTab === "drafts") return questionnaire.status === "draft";
+    if (activeTab === "active") return questionnaire.status === "active";
+    if (activeTab === "completed") return questionnaire.status === "completed";
+    return false;
   });
 
   const handleCreateQuestionnaire = () => {
     setSelectedQuestionnaire(null);
-    setShowBuilder(true);
+    setIsBuilderOpen(true);
   };
 
   const handleEditQuestionnaire = (questionnaire: Questionnaire) => {
     setSelectedQuestionnaire(questionnaire);
-    setShowBuilder(true);
+    setIsBuilderOpen(true);
   };
 
   const handlePreviewQuestionnaire = (questionnaire: Questionnaire) => {
     setSelectedQuestionnaire(questionnaire);
-    setShowPreview(true);
+    setIsPreviewOpen(true);
   };
 
-  const handleSendQuestionnaire = (id: string) => {
-    toast.success("Questionnaire sent successfully");
+  const handleSaveQuestionnaire = (questionnaire: Questionnaire) => {
+    setIsBuilderOpen(false);
+    // In a real app, we would save the questionnaire to the backend here
+    console.log("Saved questionnaire:", questionnaire);
   };
 
-  const handleShowAiSuggestions = (type: "questions" | "sections" | "improvements") => {
-    setSuggestionType(type);
-    setShowAiSuggestions(true);
+  const handleOpenAiSuggestions = () => {
+    setIsAiSuggestionsOpen(true);
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold">Client Questionnaires</h1>
-        <p className="text-muted-foreground">
-          Create, send, and analyze client questionnaires with intelligent insights.
-        </p>
-      </div>
-
-      <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="relative w-full sm:w-64">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search questionnaires..."
-            className="pl-8"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        
-        <div className="flex gap-2">
+      <div className="flex items-center justify-between">
+        <h2 className="text-3xl font-bold tracking-tight">Questionnaires</h2>
+        <div className="flex items-center gap-4">
           <Button
-            onClick={() => handleShowAiSuggestions("questions")}
             variant="outline"
+            onClick={handleOpenAiSuggestions}
           >
-            AI Suggestions
+            <FileText className="h-4 w-4 mr-2" />
+            AI Recommendations
           </Button>
-          
           <Button onClick={handleCreateQuestionnaire}>
-            <Plus className="mr-1 h-4 w-4" />
+            <Plus className="h-4 w-4 mr-2" />
             Create Questionnaire
           </Button>
         </div>
       </div>
 
-      <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-4 w-full sm:w-auto">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="draft">Drafts</TabsTrigger>
-          <TabsTrigger value="sent">Sent</TabsTrigger>
-          <TabsTrigger value="completed">Completed</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <div className="flex items-center justify-between mb-4">
+          <TabsList>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="drafts">Drafts</TabsTrigger>
+            <TabsTrigger value="active">Active</TabsTrigger>
+            <TabsTrigger value="completed">Completed</TabsTrigger>
+          </TabsList>
+          
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon">
+              <Filter className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon">
+              <LayoutGrid className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
         
-        <TabsContent value={activeTab} className="mt-6">
-          {isLoading ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((i) => (
-                <Card key={i} className="animate-pulse">
-                  <CardContent className="p-6">
-                    <div className="h-24 bg-muted rounded-md"></div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : filteredQuestionnaires?.length === 0 ? (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <div className="rounded-full bg-muted p-3 mb-4">
-                  <FileCheck className="h-6 w-6 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-semibold text-center">No questionnaires found</h3>
-                <p className="text-sm text-muted-foreground text-center mt-2">
-                  Create your first questionnaire to get started
-                </p>
-                <Button onClick={handleCreateQuestionnaire} className="mt-4">
-                  Create Questionnaire
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredQuestionnaires?.map((questionnaire) => (
-                <QuestionnaireCard
-                  key={questionnaire.id}
-                  questionnaire={questionnaire}
-                  onPreview={() => handlePreviewQuestionnaire(questionnaire)}
-                  onEdit={() => handleEditQuestionnaire(questionnaire)}
-                  onSend={() => handleSendQuestionnaire(questionnaire.id)}
-                />
-              ))}
-
-              <Card className="border-dashed border-2 flex flex-col items-center justify-center p-6 h-[280px]">
-                <div className="rounded-full bg-muted p-3 mb-4">
-                  <Plus className="h-6 w-6 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-semibold text-center">Create Questionnaire</h3>
-                <p className="text-sm text-muted-foreground text-center mt-2">
-                  Design customized questionnaires for your clients
-                </p>
-                <Button variant="outline" size="sm" className="mt-4" onClick={handleCreateQuestionnaire}>
-                  Create New
-                </Button>
-              </Card>
-            </div>
-          )}
+        <TabsContent value="all" className="mt-0">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredQuestionnaires.map((questionnaire) => (
+              <QuestionnaireCard
+                key={questionnaire.id}
+                questionnaire={questionnaire}
+                onEdit={() => handleEditQuestionnaire(questionnaire)}
+                onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="drafts" className="mt-0">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredQuestionnaires.map((questionnaire) => (
+              <QuestionnaireCard
+                key={questionnaire.id}
+                questionnaire={questionnaire}
+                onEdit={() => handleEditQuestionnaire(questionnaire)}
+                onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="active" className="mt-0">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredQuestionnaires.map((questionnaire) => (
+              <QuestionnaireCard
+                key={questionnaire.id}
+                questionnaire={questionnaire}
+                onEdit={() => handleEditQuestionnaire(questionnaire)}
+                onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="completed" className="mt-0">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredQuestionnaires.map((questionnaire) => (
+              <QuestionnaireCard
+                key={questionnaire.id}
+                questionnaire={questionnaire}
+                onEdit={() => handleEditQuestionnaire(questionnaire)}
+                onPreview={() => handlePreviewQuestionnaire(questionnaire)}
+              />
+            ))}
+          </div>
         </TabsContent>
       </Tabs>
-
-      {showBuilder && (
-        <QuestionnaireBuilder 
-          questionnaire={selectedQuestionnaire} 
-          onClose={() => setShowBuilder(false)} 
-          onSave={(data) => {
-            toast.success("Questionnaire saved successfully");
-            setShowBuilder(false);
-          }}
+      
+      {isBuilderOpen && (
+        <QuestionnaireBuilder
+          questionnaire={selectedQuestionnaire}
+          onClose={() => setIsBuilderOpen(false)}
+          onSave={handleSaveQuestionnaire}
         />
       )}
-
-      {showPreview && selectedQuestionnaire && (
-        <QuestionnairePreview 
-          questionnaire={selectedQuestionnaire} 
-          onClose={() => setShowPreview(false)} 
+      
+      {isPreviewOpen && selectedQuestionnaire && (
+        <QuestionnairePreview
+          questionnaire={selectedQuestionnaire}
+          onClose={() => setIsPreviewOpen(false)}
         />
       )}
-
-      {showAiSuggestions && (
-        <AiSuggestionsDialog 
-          type={suggestionType} 
-          onClose={() => setShowAiSuggestions(false)} 
-        />
-      )}
+      
+      <AiSuggestionsDialog
+        open={isAiSuggestionsOpen}
+        onOpenChange={setIsAiSuggestionsOpen}
+      />
     </div>
   );
 };
