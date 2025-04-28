@@ -14,6 +14,7 @@ import {
 import ROITracker from "@/components/roi-tracker/ROITracker";
 import EmailTemplatesTab from "@/components/email-templates/EmailTemplatesTab";
 import { QuestionnairesTab } from "@/components/questionnaires/QuestionnairesTab";
+import RecordingsTab from "@/components/recordings/RecordingsTab";
 
 const AdvisorDashboard = () => {
   const navigate = useNavigate();
@@ -65,10 +66,11 @@ const AdvisorDashboard = () => {
       </div>
 
       <Tabs defaultValue="dashboard" className="w-full">
-        <TabsList className="grid grid-cols-6 mb-8">
+        <TabsList className="grid grid-cols-7 mb-8">
           <TabsTrigger value="dashboard">Overview</TabsTrigger>
           <TabsTrigger value="prospects">Prospects</TabsTrigger>
           <TabsTrigger value="meetings">Meetings</TabsTrigger>
+          <TabsTrigger value="recordings">Recordings</TabsTrigger>
           <TabsTrigger value="questionnaires">Questionnaires</TabsTrigger>
           <TabsTrigger value="templates">Templates</TabsTrigger>
           <TabsTrigger value="roi">ROI Tracker</TabsTrigger>
@@ -336,6 +338,10 @@ const AdvisorDashboard = () => {
               </CardFooter>
             </Card>
           </div>
+        </TabsContent>
+        
+        <TabsContent value="recordings">
+          <RecordingsTab />
         </TabsContent>
         
         <TabsContent value="questionnaires">
