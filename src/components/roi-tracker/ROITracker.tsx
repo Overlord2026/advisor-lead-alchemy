@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ChartBarIcon, ArrowDownIcon, ArrowUpIcon, DownloadIcon } from "lucide-react";
 import { DateRangeSelector } from "./DateRangeSelector";
 import { RoiCharts } from "./RoiCharts";
+import { formatCurrency } from "@/utils/format";
+import "@/styles/roi-tracker.css"; // Import our custom CSS
 
 export type ROIData = {
   summary: {
@@ -123,10 +126,6 @@ export const ROITracker = () => {
     return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
   };
 
-  const formatCurrency = (amount: number): string => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
-  };
-
   const showChannelDetails = (channelName: string) => {
     toast.info(`Viewing details for ${channelName}`);
   };
@@ -202,8 +201,19 @@ export const ROITracker = () => {
                       className="border-b cursor-pointer hover:bg-muted/50"
                       onClick={() => showChannelDetails(channel.name)}
                     >
-                      <td className="py-3">{channel.name}</td>
-                      <td className="text-right py-3">{channel.roi.toFixed(1)}x</td>
+                      <td className="py-3">
+                        <div className="channel-info flex items-center gap-3">
+                          <div className={`channel-icon w-7 h-7 rounded-full flex items-center justify-center text-white ${getChannelClass(channel.name)}`}>
+                            {getChannelIcon(channel.name)}
+                          </div>
+                          <span>{channel.name}</span>
+                        </div>
+                      </td>
+                      <td className="text-right py-3">
+                        <span className={`roi-value ${getRoiValueClass(channel.roi)} px-2 py-1 rounded-full text-xs font-medium`}>
+                          {channel.roi.toFixed(1)}x
+                        </span>
+                      </td>
                       <td className="text-right py-3">{formatCurrency(channel.spend)}</td>
                       <td className="text-right py-3">{channel.prospects}</td>
                     </tr>
@@ -232,16 +242,22 @@ export const ROITracker = () => {
                 <tbody>
                   {roiData?.campaigns.map((campaign, index) => (
                     <tr key={index} className="border-b cursor-pointer hover:bg-muted/50">
-                      <td className="py-3">{campaign.name}</td>
                       <td className="py-3">
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          campaign.status === "Active" ? "bg-green-100 text-green-800" : 
-                          "bg-blue-100 text-blue-800"
-                        }`}>
+                        <div className="campaign-info">
+                          <span className="campaign-name">{campaign.name}</span>
+                          <span className="text-xs text-muted-foreground">{campaign.channel}</span>
+                        </div>
+                      </td>
+                      <td className="py-3">
+                        <span className={`status-badge ${campaign.status.toLowerCase()} px-2 py-1 rounded-full text-xs font-medium`}>
                           {campaign.status}
                         </span>
                       </td>
-                      <td className="text-right py-3">{campaign.roi.toFixed(1)}x</td>
+                      <td className="text-right py-3">
+                        <span className={`roi-value ${getRoiValueClass(campaign.roi)} px-2 py-1 rounded-full text-xs font-medium`}>
+                          {campaign.roi.toFixed(1)}x
+                        </span>
+                      </td>
                       <td className="text-right py-3">{campaign.clients}</td>
                     </tr>
                   ))}
@@ -253,6 +269,29 @@ export const ROITracker = () => {
       </div>
     </div>
   );
+};
+
+// Helper functions for CSS class names
+const getChannelClass = (channelName: string): string => {
+  if (channelName.toLowerCase().includes('facebook')) return 'facebook';
+  if (channelName.toLowerCase().includes('linkedin')) return 'linkedin';
+  if (channelName.toLowerCase().includes('google')) return 'google';
+  if (channelName.toLowerCase().includes('referral')) return 'referral';
+  return '';
+};
+
+const getChannelIcon = (channelName: string): string => {
+  if (channelName.toLowerCase().includes('facebook')) return 'f';
+  if (channelName.toLowerCase().includes('linkedin')) return 'in';
+  if (channelName.toLowerCase().includes('google')) return 'G';
+  if (channelName.toLowerCase().includes('referral')) return 'R';
+  return '';
+};
+
+const getRoiValueClass = (roi: number): string => {
+  if (roi >= 18) return 'high';
+  if (roi >= 16) return 'medium';
+  return 'low';
 };
 
 type MetricCardProps = {

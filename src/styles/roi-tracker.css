@@ -1,0 +1,67 @@
+
+/* Custom ROI Tracker styles that can't be easily represented in Tailwind */
+
+/* Channel icons with specific background colors */
+.channel-icon.facebook {
+  background-color: #4267B2;
+}
+
+.channel-icon.linkedin {
+  background-color: #0077B5;
+}
+
+.channel-icon.google {
+  background-color: #DB4437;
+}
+
+.channel-icon.referral {
+  background-color: #34A853;
+}
+
+/* ROI value badges */
+.roi-value.high {
+  background-color: #dcfce7;
+  color: #10b981;
+}
+
+.roi-value.medium {
+  background-color: #e0f2fe;
+  color: #0ea5e9;
+}
+
+.roi-value.low {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+/* Status badges */
+.status-badge.active {
+  background-color: #e0f2fe;
+  color: #0ea5e9;
+}
+
+.status-badge.completed {
+  background-color: #dcfce7;
+  color: #10b981;
+}
+
+.status-badge.scheduled {
+  background-color: #f3e8ff;
+  color: #a855f7;
+}
+
+/* Recommendation priority badges */
+.recommendation-priority.high {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.recommendation-priority.medium {
+  background-color: #ffedd5;
+  color: #f59e0b;
+}
+
+.recommendation-priority.low {
+  background-color: #dcfce7;
+  color: #10b981;
+}

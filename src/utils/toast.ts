@@ -1,37 +1,75 @@
 
 import { toast as sonnerToast } from "sonner";
 import { toast as shadcnToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import React from "react";
 
-type ToastType = "success" | "error" | "warning" | "info";
+type ToastType = "default" | "success" | "error" | "warning" | "info";
 
 interface ToastOptions {
-  title?: string;
-  description?: string;
   duration?: number;
-  action?: React.ReactNode;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
 }
 
 /**
- * Unified toast system that works with both shadcn/ui toast and sonner
- * Provides consistent API for showing different types of toasts
+ * Unified toast function that works with both sonner and shadcn toasts
  */
 export const toast = {
+  /**
+   * Show a default toast notification
+   */
+  default: (message: string, options?: ToastOptions) => {
+    // Use sonner toast by default
+    sonnerToast(message, {
+      duration: options?.duration,
+      action: options?.action
+        ? {
+            label: options.action.label,
+            onClick: options.action.onClick,
+          }
+        : undefined,
+    });
+
+    // Also use shadcn toast for compatibility
+    shadcnToast({
+      title: message,
+      duration: options?.duration,
+      action: options?.action
+        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
+            {options.action.label}
+          </ToastAction>
+        : undefined,
+    });
+  },
+
   /**
    * Show a success toast notification
    */
   success: (message: string, options?: ToastOptions) => {
-    sonnerToast.success(options?.title || "Success", {
-      description: message,
-      duration: options?.duration || 4000,
-      action: options?.action,
+    // Use sonner toast by default
+    sonnerToast.success(message, {
+      duration: options?.duration,
+      action: options?.action
+        ? {
+            label: options.action.label,
+            onClick: options.action.onClick,
+          }
+        : undefined,
     });
-    
-    return shadcnToast({
-      title: options?.title || "Success",
-      description: message,
-      duration: options?.duration || 4000,
-      action: options?.action,
+
+    // Also use shadcn toast for compatibility
+    shadcnToast({
+      title: message,
       variant: "default",
+      duration: options?.duration,
+      action: options?.action
+        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
+            {options.action.label}
+          </ToastAction>
+        : undefined,
     });
   },
 
@@ -39,18 +77,27 @@ export const toast = {
    * Show an error toast notification
    */
   error: (message: string, options?: ToastOptions) => {
-    sonnerToast.error(options?.title || "Error", {
-      description: message,
-      duration: options?.duration || 5000,
-      action: options?.action,
+    // Use sonner toast by default
+    sonnerToast.error(message, {
+      duration: options?.duration,
+      action: options?.action
+        ? {
+            label: options.action.label,
+            onClick: options.action.onClick,
+          }
+        : undefined,
     });
-    
-    return shadcnToast({
-      title: options?.title || "Error",
-      description: message,
-      duration: options?.duration || 5000,
-      action: options?.action,
+
+    // Also use shadcn toast for compatibility
+    shadcnToast({
+      title: message,
       variant: "destructive",
+      duration: options?.duration,
+      action: options?.action
+        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
+            {options.action.label}
+          </ToastAction>
+        : undefined,
     });
   },
 
@@ -58,18 +105,27 @@ export const toast = {
    * Show a warning toast notification
    */
   warning: (message: string, options?: ToastOptions) => {
-    sonnerToast.warning(options?.title || "Warning", {
-      description: message,
-      duration: options?.duration || 5000,
-      action: options?.action,
+    // Use sonner toast by default
+    sonnerToast.warning(message, {
+      duration: options?.duration,
+      action: options?.action
+        ? {
+            label: options.action.label,
+            onClick: options.action.onClick,
+          }
+        : undefined,
     });
-    
-    return shadcnToast({
-      title: options?.title || "Warning",
-      description: message,
-      duration: options?.duration || 5000,
-      action: options?.action,
+
+    // Also use shadcn toast for compatibility
+    shadcnToast({
+      title: message,
       variant: "default",
+      duration: options?.duration,
+      action: options?.action
+        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
+            {options.action.label}
+          </ToastAction>
+        : undefined,
     });
   },
 
@@ -77,44 +133,30 @@ export const toast = {
    * Show an info toast notification
    */
   info: (message: string, options?: ToastOptions) => {
-    sonnerToast.info(options?.title || "Info", {
-      description: message,
-      duration: options?.duration || 4000,
-      action: options?.action,
+    // Use sonner toast by default
+    sonnerToast.info(message, {
+      duration: options?.duration,
+      action: options?.action
+        ? {
+            label: options.action.label,
+            onClick: options.action.onClick,
+          }
+        : undefined,
     });
-    
-    return shadcnToast({
-      title: options?.title || "Info",
-      description: message,
-      duration: options?.duration || 4000,
-      action: options?.action,
+
+    // Also use shadcn toast for compatibility
+    shadcnToast({
+      title: message,
       variant: "default",
+      duration: options?.duration,
+      action: options?.action
+        ? <ToastAction altText={options.action.label} onClick={options.action.onClick}>
+            {options.action.label}
+          </ToastAction>
+        : undefined,
     });
   },
 
-  /**
-   * Show a custom toast notification
-   */
-  custom: (options: ToastOptions) => {
-    sonnerToast(options.title || "", {
-      description: options.description,
-      duration: options.duration || 4000,
-      action: options.action,
-    });
-    
-    return shadcnToast({
-      title: options.title,
-      description: options.description,
-      duration: options.duration || 4000,
-      action: options.action,
-    });
-  },
-
-  /**
-   * Dismiss all toasts
-   */
-  dismiss: () => {
-    sonnerToast.dismiss();
-    shadcnToast.dismiss();
-  }
+  // We don't need dismiss as sonner toast doesn't have a direct equivalent
+  // and we can rely on the automatic timeout
 };
