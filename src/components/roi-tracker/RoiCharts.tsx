@@ -1,187 +1,115 @@
 
-import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import type { ChannelData } from "./ROITracker";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Bar, BarChart, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-type RoiChartsProps = {
-  channelData: ChannelData[];
-  isLoading: boolean;
-};
+interface MarketingChannelData {
+  name: string;
+  roi: number;
+  fill: string;
+}
 
-export const RoiCharts = ({ channelData, isLoading }: RoiChartsProps) => {
-  const [chartType, setChartType] = useState<"channel" | "journey">("channel");
+interface JourneyData {
+  name: string;
+  prospects: number;
+}
 
-  const journeyData = [
-    { stage: "Lead Generated", value: 142 },
-    { stage: "Initial Meeting", value: 121 },
-    { stage: "Questionnaire", value: 94 },
-    { stage: "Follow-up", value: 68 },
-    { stage: "Proposal", value: 44 },
-    { stage: "Client", value: 28 },
-  ];
+interface ChartConfigTheme {
+  light: string;
+  dark: string;
+}
 
-  const channelChartConfig = {
-    facebook: {
-      label: "Facebook Ads",
-      theme: {
-        light: "#4267B2",
-        dark: "#4267B2",
-      },
-    },
-    linkedin: {
-      label: "LinkedIn Ads",
-      theme: {
-        light: "#0077B5",
-        dark: "#0077B5",
-      },
-    },
-    google: {
-      label: "Google Ads",
-      theme: {
-        light: "#DB4437",
-        dark: "#DB4437",
-      },
-    },
-    referral: {
-      label: "Referrals",
-      theme: {
-        light: "#34A853",
-        dark: "#34A853",
-      },
-    },
-  };
+interface MarketingChannelConfig {
+  label: string;
+  theme: ChartConfigTheme;
+}
 
-  const journeyChartConfig = {
-    journey: {
-      label: "Prospects",
-      theme: {
-        light: "#4a6cf7",
-        dark: "#4a6cf7",
-      },
-    },
-  };
+interface ChartConfig {
+  facebook: MarketingChannelConfig;
+  linkedin: MarketingChannelConfig;
+  google: MarketingChannelConfig;
+  referral: MarketingChannelConfig;
+}
 
+const marketingChannelData: MarketingChannelData[] = [
+  { name: "Facebook Ads", roi: 17.9, fill: "#4267B2" },
+  { name: "LinkedIn Ads", roi: 18.1, fill: "#0077B5" },
+  { name: "Google Ads", roi: 16.2, fill: "#DB4437" },
+  { name: "Referrals", roi: 15.3, fill: "#34A853" },
+];
+
+const journeyData: JourneyData[] = [
+  { name: "Lead Gen", prospects: 142 },
+  { name: "Meeting", prospects: 121 },
+  { name: "Question", prospects: 94 },
+  { name: "Follow-up", prospects: 68 },
+  { name: "Proposal", prospects: 44 },
+  { name: "Client", prospects: 28 },
+];
+
+export const MarketingChannelChart = () => {
   return (
-    <Card className="overflow-hidden">
+    <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>Performance Charts</CardTitle>
-          <Tabs value={chartType} onValueChange={(value) => setChartType(value as "channel" | "journey")}>
-            <TabsList>
-              <TabsTrigger value="channel">Channel ROI</TabsTrigger>
-              <TabsTrigger value="journey">Journey Funnel</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
+        <CardTitle>ROI by Marketing Channel</CardTitle>
+        <CardDescription>Return on investment for different marketing channels</CardDescription>
       </CardHeader>
-      <CardContent>
-        {isLoading ? (
-          <Skeleton className="h-[350px] w-full" />
-        ) : (
-          <div className="h-[350px]">
-            {chartType === "channel" ? (
-              <ChartContainer config={channelChartConfig}>
-                <BarChart data={channelData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis 
-                    dataKey="name" 
-                    tickLine={false} 
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(value) => `${value}x`}
-                  />
-                  <ChartTooltip
-                    content={({ active, payload }) => {
-                      if (!active || !payload?.length) return null;
-                      const data = payload[0].payload;
-                      return (
-                        <ChartTooltipContent>
-                          <div className="space-y-1">
-                            <p className="text-sm font-bold">{data.name}</p>
-                            <p className="text-sm text-muted-foreground">ROI: {data.roi.toFixed(1)}x</p>
-                            <p className="text-sm text-muted-foreground">Prospects: {data.prospects}</p>
-                            <p className="text-sm text-muted-foreground">Clients: {data.clients}</p>
-                          </div>
-                        </ChartTooltipContent>
-                      );
-                    }}
-                  />
-                  <Bar
-                    dataKey="roi"
-                    radius={[4, 4, 0, 0]}
-                    fill="var(--color-facebook)"
-                    name="facebook"
-                  />
-                </BarChart>
-                <ChartLegend
-                  content={<ChartLegendContent nameKey="name" />}
-                />
-              </ChartContainer>
-            ) : (
-              <ChartContainer config={journeyChartConfig}>
-                <LineChart data={journeyData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis 
-                    dataKey="stage" 
-                    tickLine={false} 
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    tickLine={false}
-                    axisLine={false}
-                    width={40}
-                  />
-                  <ChartTooltip
-                    content={({ active, payload }) => {
-                      if (!active || !payload?.length) return null;
-                      const data = payload[0].payload;
-                      return (
-                        <ChartTooltipContent>
-                          <div className="space-y-1">
-                            <p className="text-sm font-bold">{data.stage}</p>
-                            <p className="text-sm text-muted-foreground">Prospects: {data.value}</p>
-                          </div>
-                        </ChartTooltipContent>
-                      );
-                    }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="var(--color-journey)"
-                    strokeWidth={2}
-                    dot={{ r: 4, strokeWidth: 2, fill: "#fff" }}
-                    name="journey"
-                  />
-                </LineChart>
-              </ChartContainer>
-            )}
-          </div>
-        )}
+      <CardContent className="h-80">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={marketingChannelData}>
+            <XAxis dataKey="name" />
+            <YAxis 
+              label={{ value: 'Return on Investment (x)', angle: -90, position: 'insideLeft' }}
+            />
+            <Tooltip 
+              formatter={(value: number) => [`${value}x`, 'ROI']} 
+              labelFormatter={(label) => `Channel: ${label}`}
+            />
+            <Bar dataKey="roi" fill="#4a6cf7" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
+  );
+};
+
+export const JourneyFunnelChart = () => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Prospect Journey Funnel</CardTitle>
+        <CardDescription>Conversion at each stage of the prospect journey</CardDescription>
+      </CardHeader>
+      <CardContent className="h-80">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={journeyData}>
+            <XAxis dataKey="name" />
+            <YAxis label={{ value: 'Number of Prospects', angle: -90, position: 'insideLeft' }} />
+            <Tooltip />
+            <Line 
+              type="monotone"
+              dataKey="prospects"
+              stroke="#4a6cf7"
+              strokeWidth={2}
+              dot={{ r: 5, strokeWidth: 2, fill: "white" }}
+              activeDot={{ r: 7 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  );
+};
+
+interface ChartContainerProps {
+  config: ChartConfig;
+  children: React.ReactNode;
+}
+
+export const ChartContainer: React.FC<ChartContainerProps> = ({ children, config }) => {
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      {children}
+    </div>
   );
 };

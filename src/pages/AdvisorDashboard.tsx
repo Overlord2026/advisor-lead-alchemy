@@ -12,6 +12,7 @@ import {
   ArrowRight, UserPlus, Search, ChartBar
 } from "lucide-react";
 import ROITracker from "@/components/roi-tracker/ROITracker";
+import EmailTemplatesTab from "@/components/email-templates/EmailTemplatesTab";
 
 const AdvisorDashboard = () => {
   const navigate = useNavigate();
@@ -63,11 +64,12 @@ const AdvisorDashboard = () => {
       </div>
 
       <Tabs defaultValue="dashboard" className="w-full">
-        <TabsList className="grid grid-cols-5 mb-8">
+        <TabsList className="grid grid-cols-6 mb-8">
           <TabsTrigger value="dashboard">Overview</TabsTrigger>
           <TabsTrigger value="prospects">Prospects</TabsTrigger>
           <TabsTrigger value="meetings">Meetings</TabsTrigger>
           <TabsTrigger value="questionnaires">Questionnaires</TabsTrigger>
+          <TabsTrigger value="templates">Templates</TabsTrigger>
           <TabsTrigger value="roi">ROI Tracker</TabsTrigger>
         </TabsList>
         
@@ -397,6 +399,10 @@ const AdvisorDashboard = () => {
               </Button>
             </CardFooter>
           </Card>
+        </TabsContent>
+        
+        <TabsContent value="templates">
+          <EmailTemplatesTab />
         </TabsContent>
         
         <TabsContent value="roi">

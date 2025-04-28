@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/onboarding/:id" element={<Layout><Onboarding /></Layout>} />
           <Route path="/training" element={<Layout><Training /></Layout>} />
           <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
+          <Route path="/advisor/templates" element={<Layout><AdvisorDashboard /></Layout>} />
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
       </BrowserRouter>

@@ -63,13 +63,18 @@ const Home = () => {
           </CardHeader>
           <CardContent>
             <p>
-              Access the Sales Process Automation System and manage your clients.
+              Access the Sales Process Automation System with email templates, client tracking, and ROI analysis.
             </p>
           </CardContent>
           <CardFooter>
-            <Button onClick={() => navigate("/advisor")} variant="secondary" className="w-full">
-              Advisor Login
-            </Button>
+            <div className="flex gap-2 w-full">
+              <Button onClick={() => navigate("/advisor")} variant="secondary" className="flex-1">
+                Advisor Login
+              </Button>
+              <Button onClick={() => navigate("/advisor?tab=templates")} variant="outline" className="flex-1">
+                Email Templates
+              </Button>
+            </div>
           </CardFooter>
         </Card>
       </div>
