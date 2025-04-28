@@ -6,6 +6,7 @@ import './index.css'
 import './styles/email-templates.css'
 import './styles/roi-tracker.css'
 import './styles/recordings.css'
+import './styles/questionnaires.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

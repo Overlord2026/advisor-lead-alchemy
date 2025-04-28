@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Send, ArrowRight } from "lucide-react";
+import { Eye, Edit, Send, ArrowRight, Clock, FileCheck } from "lucide-react";
 import { type Questionnaire } from "./QuestionnairesTab";
 
 interface QuestionnaireCardProps {
@@ -61,7 +61,7 @@ export const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
   };
 
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex flex-col h-full hover:shadow-md transition-all">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <div className="space-y-1">
@@ -106,14 +106,16 @@ export const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
         {(sentDate || dueDate) && (
           <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground mb-3">
             {sentDate && (
-              <div>
-                <span className="block font-medium">Sent</span>
+              <div className="flex items-center gap-1">
+                <FileCheck className="h-3 w-3" />
+                <span className="block font-medium">Sent:</span>
                 <span>{formatDate(sentDate)}</span>
               </div>
             )}
             {dueDate && (
-              <div>
-                <span className="block font-medium">Due</span>
+              <div className="flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                <span className="block font-medium">Due:</span>
                 <span>{formatDate(dueDate)}</span>
               </div>
             )}
@@ -126,9 +128,9 @@ export const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
               <span>Completion</span>
               <span>{completionPercentage}%</span>
             </div>
-            <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+            <div className="completion-bar">
               <div
-                className="h-full bg-primary"
+                className="completion-fill"
                 style={{ width: `${completionPercentage}%` }}
               />
             </div>
@@ -137,18 +139,18 @@ export const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
       </CardContent>
 
       <CardFooter className="pt-2 flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" onClick={onPreview}>
+        <Button variant="outline" size="sm" onClick={onPreview} className="flex-1">
           <Eye className="h-4 w-4 mr-1" />
           Preview
         </Button>
         
-        <Button variant="outline" size="sm" onClick={onEdit}>
+        <Button variant="outline" size="sm" onClick={onEdit} className="flex-1">
           <Edit className="h-4 w-4 mr-1" />
           Edit
         </Button>
         
         {status === "draft" && (
-          <Button size="sm" onClick={onSend}>
+          <Button size="sm" onClick={onSend} className="flex-1">
             <Send className="h-4 w-4 mr-1" />
             Send
           </Button>
