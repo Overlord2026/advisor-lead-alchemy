@@ -31,6 +31,18 @@ interface ChartConfig {
   referral: MarketingChannelConfig;
 }
 
+interface RoiChartsProps {
+  channelData: {
+    name: string;
+    roi: number;
+    spend: number;
+    prospects: number;
+    clients: number;
+    change: number;
+  }[];
+  isLoading: boolean;
+}
+
 const marketingChannelData: MarketingChannelData[] = [
   { name: "Facebook Ads", roi: 17.9, fill: "#4267B2" },
   { name: "LinkedIn Ads", roi: 18.1, fill: "#0077B5" },
@@ -113,3 +125,16 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({ children, config
     </div>
   );
 };
+
+// Add the main RoiCharts component that's being imported in ROITracker.tsx
+export const RoiCharts: React.FC<RoiChartsProps> = ({ channelData, isLoading }) => {
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      <MarketingChannelChart />
+      <JourneyFunnelChart />
+    </div>
+  );
+};
+
+// Default export for convenience
+export default RoiCharts;
