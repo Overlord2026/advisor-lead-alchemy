@@ -10,7 +10,6 @@ export const NAV_ITEMS = [
   { label: "Accounts", path: "/accounts", icon: Landmark },
   { label: "Onboarding", path: "/onboarding", icon: UserPlus },
   { label: "Training", path: "/training", icon: BookOpen },
-  { label: "Advisor Dashboard", path: "/advisor", icon: LayoutDashboard },
 ];
 
 export const ADVISOR_NAV_ITEMS = [

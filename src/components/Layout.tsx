@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { NAV_ITEMS, ADVISOR_NAV_ITEMS } from "@/constants/navigation";
@@ -18,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useApp } from "@/contexts/AppContext";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { LayoutDashboard } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const NavigationContent = () => {
   const location = useLocation();
@@ -28,7 +30,7 @@ const NavigationContent = () => {
   return (
     <SidebarContent>
       <SidebarGroup>
-        <SidebarGroupLabel>{isAdvisorSection ? "Advisor Portal" : "Navigation"}</SidebarGroupLabel>
+        <SidebarGroupLabel>{isAdvisorSection ? "Advisor Portal" : "Client Portal"}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {navItems.map((item) => {
@@ -56,7 +58,7 @@ const NavigationContent = () => {
         </SidebarGroupContent>
       </SidebarGroup>
       
-      {!isAdvisorSection && (
+      {!isAdvisorSection ? (
         <SidebarGroup>
           <SidebarGroupLabel>Sales Process</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -69,6 +71,25 @@ const NavigationContent = () => {
                   <Link to="/advisor">
                     <LayoutDashboard />
                     <span>Advisor Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      ) : (
+        <SidebarGroup>
+          <SidebarGroupLabel>Client Portal</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  tooltip="Client Portal Home"
+                >
+                  <Link to="/">
+                    <LayoutDashboard />
+                    <span>Client Portal Home</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -96,7 +117,9 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-4">
         <NotificationCenter />
-        <button
+        <Button 
+          variant="ghost"
+          size="sm"
           className="text-sm text-muted-foreground hover:text-foreground"
           onClick={() => 
             toast({
@@ -108,7 +131,16 @@ const Header = () => {
           }
         >
           Help
-        </button>
+        </Button>
+        <Button 
+          variant="outline"
+          size="sm"
+          asChild
+        >
+          <Link to={isAdvisorSection ? "/" : "/advisor"}>
+            {isAdvisorSection ? "Client Portal" : "Advisor Portal"}
+          </Link>
+        </Button>
       </div>
     </header>
   );
