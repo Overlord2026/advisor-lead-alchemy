@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import ROITracker from "@/components/roi-tracker/ROITracker";
 import EmailTemplatesTab from "@/components/email-templates/EmailTemplatesTab";
+import { QuestionnairesTab } from "@/components/questionnaires/QuestionnairesTab";
 
 const AdvisorDashboard = () => {
   const navigate = useNavigate();
@@ -338,67 +339,7 @@ const AdvisorDashboard = () => {
         </TabsContent>
         
         <TabsContent value="questionnaires">
-          <Card>
-            <CardHeader>
-              <CardTitle>Client Questionnaires</CardTitle>
-              <CardDescription>Create, send, and analyze client questionnaires</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div className="flex-1">
-                    <h3 className="font-medium">Financial Goals Assessment</h3>
-                    <p className="text-sm text-muted-foreground">15 questions</p>
-                  </div>
-                  <div className="flex-1 text-center">
-                    <span className="text-sm font-medium">Response Rate</span>
-                    <p className="text-sm text-muted-foreground">85%</p>
-                  </div>
-                  <div className="flex justify-end">
-                    <Button variant="outline" size="sm">Send</Button>
-                  </div>
-                </div>
-                
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div className="flex-1">
-                    <h3 className="font-medium">Risk Tolerance Survey</h3>
-                    <p className="text-sm text-muted-foreground">10 questions</p>
-                  </div>
-                  <div className="flex-1 text-center">
-                    <span className="text-sm font-medium">Response Rate</span>
-                    <p className="text-sm text-muted-foreground">92%</p>
-                  </div>
-                  <div className="flex justify-end">
-                    <Button variant="outline" size="sm">Send</Button>
-                  </div>
-                </div>
-                
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div className="flex-1">
-                    <h3 className="font-medium">Retirement Planning</h3>
-                    <p className="text-sm text-muted-foreground">12 questions</p>
-                  </div>
-                  <div className="flex-1 text-center">
-                    <span className="text-sm font-medium">Response Rate</span>
-                    <p className="text-sm text-muted-foreground">78%</p>
-                  </div>
-                  <div className="flex justify-end">
-                    <Button variant="outline" size="sm">Send</Button>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline">
-                <FileText className="mr-2 h-4 w-4" />
-                Import Template
-              </Button>
-              <Button>
-                <UserPlus className="mr-2 h-4 w-4" />
-                Create New
-              </Button>
-            </CardFooter>
-          </Card>
+          <QuestionnairesTab />
         </TabsContent>
         
         <TabsContent value="templates">
