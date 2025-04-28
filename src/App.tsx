@@ -10,6 +10,7 @@ import Documents from "./pages/Documents";
 import Accounts from "./pages/Accounts";
 import Onboarding from "./pages/Onboarding";
 import Training from "./pages/Training";
+import AdvisorDashboard from "./pages/AdvisorDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,7 +28,7 @@ const App = () => (
           <Route path="/onboarding" element={<Layout><Onboarding /></Layout>} />
           <Route path="/onboarding/:id" element={<Layout><Onboarding /></Layout>} />
           <Route path="/training" element={<Layout><Training /></Layout>} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
       </BrowserRouter>
