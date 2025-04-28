@@ -1,17 +1,14 @@
 
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";
-import "@/styles/roi-tracker.css"; // Import our ROI tracker styles
-import "@/styles/email-templates.css"; // Import our email templates styles
-import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
-import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
+import './styles/email-templates.css'
+import './styles/roi-tracker.css'
+import './styles/recordings.css'
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
-    <ShadcnToaster />
-    <SonnerToaster />
-  </React.StrictMode>
-);
+  </React.StrictMode>,
+)
