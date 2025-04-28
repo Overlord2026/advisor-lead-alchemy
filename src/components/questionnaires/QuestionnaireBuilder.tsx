@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -81,7 +80,6 @@ export const QuestionnaireBuilder: React.FC<QuestionnaireBuilderProps> = ({
   const [activeTab, setActiveTab] = useState<string>("details");
   const [aiEnhanced, setAiEnhanced] = useState<boolean>(false);
 
-  // Create a new questionnaire or use the existing one for editing
   const defaultValues = questionnaire || {
     id: uuidv4(),
     name: "",
@@ -131,7 +129,6 @@ export const QuestionnaireBuilder: React.FC<QuestionnaireBuilderProps> = ({
 
   const generateAiSuggestions = () => {
     toast.success("AI suggestions applied to your questionnaire");
-    // In a real app, this would call an AI service to generate suggestions
   };
 
   const onSubmit = (data: any) => {
