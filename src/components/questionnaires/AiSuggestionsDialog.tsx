@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +23,9 @@ interface Suggestion {
 }
 
 export const AiSuggestionsDialog: React.FC<AiSuggestionsDialogProps> = ({ type, onClose }) => {
+  // Track which suggestions have been added
+  const [addedSuggestions, setAddedSuggestions] = useState<Set<number>>(new Set());
+  
   // Mock suggestion data based on type
   const getSuggestions = (): Suggestion[] => {
     switch (type) {
@@ -102,8 +105,16 @@ export const AiSuggestionsDialog: React.FC<AiSuggestionsDialogProps> = ({ type, 
     }
   };
 
-  const handleAction = (title: string) => {
+  const handleAction = (index: number) => {
+    const title = suggestions[index].title;
     toast.success(`${title} ${type === "improvements" ? "applied" : "added"}`);
+    
+    // Mark this suggestion as added
+    setAddedSuggestions(prev => {
+      const updated = new Set(prev);
+      updated.add(index);
+      return updated;
+    });
   };
   
   const handleAddAll = () => {
@@ -178,10 +189,15 @@ export const AiSuggestionsDialog: React.FC<AiSuggestionsDialogProps> = ({ type, 
                 <Button 
                   size="sm" 
                   className="h-8"
-                  onClick={() => handleAction(suggestion.title)}
+                  onClick={() => handleAction(index)}
+                  disabled={addedSuggestions.has(index)}
                 >
-                  <ActionIcon className="h-3.5 w-3.5 mr-1" />
-                  {getActionButtonText()}
+                  {addedSuggestions.has(index) ? (
+                    <Check className="h-3.5 w-3.5 mr-1" />
+                  ) : (
+                    <ActionIcon className="h-3.5 w-3.5 mr-1" />
+                  )}
+                  {addedSuggestions.has(index) ? "Added" : getActionButtonText()}
                 </Button>
               </div>
             </div>
@@ -194,9 +210,7 @@ export const AiSuggestionsDialog: React.FC<AiSuggestionsDialogProps> = ({ type, 
             Generate More
           </Button>
           <div className="flex gap-2">
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            <Button variant="outline" onClick={onClose}>Cancel</Button>
             <Button onClick={handleAddAll}>
               <ActionIcon className="h-4 w-4 mr-2" />
               {getActionButtonText()} All

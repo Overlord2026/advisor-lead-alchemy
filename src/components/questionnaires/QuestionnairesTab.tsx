@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -43,6 +44,7 @@ export const QuestionnairesTab: React.FC = () => {
   const [isBuilderOpen, setIsBuilderOpen] = useState<boolean>(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
   const [isAiSuggestionsOpen, setIsAiSuggestionsOpen] = useState<boolean>(false);
+  const [aiSuggestionType, setAiSuggestionType] = useState<"questions" | "sections" | "improvements">("questions");
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<Questionnaire | null>(null);
 
   const questionnaires: Questionnaire[] = [
@@ -190,7 +192,8 @@ export const QuestionnairesTab: React.FC = () => {
     console.log("Saved questionnaire:", questionnaire);
   };
 
-  const handleOpenAiSuggestions = () => {
+  const handleOpenAiSuggestions = (type: "questions" | "sections" | "improvements" = "questions") => {
+    setAiSuggestionType(type);
     setIsAiSuggestionsOpen(true);
   };
 
@@ -205,7 +208,7 @@ export const QuestionnairesTab: React.FC = () => {
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
-            onClick={handleOpenAiSuggestions}
+            onClick={() => handleOpenAiSuggestions("questions")}
           >
             <FileText className="h-4 w-4 mr-2" />
             AI Recommendations
@@ -308,10 +311,12 @@ export const QuestionnairesTab: React.FC = () => {
         />
       )}
       
-      <AiSuggestionsDialog
-        type="questions"
-        onClose={() => setIsAiSuggestionsOpen(false)}
-      />
+      {isAiSuggestionsOpen && (
+        <AiSuggestionsDialog
+          type={aiSuggestionType}
+          onClose={() => setIsAiSuggestionsOpen(false)}
+        />
+      )}
     </div>
   );
 };
