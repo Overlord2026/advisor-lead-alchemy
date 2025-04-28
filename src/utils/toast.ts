@@ -1,8 +1,7 @@
 
 import { toast as sonnerToast } from "sonner";
 import { toast as shadcnToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
-import React from "react";
+import { createToastAction } from "@/components/ui/toast-helper";
 
 type ToastType = "default" | "success" | "error" | "warning" | "info";
 
@@ -38,14 +37,7 @@ export const toast = {
       title: message,
       duration: options?.duration,
       action: options?.action
-        ? React.createElement(
-            ToastAction,
-            { 
-              altText: options.action.label,
-              onClick: options.action.onClick 
-            },
-            options.action.label
-          )
+        ? createToastAction(options.action.label, options.action.onClick)
         : undefined,
     });
   },
@@ -71,14 +63,7 @@ export const toast = {
       variant: "default",
       duration: options?.duration,
       action: options?.action
-        ? React.createElement(
-            ToastAction,
-            { 
-              altText: options.action.label,
-              onClick: options.action.onClick 
-            },
-            options.action.label
-          )
+        ? createToastAction(options.action.label, options.action.onClick)
         : undefined,
     });
   },
@@ -104,14 +89,7 @@ export const toast = {
       variant: "destructive",
       duration: options?.duration,
       action: options?.action
-        ? React.createElement(
-            ToastAction,
-            { 
-              altText: options.action.label,
-              onClick: options.action.onClick 
-            },
-            options.action.label
-          )
+        ? createToastAction(options.action.label, options.action.onClick)
         : undefined,
     });
   },
@@ -137,14 +115,7 @@ export const toast = {
       variant: "default",
       duration: options?.duration,
       action: options?.action
-        ? React.createElement(
-            ToastAction,
-            { 
-              altText: options.action.label,
-              onClick: options.action.onClick 
-            },
-            options.action.label
-          )
+        ? createToastAction(options.action.label, options.action.onClick)
         : undefined,
     });
   },
@@ -170,14 +141,7 @@ export const toast = {
       variant: "default",
       duration: options?.duration,
       action: options?.action
-        ? React.createElement(
-            ToastAction,
-            { 
-              altText: options.action.label,
-              onClick: options.action.onClick 
-            },
-            options.action.label
-          )
+        ? createToastAction(options.action.label, options.action.onClick)
         : undefined,
     });
   },
