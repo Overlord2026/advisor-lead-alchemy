@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +11,7 @@ import {
   Users, FileText, Calendar, Mail, BarChart, 
   ArrowRight, UserPlus, Search, ChartBar
 } from "lucide-react";
+import ROITracker from "@/components/roi-tracker/ROITracker";
 
 const AdvisorDashboard = () => {
   const navigate = useNavigate();
@@ -400,62 +400,13 @@ const AdvisorDashboard = () => {
         </TabsContent>
         
         <TabsContent value="roi">
-          <Card>
-            <CardHeader>
-              <CardTitle>ROI Tracker</CardTitle>
-              <CardDescription>Track and analyze the return on investment for your marketing and sales activities</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-card border rounded-lg p-4">
-                    <h3 className="text-sm font-medium text-muted-foreground">New Clients</h3>
-                    <p className="text-2xl font-bold">12</p>
-                    <div className="text-xs text-green-600 flex items-center mt-1">
-                      <span>+25% from last month</span>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-card border rounded-lg p-4">
-                    <h3 className="text-sm font-medium text-muted-foreground">Assets Under Management</h3>
-                    <p className="text-2xl font-bold">$38.2M</p>
-                    <div className="text-xs text-green-600 flex items-center mt-1">
-                      <span>+5.4% from last month</span>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-card border rounded-lg p-4">
-                    <h3 className="text-sm font-medium text-muted-foreground">Conversion Rate</h3>
-                    <p className="text-2xl font-bold">32%</p>
-                    <div className="text-xs text-green-600 flex items-center mt-1">
-                      <span>+3% from last month</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="h-80 border rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <BarChart className="h-12 w-12 mx-auto text-muted-foreground" />
-                    <h3 className="mt-2 font-medium">Marketing Channel Performance</h3>
-                    <p className="text-sm text-muted-foreground mt-1">Data visualization would appear here</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" className="w-full">
-                <ChartBar className="mr-2 h-4 w-4" />
-                Generate Detailed Report
-              </Button>
-            </CardFooter>
-          </Card>
+          <ROITracker />
         </TabsContent>
       </Tabs>
     </div>
   );
 };
 
-// Dashboard card component for the overview section
 const DashboardCard = ({ 
   title, 
   description, 
@@ -498,7 +449,6 @@ const DashboardCard = ({
   </Card>
 );
 
-// Sales process step component
 const SalesProcessStep = ({ 
   number, 
   title, 

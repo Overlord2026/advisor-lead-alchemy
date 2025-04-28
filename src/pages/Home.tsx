@@ -56,7 +56,7 @@ const Home = () => {
 
         <Card className="shadow-md">
           <CardHeader>
-            <CardTitle>Advisor Portal</CardTitle>
+            <CardTitle>Sales Process Automation</CardTitle>
             <CardDescription>
               For financial advisors
             </CardDescription>
