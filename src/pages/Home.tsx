@@ -4,13 +4,17 @@ import BookingTextFetcher from "@/components/BookingTextFetcher";
 import ProspectCallPrep from "@/components/ProspectCallPrep";
 import PostCallProcessor from "@/components/PostCallProcessor";
 import HeroSection from "@/components/HeroSection";
+import FeatureCards from "@/components/features/FeatureCards";
 
 const Home = () => {
   return (
     <div className="container mx-auto space-y-8 pb-8">
       <HeroSection />
       
-      <h1 className="text-3xl font-bold mb-6">Advisor Tools & Diagnostics</h1>
+      <h1 className="text-3xl font-bold mb-6">Core Workflow Pillars</h1>
+      <FeatureCards />
+      
+      <h1 className="text-3xl font-bold mb-6 mt-12">Advisor Tools & Diagnostics</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="md:col-span-3">
