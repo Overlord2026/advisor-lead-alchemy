@@ -19,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			width: {
+				'1/7': '14.285714%',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

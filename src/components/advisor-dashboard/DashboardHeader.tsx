@@ -1,15 +1,13 @@
 
 import React from 'react';
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => {
   return (
-    <div className="text-center py-8">
-      <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Sales Process Automation System</h1>
-      <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-        A comprehensive platform designed to streamline your entire sales workflow from lead 
-        generation to client onboarding, saving you significant time while providing more consistent
-        and comprehensive client information.
-      </p>
+    <div className="mb-6">
+      <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+      {subtitle && (
+        <p className="text-muted-foreground mt-1">{subtitle}</p>
+      )}
     </div>
   );
 };
