@@ -5,6 +5,7 @@ import ProspectCallPrep from "@/components/ProspectCallPrep";
 import PostCallProcessor from "@/components/PostCallProcessor";
 import HeroSection from "@/components/HeroSection";
 import FeatureCards from "@/components/features/FeatureCards";
+import IntegrationShowcase from "@/components/IntegrationShowcase";
 
 const Home = () => {
   return (
@@ -13,6 +14,8 @@ const Home = () => {
       
       <h1 className="text-3xl font-bold mb-6">Core Workflow Pillars</h1>
       <FeatureCards />
+      
+      <IntegrationShowcase />
       
       <h1 className="text-3xl font-bold mb-6 mt-12">Advisor Tools & Diagnostics</h1>
       
