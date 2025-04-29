@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { X, Smartphone, Monitor, Send } from "lucide-react";
-import { type Questionnaire } from "./QuestionnairesTab";
+import { type Questionnaire } from "./types";
 
 interface QuestionnairePreviewProps {
   questionnaire: Questionnaire;
