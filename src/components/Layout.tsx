@@ -19,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useApp } from "@/contexts/AppContext";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { Button } from "@/shared/ui";
+import BannerHeader from "./BannerHeader";
 
 const NavigationContent = () => {
   const location = useLocation();
@@ -62,12 +63,9 @@ const Header = () => {
   const { toggleSidebar } = useApp();
 
   return (
-    <header className="bg-card border-b border-border p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <header className="bg-card border-b border-border p-4 flex justify-between items-center fixed top-[48px] md:top-[56px] left-0 right-0 z-40">
       <div className="flex gap-4 items-center">
         <SidebarTrigger onClick={toggleSidebar} />
-        <Link to="/advisor" className="flex items-center">
-          <img src="/logo.svg" alt="Boutique Family Office" className="h-10 mr-4" />
-        </Link>
         <h1 className="text-xl font-bold hidden sm:block">
           Advisor Portal
         </h1>
@@ -95,10 +93,10 @@ const Header = () => {
 const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen w-full bg-background">
+      <BannerHeader />
       <Sidebar>
-        <SidebarHeader className="p-4">
+        <SidebarHeader className="p-4 mt-[48px] md:mt-[56px]">
           <div className="flex items-center">
-            <img src="/logo.svg" alt="Boutique Family Office" className="h-8 w-auto" />
             <span className="ml-2 font-semibold">Advisor Portal</span>
           </div>
         </SidebarHeader>
@@ -106,11 +104,11 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
       </Sidebar>
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
-        <div className="tagline w-full bg-red-50 text-red-600 border-b border-red-100">
+        <div className="tagline w-full bg-red-50 text-red-600 border-b border-red-100 mt-[96px] md:mt-[112px]">
           <span>Advisor Portal</span>
           <span>Sales Process Automation</span>
         </div>
-        <main className="flex-1 overflow-auto p-6 pt-20">{children}</main>
+        <main className="flex-1 overflow-auto p-6 pt-6 mt-[96px] md:mt-[112px]">{children}</main>
       </div>
     </div>
   );
