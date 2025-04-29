@@ -7,6 +7,7 @@ import HeroSection from "@/components/HeroSection";
 import FeatureCards from "@/components/features/FeatureCards";
 import IntegrationShowcase from "@/components/IntegrationShowcase";
 import BenefitsGrid from "@/components/BenefitsGrid";
+import CustomerTestimonial from "@/components/CustomerTestimonial";
 
 const Home = () => {
   return (
@@ -19,6 +20,8 @@ const Home = () => {
       <IntegrationShowcase />
       
       <BenefitsGrid />
+      
+      <CustomerTestimonial />
       
       <h1 className="text-3xl font-bold mb-6 mt-12">Advisor Tools & Diagnostics</h1>
       
