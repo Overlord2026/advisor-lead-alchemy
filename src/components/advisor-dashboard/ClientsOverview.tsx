@@ -2,9 +2,10 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, ArrowRight } from "lucide-react";
+import { Users, ArrowRight, UserPlus } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 interface ClientData {
   id: string;
@@ -60,13 +61,23 @@ const ClientsOverview = () => {
             <div className="bg-red-100 p-2 rounded-full mr-3">
               <Users className="h-5 w-5 text-red-600" />
             </div>
-            <h2 className="text-2xl font-bold">Client Wealth Management</h2>
+            <h2 className="text-2xl font-bold">Client Management</h2>
           </div>
-          <Button asChild variant="outline" className="bg-white hover:bg-red-50 border-red-200">
-            <Link to="/advisor/clients">
-              View All Clients <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="flex space-x-2">
+            <Button 
+              variant="outline" 
+              className="bg-white hover:bg-red-50 border-red-200"
+              onClick={() => toast.info("Add client feature coming soon!")}
+            >
+              <UserPlus className="mr-2 h-4 w-4" />
+              Add Client
+            </Button>
+            <Button asChild variant="outline" className="bg-white hover:bg-red-50 border-red-200">
+              <Link to="/advisor/clients">
+                View All Clients <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -76,11 +87,18 @@ const ClientsOverview = () => {
             <p className="text-sm text-muted-foreground mt-1">Across {mockClients.length} client households</p>
           </div>
           <div className="bg-white rounded-lg p-4 shadow-sm border border-red-200">
-            <p className="text-sm font-medium text-red-600 mb-1">Platform Integration</p>
-            <p className="text-lg font-medium">Client Portal Connected</p>
+            <p className="text-sm font-medium text-red-600 mb-1">Client Portal Integration</p>
+            <p className="text-lg font-medium">Connected to Client Dashboard</p>
             <p className="text-sm text-muted-foreground mt-1">
-              Real-time data synced with client-facing dashboard
+              View real-time data from client-facing application
             </p>
+            <Button 
+              variant="link" 
+              className="text-red-600 p-0 h-auto mt-2"
+              onClick={() => window.open("https://lovable.dev/projects/00a95494-1379-485c-9fca-9a2135238b56", "_blank")}
+            >
+              View Client Portal Application
+            </Button>
           </div>
         </div>
 
@@ -93,6 +111,7 @@ const ClientsOverview = () => {
                   <th className="text-right px-6 py-3 text-xs font-medium text-red-600 uppercase tracking-wider">Total Assets</th>
                   <th className="text-right px-6 py-3 text-xs font-medium text-red-600 uppercase tracking-wider">Portfolio Change</th>
                   <th className="text-right px-6 py-3 text-xs font-medium text-red-600 uppercase tracking-wider">Last Activity</th>
+                  <th className="text-right px-6 py-3 text-xs font-medium text-red-600 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-red-100">
@@ -115,6 +134,9 @@ const ClientsOverview = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500">
                       {new Date(client.lastActivity).toLocaleDateString()}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right">
+                      <Button size="sm" variant="outline">Details</Button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -122,7 +144,7 @@ const ClientsOverview = () => {
           </div>
           <div className="bg-red-50/50 px-6 py-3 text-right">
             <Link to="/advisor/clients" className="text-sm font-medium text-red-600 hover:text-red-800">
-              Manage Clients →
+              Manage All Clients →
             </Link>
           </div>
         </div>

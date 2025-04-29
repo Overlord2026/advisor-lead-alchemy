@@ -22,20 +22,20 @@ const AdvisorDashboard = () => {
       {/* Header Section */}
       <DashboardHeader />
 
-      {/* Company Information */}
-      <CompanyInfo />
+      {/* Main Feature Cards - Moved up for better visibility */}
+      <FeatureCards />
 
       {/* Client Wealth Management Section */}
       <ClientsOverview />
-
-      {/* Main Feature Cards */}
-      <FeatureCards />
 
       {/* Process Flow Section */}
       <ProcessFlow />
 
       {/* Demo Data Stats */}
       <StatsCards />
+      
+      {/* Company Information - Moved to bottom as reference info */}
+      <CompanyInfo />
     </div>
   );
 };
