@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useLocation, Link, Navigate } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { ADVISOR_NAV_ITEMS } from "@/constants/navigation";
 import {
   Sidebar,
@@ -32,7 +32,7 @@ const NavigationContent = () => {
           <SidebarMenu>
             {navItems.map((item) => {
               const isActive = location.pathname === item.path || 
-                (item.path === "/advisor" && location.pathname === "/advisor");
+                (item.path === "/advisor" && location.pathname === "/"); // Consider root path as advisor path
                 
               return (
                 <SidebarMenuItem key={item.label}>
@@ -80,7 +80,7 @@ const Header = () => {
           onClick={() => 
             toast({
               title: "Welcome!",
-              description: "This is a demo of the advisor sales process platform.",
+              description: "This is the advisor sales process platform.",
             })
           }
         >
@@ -92,17 +92,6 @@ const Header = () => {
 };
 
 const LayoutContent = ({ children }: { children: React.ReactNode }) => {
-  const location = useLocation();
-  
-  // Redirect any client portal paths to the advisor dashboard
-  if (location.pathname === "/" || 
-      location.pathname === "/documents" || 
-      location.pathname === "/accounts" || 
-      location.pathname === "/onboarding" || 
-      location.pathname === "/training") {
-    return <Navigate to="/advisor" replace />;
-  }
-
   return (
     <div className="flex min-h-screen w-full bg-background">
       <Sidebar>
