@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 // Define CORS headers
@@ -30,20 +31,62 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { bookingText } = await req.json();
+    const { connector, searchQuery } = await req.json();
     
-    // Validate input using the exact error message format requested
-    if (!bookingText || bookingText.trim() === '') {
+    // Validate input
+    if (!connector) {
       return new Response(
-        JSON.stringify({ 
-          error: "bookingText is empty; cannot extract prospect details." 
-        }),
+        JSON.stringify({ error: "connector parameter is required" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    if (!searchQuery) {
+      return new Response(
+        JSON.stringify({ error: "searchQuery parameter is required" }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    console.log(`Processing call prep request`);
-    console.log(`Booking text: ${bookingText}`);
+    console.log(`Processing call prep request for connector: ${connector}`);
+    console.log(`Search query: ${searchQuery}`);
+
+    // Step 1: Call fetch-booking endpoint to get the booking text
+    const fetchBookingUrl = new URL(req.url);
+    fetchBookingUrl.pathname = '/functions/v1/fetch-booking';
+    
+    const bookingResponse = await fetch(fetchBookingUrl.toString(), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders
+      },
+      body: JSON.stringify({
+        connector,
+        searchQuery
+      })
+    });
+    
+    if (!bookingResponse.ok) {
+      const errorData = await bookingResponse.json();
+      console.error('Error fetching booking text:', errorData);
+      return new Response(
+        JSON.stringify({ error: errorData.error || 'Failed to fetch booking text' }),
+        { status: bookingResponse.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    const bookingData = await bookingResponse.json();
+    const bookingText = bookingData.bookingText;
+    
+    if (!bookingText) {
+      return new Response(
+        JSON.stringify({ error: "No booking text found for the provided query" }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log(`Successfully retrieved booking text`);
 
     // Extract information from booking text
     const nameMatch = bookingText.match(/Invitee: ([^\n]+)/);
