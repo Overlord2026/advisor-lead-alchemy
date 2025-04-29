@@ -14,46 +14,17 @@ const ProcessFlow = () => {
         </p>
       </div>
       
-      <div className="space-y-8 max-w-3xl mx-auto">
-        <div className="process-step">
-          <div className="process-step-number">1</div>
-          <h3 className="text-xl font-bold mb-2">Prospect Identification & Qualification</h3>
-          <p className="text-muted-foreground">
-            Use AI-powered scoring to identify and prioritize high-value prospects based on multiple factors, including wealth indicators, behavioral signals, and referral sources.
-          </p>
-        </div>
+      <div className="flex justify-between items-center relative max-w-4xl mx-auto mb-10">
+        {[1, 2, 3, 4, 5].map((step) => (
+          <div key={step} className="flex flex-col items-center relative z-10">
+            <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg">
+              {step}
+            </div>
+          </div>
+        ))}
         
-        <div className="process-step">
-          <div className="process-step-number">2</div>
-          <h3 className="text-xl font-bold mb-2">Meeting Intelligence & Analysis</h3>
-          <p className="text-muted-foreground">
-            Record and automatically analyze client conversations to extract insights, action items, and sentiment data to inform your approach.
-          </p>
-        </div>
-        
-        <div className="process-step">
-          <div className="process-step-number">3</div>
-          <h3 className="text-xl font-bold mb-2">Personalized Data Collection</h3>
-          <p className="text-muted-foreground">
-            Deploy smart questionnaires that adapt based on previous inputs and meeting insights to gather comprehensive client information efficiently.
-          </p>
-        </div>
-        
-        <div className="process-step">
-          <div className="process-step-number">4</div>
-          <h3 className="text-xl font-bold mb-2">Automated Communication</h3>
-          <p className="text-muted-foreground">
-            Send timely, personalized emails that integrate insights from all previous interactions, with optimal timing determined by AI analysis.
-          </p>
-        </div>
-        
-        <div className="process-step">
-          <div className="process-step-number">5</div>
-          <h3 className="text-xl font-bold mb-2">Performance Tracking & Optimization</h3>
-          <p className="text-muted-foreground">
-            Track ROI and conversion rates across your entire sales process, with AI recommendations for improving performance.
-          </p>
-        </div>
+        {/* Connecting line */}
+        <div className="absolute top-6 left-0 w-full h-0.5 bg-muted -z-0"></div>
       </div>
       
       <div className="mt-10 text-center">

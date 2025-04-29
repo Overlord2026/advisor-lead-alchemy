@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { initSalesProcessAutomation } from "@/utils/salesProcessAutomation";
 import DashboardHeader from '@/components/advisor-dashboard/DashboardHeader';
 import FeatureCards from '@/components/advisor-dashboard/FeatureCards';
+import ProcessFlow from '@/components/advisor-dashboard/ProcessFlow';
 
 const AdvisorDashboard = () => {
   useEffect(() => {
@@ -23,6 +24,9 @@ const AdvisorDashboard = () => {
 
       {/* Feature Cards */}
       <FeatureCards />
+      
+      {/* Sales Process Flow */}
+      <ProcessFlow />
     </div>
   );
 };
