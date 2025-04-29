@@ -14,7 +14,7 @@ import GhlTrainingPage from "./pages/advisor/GhlTrainingPage";
 import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "@/contexts/AppContext";
-import { SonnerToaster } from "@/components/ui/sonner";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 
 // Import styles
