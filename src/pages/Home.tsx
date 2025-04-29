@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
@@ -138,12 +139,58 @@ const Home = () => {
         console.error('Exception in heygen script test:', err);
       }
     };
+    
+    // Example function to test the questionnaire recommend API - NOT automatically called
+    const testQuestionnaireRecommend = async () => {
+      try {
+        // Test with valid data
+        const summaryBullets = ["Goal: retirement income", "Assets: $750K"];
+        const responseData = { "Q1": "Yes", "Q2": "No" };
+        
+        const { data, error } = await supabase.functions.invoke('questionnaire-recommend', {
+          body: {
+            summaryBullets,
+            responseData
+          },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (error) {
+          console.error('Error testing questionnaire recommend:', error);
+          toast.error('Failed to test questionnaire recommend API');
+        } else {
+          console.log('Questionnaire recommend test response:', data);
+          toast.success('Questionnaire recommend API test successful!');
+          
+          // Test with invalid input to verify error handling
+          const { data: invalidData, error: invalidError } = await supabase.functions.invoke('questionnaire-recommend', {
+            body: {
+              summaryBullets: "not-an-array"
+            },
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (invalidError) {
+            console.log('Invalid summary bullets correctly rejected:', invalidError);
+          } else {
+            console.log('Invalid summary bullets response:', invalidData);
+          }
+        }
+      } catch (err) {
+        console.error('Exception in questionnaire recommend test:', err);
+      }
+    };
 
     // Functions are defined but NOT called automatically
     // Uncomment the line below ONLY when you want to test the APIs
     // testCallPrep();
     // testPostCall();
     // testHeyGenScript();
+    // testQuestionnaireRecommend();
   }, []);
   
   // Force immediate redirect with no conditions
