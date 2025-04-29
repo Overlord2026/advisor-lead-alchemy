@@ -288,7 +288,7 @@ type MetricCardProps = {
   value: string;
   change: number;
   icon: string;
-  inverse?: boolean;
+  inverse?: boolean; // Changed from string to boolean
 };
 
 const MetricCard = ({ title, value, change, icon, inverse = false }: MetricCardProps) => {
