@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AlertCircle, Video, ExternalLink } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { toast } from "sonner";
+import { startGoogleMeetRecording } from "@/utils/recording-api";
 
 interface StartMeetingDialogProps {
   open: boolean;
@@ -16,14 +20,47 @@ export default function StartMeetingDialog({ open, onOpenChange, onStartMeeting 
   const [title, setTitle] = useState("Meeting with New Prospect");
   const [prospect, setProspect] = useState("");
   const [meetingType, setMeetingType] = useState("Initial Discovery");
+  const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [meetingUrl, setMeetingUrl] = useState("");
   
-  const handleStartMeeting = () => {
-    onStartMeeting();
+  const handleConnect = () => {
+    setIsLoading(true);
+    // Mock Google Meet API connection
+    setTimeout(() => {
+      setIsConnected(true);
+      setMeetingUrl("https://meet.google.com/abc-defg-hij");
+      setIsLoading(false);
+    }, 1500);
+  };
+  
+  const handleStartMeeting = async () => {
+    if (!isConnected) {
+      toast.error("Please connect to Google Meet first");
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      // This would use the actual Google Meet API in a real implementation
+      const success = await startGoogleMeetRecording("mock-meeting-id");
+      if (success) {
+        toast.success("Google Meet recording started");
+        onStartMeeting();
+        onOpenChange(false);
+      } else {
+        toast.error("Failed to start recording");
+      }
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Start Google Meet Recording</DialogTitle>
         </DialogHeader>
@@ -69,14 +106,57 @@ export default function StartMeetingDialog({ open, onOpenChange, onStartMeeting 
             </Select>
           </div>
           
-          <p className="text-sm text-muted-foreground">
-            This will start a Google Meet session and automatically record the meeting.
-          </p>
+          {!isConnected ? (
+            <>
+              <Alert className="bg-primary/10 border-primary/20">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  You need to connect to Google Meet to start a recorded meeting.
+                </AlertDescription>
+              </Alert>
+              
+              <Button 
+                onClick={handleConnect} 
+                className="w-full" 
+                disabled={isLoading}
+              >
+                <Video className="mr-2 h-4 w-4" />
+                {isLoading ? "Connecting..." : "Connect to Google Meet"}
+              </Button>
+            </>
+          ) : (
+            <>
+              <div className="p-4 border rounded-lg bg-muted/40">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium text-sm">Google Meet URL</span>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-6 p-0" 
+                    onClick={() => window.open(meetingUrl, "_blank")}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    <span className="sr-only">Open meeting</span>
+                  </Button>
+                </div>
+                <code className="text-xs break-all">{meetingUrl}</code>
+              </div>
+              
+              <p className="text-sm text-muted-foreground">
+                This will start a Google Meet session and automatically record the meeting.
+              </p>
+            </>
+          )}
         </div>
         
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={handleStartMeeting}>Start Meeting</Button>
+          <Button 
+            onClick={handleStartMeeting} 
+            disabled={!isConnected || isLoading}
+          >
+            {isLoading ? "Starting..." : "Start Meeting"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
