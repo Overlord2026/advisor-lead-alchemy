@@ -42,3 +42,6 @@ vector_port = 54328
 [functions]
 [functions.health-check]
 verify_jwt = false
+
+[functions.prospect-call-prep]
+verify_jwt = false
