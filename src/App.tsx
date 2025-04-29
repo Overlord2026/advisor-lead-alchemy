@@ -36,6 +36,13 @@ const App = () => (
             {/* Root path redirects to advisor dashboard */}
             <Route path="/" element={<Navigate to="/advisor" replace />} />
             
+            {/* Redirect legacy client-facing routes to advisor dashboard */}
+            <Route path="/home" element={<Navigate to="/advisor" replace />} />
+            <Route path="/documents" element={<Navigate to="/advisor" replace />} />
+            <Route path="/accounts" element={<Navigate to="/advisor" replace />} />
+            <Route path="/onboarding" element={<Navigate to="/advisor" replace />} />
+            <Route path="/training" element={<Navigate to="/advisor" replace />} />
+            
             {/* Advisor routes */}
             <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
             <Route path="/advisor/prospects" element={<Layout><ProspectDashboard /></Layout>} />
@@ -48,7 +55,7 @@ const App = () => (
             <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
             
             {/* Catch-all route for any other paths */}
-            <Route path="*" element={<Layout><NotFound /></Layout>} />
+            <Route path="*" element={<Navigate to="/advisor" replace />} />
           </Routes>
           <Toaster />
           <SonnerToaster />

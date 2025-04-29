@@ -98,6 +98,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
         <SidebarHeader className="p-4">
           <div className="flex items-center">
             <img src="/logo.svg" alt="Boutique Family Office" className="h-8 w-auto" />
+            <span className="ml-2 font-semibold">Advisor Portal</span>
           </div>
         </SidebarHeader>
         <NavigationContent />
