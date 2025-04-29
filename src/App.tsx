@@ -1,13 +1,8 @@
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
-import Home from "./pages/Home";
-import Documents from "./pages/Documents";
-import Accounts from "./pages/Accounts";
-import Onboarding from "./pages/Onboarding";
-import Training from "./pages/Training";
 import AdvisorDashboard from "./pages/AdvisorDashboard";
 import ProspectDashboard from "./pages/advisor/ProspectDashboard";
 import RecordingsPage from "./pages/advisor/RecordingsPage";
@@ -30,12 +25,15 @@ const App = () => (
       <TooltipProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout><Home /></Layout>} />
-            <Route path="/documents" element={<Layout><Documents /></Layout>} />
-            <Route path="/accounts" element={<Layout><Accounts /></Layout>} />
-            <Route path="/onboarding" element={<Layout><Onboarding /></Layout>} />
-            <Route path="/onboarding/:id" element={<Layout><Onboarding /></Layout>} />
-            <Route path="/training" element={<Layout><Training /></Layout>} />
+            {/* Redirect client portal routes to advisor dashboard */}
+            <Route path="/" element={<Navigate to="/advisor" replace />} />
+            <Route path="/documents" element={<Navigate to="/advisor" replace />} />
+            <Route path="/accounts" element={<Navigate to="/advisor" replace />} />
+            <Route path="/onboarding" element={<Navigate to="/advisor" replace />} />
+            <Route path="/onboarding/:id" element={<Navigate to="/advisor" replace />} />
+            <Route path="/training" element={<Navigate to="/advisor" replace />} />
+            
+            {/* Advisor routes */}
             <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
             <Route path="/advisor/prospects" element={<Layout><ProspectDashboard /></Layout>} />
             <Route path="/advisor/recordings" element={<Layout><RecordingsPage /></Layout>} />
