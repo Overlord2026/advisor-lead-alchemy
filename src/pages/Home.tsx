@@ -6,6 +6,7 @@ import PostCallProcessor from "@/components/PostCallProcessor";
 import HeroSection from "@/components/HeroSection";
 import FeatureCards from "@/components/features/FeatureCards";
 import IntegrationShowcase from "@/components/IntegrationShowcase";
+import BenefitsGrid from "@/components/BenefitsGrid";
 
 const Home = () => {
   return (
@@ -16,6 +17,8 @@ const Home = () => {
       <FeatureCards />
       
       <IntegrationShowcase />
+      
+      <BenefitsGrid />
       
       <h1 className="text-3xl font-bold mb-6 mt-12">Advisor Tools & Diagnostics</h1>
       
