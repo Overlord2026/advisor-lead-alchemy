@@ -7,6 +7,7 @@ import CompanyInfo from '@/components/advisor-dashboard/CompanyInfo';
 import FeatureCards from '@/components/advisor-dashboard/FeatureCards';
 import ProcessFlow from '@/components/advisor-dashboard/ProcessFlow';
 import StatsCards from '@/components/advisor-dashboard/StatsCards';
+import ClientsOverview from '@/components/advisor-dashboard/ClientsOverview';
 
 const AdvisorDashboard = () => {
   useEffect(() => {
@@ -23,6 +24,9 @@ const AdvisorDashboard = () => {
 
       {/* Company Information */}
       <CompanyInfo />
+
+      {/* Client Wealth Management Section */}
+      <ClientsOverview />
 
       {/* Main Feature Cards */}
       <FeatureCards />
