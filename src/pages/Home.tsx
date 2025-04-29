@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
@@ -97,10 +96,54 @@ const Home = () => {
       }
     };
 
+    // Example function to test the heygen script API - NOT automatically called
+    const testHeyGenScript = async () => {
+      try {
+        // Test with valid data
+        const emailBody = "Hi Jane,\nThank you for your time yesterday discussing your retirement goals.\nAs we discussed, I'll prepare a detailed analysis of your current portfolio and provide recommendations for generating consistent income during retirement.\nPlease let me know if you have any questions before our next meeting.\nBest regards,\nTony";
+        
+        const { data, error } = await supabase.functions.invoke('heygen-script', {
+          body: {
+            emailBody,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (error) {
+          console.error('Error testing heygen script:', error);
+          toast.error('Failed to test heygen script API');
+        } else {
+          console.log('HeyGen script test response:', data);
+          toast.success('HeyGen script API test successful!');
+          
+          // Test with empty input to verify error handling
+          const { data: emptyData, error: emptyError } = await supabase.functions.invoke('heygen-script', {
+            body: {
+              emailBody: "",
+            },
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (emptyError) {
+            console.log('Empty email body correctly rejected:', emptyError);
+          } else {
+            console.log('Empty email body response:', emptyData);
+          }
+        }
+      } catch (err) {
+        console.error('Exception in heygen script test:', err);
+      }
+    };
+
     // Functions are defined but NOT called automatically
     // Uncomment the line below ONLY when you want to test the APIs
     // testCallPrep();
     // testPostCall();
+    // testHeyGenScript();
   }, []);
   
   // Force immediate redirect with no conditions

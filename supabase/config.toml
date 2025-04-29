@@ -48,3 +48,6 @@ verify_jwt = false
 
 [functions.post-call]
 verify_jwt = false
+
+[functions.heygen-script]
+verify_jwt = false
