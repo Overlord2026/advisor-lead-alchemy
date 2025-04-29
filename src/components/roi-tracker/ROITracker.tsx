@@ -225,24 +225,28 @@ export const ROITracker = () => {
                 value={formatCurrency(roiData.summary.adSpend)}
                 change={roiData.summary.adSpendChange}
                 icon="$"
+                inverse={false}
               />
               <MetricCard
                 title="Conversion Rate"
                 value={`${roiData.summary.conversionRate.toFixed(1)}%`}
                 change={roiData.summary.conversionRateChange}
                 icon="%"
+                inverse={false}
               />
               <MetricCard
                 title="New Prospects"
                 value={roiData.summary.prospects.toString()}
                 change={roiData.summary.prospectsChange}
                 icon="👥"
+                inverse={false}
               />
               <MetricCard
                 title="New AUM"
                 value={formatCurrency(roiData.summary.aum, true)}
                 change={roiData.summary.aumChange}
                 icon="💰"
+                inverse={false}
               />
             </>
           )}
