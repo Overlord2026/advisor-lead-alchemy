@@ -16,6 +16,7 @@ import TemplatesPage from "./pages/advisor/TemplatesPage";
 import RoiTrackerPage from "./pages/advisor/RoiTrackerPage";
 import CalendarIntegrationPage from "./pages/advisor/CalendarIntegrationPage";
 import GhlTrainingPage from "./pages/advisor/GhlTrainingPage";
+import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "@/contexts/AppContext";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/advisor/roi" element={<Layout><RoiTrackerPage /></Layout>} />
             <Route path="/advisor/calendar" element={<Layout><CalendarIntegrationPage /></Layout>} />
             <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
+            <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
             <Route path="*" element={<Layout><NotFound /></Layout>} />
           </Routes>
           <Toaster />

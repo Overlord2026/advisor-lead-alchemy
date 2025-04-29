@@ -9,6 +9,7 @@ import ProcessFlow from '@/components/advisor-dashboard/ProcessFlow';
 import StatsCards from '@/components/advisor-dashboard/StatsCards';
 import ClientsOverview from '@/components/advisor-dashboard/ClientsOverview';
 import GhlIntegrationSection from '@/components/advisor-dashboard/GhlIntegrationSection';
+import PracticeManagementSection from '@/components/advisor-dashboard/PracticeManagementSection';
 
 const AdvisorDashboard = () => {
   useEffect(() => {
@@ -29,6 +30,11 @@ const AdvisorDashboard = () => {
       {/* Client Wealth Management Section */}
       <ClientsOverview />
 
+      {/* Practice Management Integration Section - NEW */}
+      <div id="practice-management">
+        <PracticeManagementSection />
+      </div>
+      
       {/* GHL Integration Section */}
       <div id="ghl-integration">
         <GhlIntegrationSection />

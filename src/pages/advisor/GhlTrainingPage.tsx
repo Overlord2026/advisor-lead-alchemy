@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -45,7 +44,7 @@ const GhlTrainingPage = () => {
                 <div className="bg-blue-100 text-blue-600 p-1 rounded-full mr-2 w-5 h-5 flex items-center justify-center text-xs font-medium flex-shrink-0 mt-0.5">2</div>
                 <div>
                   <p className="font-medium">Generate an API Key</p>
-                  <p className="text-sm text-muted-foreground">Navigate to Settings > API > Create API Key</p>
+                  <p className="text-sm text-muted-foreground">Navigate to Settings {'->'} API {'->'} Create API Key</p>
                   <Button 
                     variant="link" 
                     className="p-0 h-auto mt-1 text-sm"
