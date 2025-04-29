@@ -3,10 +3,13 @@ import { ConnectorHealthCheck } from "@/components/ConnectorHealthCheck";
 import BookingTextFetcher from "@/components/BookingTextFetcher";
 import ProspectCallPrep from "@/components/ProspectCallPrep";
 import PostCallProcessor from "@/components/PostCallProcessor";
+import HeroSection from "@/components/HeroSection";
 
 const Home = () => {
   return (
     <div className="container mx-auto space-y-8 pb-8">
+      <HeroSection />
+      
       <h1 className="text-3xl font-bold mb-6">Advisor Tools & Diagnostics</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
