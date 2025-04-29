@@ -53,9 +53,54 @@ const Home = () => {
       }
     };
 
-    // Function is defined but NOT called automatically
-    // Uncomment the line below ONLY when you want to test the API
+    // Example function to test the post-call API - NOT automatically called
+    const testPostCall = async () => {
+      try {
+        const prospectId = '123';
+        // Test with valid data
+        const transcriptText = "Tony: Hi Jane, thanks for meeting with me today.\nJane: Thanks for having me. My goal is to ensure I have enough income in retirement.\nTony: I understand. Next step is to review your current portfolio and create a retirement income plan.";
+        
+        const { data, error } = await supabase.functions.invoke('post-call', {
+          body: {
+            transcriptText,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (error) {
+          console.error('Error testing post-call:', error);
+          toast.error('Failed to test post-call API');
+        } else {
+          console.log('Post-call test response:', data);
+          toast.success('Post-call API test successful!');
+          
+          // Test with invalid input to verify error handling
+          const { data: invalidData, error: invalidError } = await supabase.functions.invoke('post-call', {
+            body: {
+              transcriptText: 12345,
+            },
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (invalidError) {
+            console.log('Invalid transcript correctly rejected:', invalidError);
+          } else {
+            console.log('Invalid transcript response:', invalidData);
+          }
+        }
+      } catch (err) {
+        console.error('Exception in post-call test:', err);
+      }
+    };
+
+    // Functions are defined but NOT called automatically
+    // Uncomment the line below ONLY when you want to test the APIs
     // testCallPrep();
+    // testPostCall();
   }, []);
   
   // Force immediate redirect with no conditions
