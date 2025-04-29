@@ -2,6 +2,7 @@
 import { ConnectorHealthCheck } from "@/components/ConnectorHealthCheck";
 import BookingTextFetcher from "@/components/BookingTextFetcher";
 import ProspectCallPrep from "@/components/ProspectCallPrep";
+import PostCallProcessor from "@/components/PostCallProcessor";
 
 const Home = () => {
   return (
@@ -21,9 +22,14 @@ const Home = () => {
         </div>
         
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Client Preparation</h2>
+          <h2 className="text-2xl font-semibold mb-4">Pre-Call Preparation</h2>
           <ProspectCallPrep />
         </div>
+      </div>
+      
+      <div>
+        <h2 className="text-2xl font-semibold mb-4 mt-8">Post-Call Follow-Up</h2>
+        <PostCallProcessor />
       </div>
     </div>
   );
