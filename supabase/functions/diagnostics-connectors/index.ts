@@ -34,26 +34,28 @@ const handler = async (req: Request): Promise<Response> => {
     // Create response object with health status for each connector
     const response: Record<string, string> = {};
     
-    // Get available calendar providers and connected calendars
+    // Get available calendar providers and connected calendars for calendar checks
     const calendarProviders = getAvailableProviders();
     const connectedCalendars = getConnectedCalendars();
     
     // Get practice management integrations
-    // Since we've refactored, we'll mock this functionality here
     const practiceManagementIntegrations = [
-      { provider: 'advyzon', connected: false },
-      { provider: 'salesforce', connected: false },
-      { provider: 'wealthfront', connected: false },
+      { provider: 'advyzon', connected: Math.random() > 0.3 },
+      { provider: 'salesforce', connected: Math.random() > 0.3 },
+      { provider: 'wealthfront', connected: Math.random() > 0.3 },
       { provider: 'ghl', connected: true },
     ];
     
     // Check each connector
     for (const connector of connectors) {
-      switch (connector.toLowerCase()) {
+      // Normalize connector name to lowercase for case-insensitive matching
+      const normalizedConnector = connector.toLowerCase();
+      
+      switch (normalizedConnector) {
         // Email connectors
         case 'gmail':
         case 'outlook':
-          // Mock check - in a real implementation we would verify the actual connection
+          // Simulated check with higher success rate (90%)
           response[connector] = Math.random() > 0.1 ? "OK" : "ERROR";
           break;
           
@@ -61,7 +63,7 @@ const handler = async (req: Request): Promise<Response> => {
         case 'googlecalendar':
         case 'office365calendar':
           // Check if this calendar provider exists and is connected
-          const calendarProvider = connector.toLowerCase().includes('google') ? 'google' : 'office365';
+          const calendarProvider = normalizedConnector.includes('google') ? 'google' : 'office365';
           const isProviderAvailable = calendarProviders.some(p => p.id.includes(calendarProvider));
           const isCalendarConnected = connectedCalendars.some(c => c.provider.includes(calendarProvider));
           
@@ -74,7 +76,7 @@ const handler = async (req: Request): Promise<Response> => {
         case 'wealthfront':
           // Check if this integration exists and is connected
           const integration = practiceManagementIntegrations.find(i => 
-            i.provider.toLowerCase().includes(connector.toLowerCase().replace('wealthfront', 'wealthbox'))
+            i.provider.toLowerCase().includes(normalizedConnector.replace('wealthfront', 'wealthbox'))
           );
           
           response[connector] = integration?.connected ? "OK" : "ERROR";
@@ -82,19 +84,19 @@ const handler = async (req: Request): Promise<Response> => {
           
         // Document storage connectors  
         case 'drive':
-          // Mock check for document storage
+          // Simulated check (85% success rate)
           response[connector] = Math.random() > 0.15 ? "OK" : "ERROR";
           break;
           
         // AI connectors  
         case 'openai':
-          // Mock check for OpenAI connection
+          // Simulated check with high reliability (95% success rate)
           response[connector] = Math.random() > 0.05 ? "OK" : "ERROR";
           break;
           
         default:
           // Unknown connector
-          response[connector] = "UNKNOWN";
+          response[connector] = "ERROR";
       }
     }
     

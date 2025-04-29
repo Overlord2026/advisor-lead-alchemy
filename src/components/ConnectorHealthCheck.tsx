@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "./ui/separator";
 import { toast } from "@/utils/toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 
 const defaultConnectors = [
   "gmail",
@@ -69,7 +70,12 @@ export const ConnectorHealthCheck = () => {
               disabled={isLoading}
               variant="outline"
             >
-              {isLoading ? 'Checking...' : 'Run Health Check'}
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Checking...
+                </>
+              ) : 'Run Health Check'}
             </Button>
           </div>
           
@@ -82,9 +88,14 @@ export const ConnectorHealthCheck = () => {
           )}
           
           {Object.keys(results).length > 0 && (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {Object.entries(results).map(([connector, status]) => (
-                <div key={connector} className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                <div 
+                  key={connector} 
+                  className={`flex justify-between items-center p-3 rounded-md ${
+                    status === 'OK' ? 'bg-green-50' : 'bg-red-50'
+                  }`}
+                >
                   <span className="font-medium">{connector}</span>
                   <span className={status === 'OK' ? 'text-green-600' : 'text-red-600'}>
                     {status}
