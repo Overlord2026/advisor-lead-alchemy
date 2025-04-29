@@ -73,7 +73,7 @@ const ClientsOverview = () => {
               Add Client
             </Button>
             <Button asChild variant="outline" className="bg-white hover:bg-red-50 border-red-200">
-              <Link to="/advisor/clients">
+              <Link to="/advisor/prospects">
                 View All Clients <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -87,17 +87,17 @@ const ClientsOverview = () => {
             <p className="text-sm text-muted-foreground mt-1">Across {mockClients.length} client households</p>
           </div>
           <div className="bg-white rounded-lg p-4 shadow-sm border border-red-200">
-            <p className="text-sm font-medium text-red-600 mb-1">Client Portal Integration</p>
-            <p className="text-lg font-medium">Connected to Client Dashboard</p>
+            <p className="text-sm font-medium text-red-600 mb-1">Client Portal Management</p>
+            <p className="text-lg font-medium">Monitor Client Portal Activity</p>
             <p className="text-sm text-muted-foreground mt-1">
-              View real-time data from client-facing application
+              Access insights from client interactions with their dashboards
             </p>
             <Button 
               variant="link" 
               className="text-red-600 p-0 h-auto mt-2"
               onClick={() => window.open("https://lovable.dev/projects/00a95494-1379-485c-9fca-9a2135238b56", "_blank")}
             >
-              View Client Portal Application
+              Preview Client Portal View
             </Button>
           </div>
         </div>
@@ -118,7 +118,7 @@ const ClientsOverview = () => {
                 {mockClients.map((client) => (
                   <tr key={client.id} className="hover:bg-red-50/50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <Link to={`/advisor/clients/${client.id}`} className="font-medium text-gray-900 hover:text-red-600">
+                      <Link to={`/advisor/prospects/${client.id}`} className="font-medium text-gray-900 hover:text-red-600">
                         {client.name}
                       </Link>
                     </td>
@@ -143,7 +143,7 @@ const ClientsOverview = () => {
             </table>
           </div>
           <div className="bg-red-50/50 px-6 py-3 text-right">
-            <Link to="/advisor/clients" className="text-sm font-medium text-red-600 hover:text-red-800">
+            <Link to="/advisor/prospects" className="text-sm font-medium text-red-600 hover:text-red-800">
               Manage All Clients →
             </Link>
           </div>
