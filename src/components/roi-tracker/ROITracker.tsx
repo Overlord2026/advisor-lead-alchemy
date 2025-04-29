@@ -1,27 +1,37 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChartBarIcon, ArrowDownIcon, ArrowUpIcon, DownloadIcon } from "lucide-react";
+import { 
+  ArrowDownIcon, 
+  ArrowUpIcon, 
+  DownloadIcon,
+  InfoIcon
+} from "lucide-react";
 import { DateRangeSelector } from "./DateRangeSelector";
 import { RoiCharts } from "./RoiCharts";
 import { formatCurrency } from "@/utils/format";
-import "@/styles/roi-tracker.css"; // Import our custom CSS
+import "@/styles/roi-tracker.css";
+import { CampaignTable } from "./CampaignTable";
+import { ProspectJourney } from "./ProspectJourney";
+import { AiRecommendations } from "./AiRecommendations";
 
 export type ROIData = {
   summary: {
     adSpend: number;
     adSpendChange: number;
+    conversionRate: number;
+    conversionRateChange: number;
     prospects: number;
     prospectsChange: number;
-    clients: number;
-    clientsChange: number;
-    revenue: number;
-    revenueChange: number;
+    aum: number;
+    aumChange: number;
   };
   channels: ChannelData[];
   campaigns: CampaignData[];
+  journey: JourneyData;
+  recommendations: RecommendationData[];
 }
 
 export type ChannelData = {
@@ -36,11 +46,35 @@ export type ChannelData = {
 export type CampaignData = {
   name: string;
   channel: string;
+  startDate: string;
+  endDate: string;
   status: string;
   spend: number;
   prospects: number;
   clients: number;
   roi: number;
+}
+
+export type JourneyData = {
+  stages: {
+    name: string;
+    count: number;
+    percent: number;
+  }[];
+  insights: {
+    text: string;
+    source: string;
+  }[];
+}
+
+export type RecommendationData = {
+  title: string;
+  description: string;
+  priority: "high" | "medium" | "low";
+  impact: string;
+  metric: string;
+  value: string;
+  icon: ReactNode;
 }
 
 export type DateRange = "7d" | "30d" | "90d" | "ytd" | "12m" | "custom";
@@ -63,28 +97,62 @@ export const ROITracker = () => {
       // Simulate API call with timeout
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Mock data
+      // Mock data based on the screenshots
       const data: ROIData = {
         summary: {
-          adSpend: 25000,
+          adSpend: 24650,
           adSpendChange: 12.5,
+          conversionRate: 19.7,
+          conversionRateChange: 2.3,
           prospects: 142,
-          prospectsChange: 8.2,
-          clients: 28,
-          clientsChange: 15.3,
-          revenue: 352000,
-          revenueChange: 18.7
+          prospectsChange: 18.5,
+          aum: 42800000, // $42.8M
+          aumChange: 15.5
         },
         channels: [
-          { name: "Facebook Ads", roi: 17.9, spend: 8000, prospects: 48, clients: 9, change: 5.2 },
-          { name: "LinkedIn Ads", roi: 18.1, spend: 7500, prospects: 42, clients: 8, change: 3.8 },
-          { name: "Google Ads", roi: 16.2, spend: 6000, prospects: 36, clients: 7, change: -2.1 },
-          { name: "Referrals", roi: 15.3, spend: 3500, prospects: 16, clients: 4, change: 12.4 }
+          { name: "Facebook Ads", roi: 17.9, spend: 8450, prospects: 38, clients: 8, change: 5.2 },
+          { name: "LinkedIn Ads", roi: 18.1, spend: 10200, prospects: 42, clients: 9, change: 3.8 },
+          { name: "Google Ads", roi: 16.2, spend: 4500, prospects: 18, clients: 3, change: -2.1 },
+          { name: "Referrals", roi: 15.3, spend: 1500, prospects: 6, clients: 1, change: 12.4 }
         ],
         campaigns: [
-          { name: "Retirement Planning Q1", channel: "Facebook", status: "Active", spend: 3500, prospects: 22, clients: 4, roi: 18.2 },
-          { name: "Estate Planning", channel: "LinkedIn", status: "Active", spend: 4000, prospects: 18, clients: 3, roi: 16.5 },
-          { name: "Tax-Efficient Investing", channel: "Google", status: "Scheduled", spend: 2500, prospects: 14, clients: 2, roi: 14.8 }
+          { name: "Retirement Planning Q1", channel: "Facebook", startDate: "2025-01-15", endDate: "2025-03-15", status: "Active", spend: 5200, prospects: 38, clients: 8, roi: 18.2 },
+          { name: "HNW Estate Planning", channel: "LinkedIn", startDate: "2025-02-01", endDate: "2025-04-30", status: "Active", spend: 6500, prospects: 42, clients: 9, roi: 16.5 },
+          { name: "Tax Planning Strategies", channel: "Google", startDate: "2025-03-01", endDate: "2025-04-15", status: "Active", spend: 3800, prospects: 18, clients: 3, roi: 14.8 },
+          { name: "Wealth Transfer", channel: "Facebook", startDate: "2025-04-01", endDate: "2025-06-30", status: "Scheduled", spend: 3250, prospects: 26, clients: 4, roi: 15.2 },
+          { name: "Business Owner Strategies", channel: "LinkedIn", startDate: "2025-04-15", endDate: "2025-07-15", status: "Scheduled", spend: 1700, prospects: 6, clients: 1, roi: 13.6 }
+        ],
+        journey: {
+          stages: [
+            { name: "Lead Generated", count: 142, percent: 100 },
+            { name: "Initial Meeting", count: 121, percent: 85 },
+            { name: "Questionnaire", count: 94, percent: 66 },
+            { name: "Follow-up", count: 68, percent: 48 }
+          ],
+          insights: [
+            { text: "The largest drop-off occurs between Questionnaire and Follow-up stages (27.7% loss). Analysis of meeting recordings suggests prospects need more clarity on the value proposition at this stage.", source: "AI" },
+            { text: "LinkedIn campaigns show 2.1% higher conversion rates from Initial Meeting to Questionnaire.", source: "AI" }
+          ]
+        },
+        recommendations: [
+          {
+            title: "Optimize Questionnaire Completion",
+            description: "Questionnaire completion rates have dropped 8% in the last month. Consider simplifying the form or adding progress indicators to improve completion rates.",
+            priority: "high",
+            impact: "Potential Impact",
+            metric: "+12% Conversion",
+            value: "Medium",
+            icon: <span>📋</span>
+          },
+          {
+            title: "Adjust LinkedIn Ad Targeting",
+            description: "Analysis shows higher conversion rates for prospects aged 55-65 with executive titles. Consider refining LinkedIn targeting parameters to focus on this demographic.",
+            priority: "medium",
+            impact: "Potential Impact",
+            metric: "+8% ROI",
+            value: "Medium",
+            icon: <span>👥</span>
+          }
         ]
       };
 
@@ -126,10 +194,6 @@ export const ROITracker = () => {
     return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
   };
 
-  const showChannelDetails = (channelName: string) => {
-    toast.info(`Viewing details for ${channelName}`);
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -150,176 +214,97 @@ export const ROITracker = () => {
         onRangeChange={handleDateRangeChange}
       />
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {roiData && (
-          <>
-            <MetricCard
-              title="Ad Spend"
-              value={formatCurrency(roiData.summary.adSpend)}
-              change={roiData.summary.adSpendChange}
-              inverse={true}
-            />
-            <MetricCard
-              title="New Prospects"
-              value={roiData.summary.prospects.toString()}
-              change={roiData.summary.prospectsChange}
-            />
-            <MetricCard
-              title="New Clients"
-              value={roiData.summary.clients.toString()}
-              change={roiData.summary.clientsChange}
-            />
-          </>
-        )}
+      {/* ROI Summary */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">ROI Summary</h3>
+        <div className="grid gap-4 md:grid-cols-4">
+          {roiData && (
+            <>
+              <MetricCard
+                title="Total Ad Spend"
+                value={formatCurrency(roiData.summary.adSpend)}
+                change={roiData.summary.adSpendChange}
+                icon="$"
+              />
+              <MetricCard
+                title="Conversion Rate"
+                value={`${roiData.summary.conversionRate.toFixed(1)}%`}
+                change={roiData.summary.conversionRateChange}
+                icon="%"
+              />
+              <MetricCard
+                title="New Prospects"
+                value={roiData.summary.prospects.toString()}
+                change={roiData.summary.prospectsChange}
+                icon="👥"
+              />
+              <MetricCard
+                title="New AUM"
+                value={formatCurrency(roiData.summary.aum, true)}
+                change={roiData.summary.aumChange}
+                icon="💰"
+              />
+            </>
+          )}
+        </div>
       </div>
 
-      <RoiCharts 
-        channelData={roiData?.channels || []}
-        isLoading={loading}
-      />
+      {/* ROI by Channel */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">ROI by Channel</h3>
+        <RoiCharts 
+          channelData={roiData?.channels || []}
+          isLoading={loading}
+        />
+      </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Marketing Channels</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2">Channel</th>
-                    <th className="text-right py-2">ROI</th>
-                    <th className="text-right py-2">Spend</th>
-                    <th className="text-right py-2">Prospects</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {roiData?.channels.map((channel, index) => (
-                    <tr 
-                      key={index} 
-                      className="border-b cursor-pointer hover:bg-muted/50"
-                      onClick={() => showChannelDetails(channel.name)}
-                    >
-                      <td className="py-3">
-                        <div className="channel-info flex items-center gap-3">
-                          <div className={`channel-icon w-7 h-7 rounded-full flex items-center justify-center text-white ${getChannelClass(channel.name)}`}>
-                            {getChannelIcon(channel.name)}
-                          </div>
-                          <span>{channel.name}</span>
-                        </div>
-                      </td>
-                      <td className="text-right py-3">
-                        <span className={`roi-value ${getRoiValueClass(channel.roi)} px-2 py-1 rounded-full text-xs font-medium`}>
-                          {channel.roi.toFixed(1)}x
-                        </span>
-                      </td>
-                      <td className="text-right py-3">{formatCurrency(channel.spend)}</td>
-                      <td className="text-right py-3">{channel.prospects}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Campaign Performance */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Campaign Performance</h3>
+        <CampaignTable campaigns={roiData?.campaigns || []} />
+      </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Campaign Performance</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2">Campaign</th>
-                    <th className="text-left py-2">Status</th>
-                    <th className="text-right py-2">ROI</th>
-                    <th className="text-right py-2">Clients</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {roiData?.campaigns.map((campaign, index) => (
-                    <tr key={index} className="border-b cursor-pointer hover:bg-muted/50">
-                      <td className="py-3">
-                        <div className="campaign-info">
-                          <span className="campaign-name">{campaign.name}</span>
-                          <span className="text-xs text-muted-foreground">{campaign.channel}</span>
-                        </div>
-                      </td>
-                      <td className="py-3">
-                        <span className={`status-badge ${campaign.status.toLowerCase()} px-2 py-1 rounded-full text-xs font-medium`}>
-                          {campaign.status}
-                        </span>
-                      </td>
-                      <td className="text-right py-3">
-                        <span className={`roi-value ${getRoiValueClass(campaign.roi)} px-2 py-1 rounded-full text-xs font-medium`}>
-                          {campaign.roi.toFixed(1)}x
-                        </span>
-                      </td>
-                      <td className="text-right py-3">{campaign.clients}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Prospect Journey Analysis */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Prospect Journey Analysis</h3>
+        <ProspectJourney data={roiData?.journey || {stages: [], insights: []}} />
+      </div>
+
+      {/* AI Recommendations */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">AI Recommendations</h3>
+        <AiRecommendations recommendations={roiData?.recommendations || []} />
       </div>
     </div>
   );
-};
-
-// Helper functions for CSS class names
-const getChannelClass = (channelName: string): string => {
-  if (channelName.toLowerCase().includes('facebook')) return 'facebook';
-  if (channelName.toLowerCase().includes('linkedin')) return 'linkedin';
-  if (channelName.toLowerCase().includes('google')) return 'google';
-  if (channelName.toLowerCase().includes('referral')) return 'referral';
-  return '';
-};
-
-const getChannelIcon = (channelName: string): string => {
-  if (channelName.toLowerCase().includes('facebook')) return 'f';
-  if (channelName.toLowerCase().includes('linkedin')) return 'in';
-  if (channelName.toLowerCase().includes('google')) return 'G';
-  if (channelName.toLowerCase().includes('referral')) return 'R';
-  return '';
-};
-
-const getRoiValueClass = (roi: number): string => {
-  if (roi >= 18) return 'high';
-  if (roi >= 16) return 'medium';
-  return 'low';
 };
 
 type MetricCardProps = {
   title: string;
   value: string;
   change: number;
+  icon: string;
   inverse?: boolean;
 };
 
-const MetricCard = ({ title, value, change, inverse = false }: MetricCardProps) => {
+const MetricCard = ({ title, value, change, icon, inverse = false }: MetricCardProps) => {
   const isPositive = inverse ? change < 0 : change > 0;
   
   return (
     <Card>
       <CardContent className="pt-6">
+        <div className="flex items-center justify-between mb-3">
+          <div className="metric-icon w-10 h-10 rounded-full flex items-center justify-center text-white bg-primary/10 text-primary">
+            {icon}
+          </div>
+          <div className={`text-sm ${isPositive ? "text-green-600" : "text-red-600"} flex items-center`}>
+            {isPositive ? <ArrowUpIcon className="h-4 w-4 mr-1" /> : <ArrowDownIcon className="h-4 w-4 mr-1" />}
+            {Math.abs(change)}% vs. previous
+          </div>
+        </div>
         <div className="flex flex-col">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="mt-2 text-3xl font-bold">{value}</p>
-          <div className={`mt-2 flex items-center text-sm ${
-            isPositive ? "text-green-600" : "text-red-600"
-          }`}>
-            {isPositive ? (
-              <ArrowUpIcon className="mr-1 h-4 w-4" />
-            ) : (
-              <ArrowDownIcon className="mr-1 h-4 w-4" />
-            )}
-            <span>{Math.abs(change).toFixed(1)}% vs. previous period</span>
-          </div>
+          <p className="mt-1 text-2xl font-bold">{value}</p>
         </div>
       </CardContent>
     </Card>
