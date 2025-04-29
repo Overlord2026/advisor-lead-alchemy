@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 // Define CORS headers
@@ -33,12 +32,11 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { bookingText } = await req.json();
     
-    // Validate input
+    // Validate input using the exact error message format requested
     if (!bookingText || bookingText.trim() === '') {
       return new Response(
         JSON.stringify({ 
-          error: 'Booking text is required',
-          missingFields: ['bookingText']
+          error: "bookingText is empty; cannot extract prospect details." 
         }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
