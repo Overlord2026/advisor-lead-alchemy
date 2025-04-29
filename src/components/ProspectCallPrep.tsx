@@ -2,24 +2,11 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/utils/toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-// Define the available connectors
-const connectors = [
-  { value: 'gmail', label: 'Gmail' },
-  { value: 'outlook', label: 'Outlook' },
-  { value: 'salesforce', label: 'Salesforce' },
-  { value: 'advizon', label: 'Advyzon' },
-  { value: 'wealthfront', label: 'Wealthfront' },
-  { value: 'googleCalendar', label: 'Google Calendar' },
-  { value: 'office365Calendar', label: 'Office 365 Calendar' }
-];
 
 interface CallPrepResponse {
   summaryBullets: string[];
@@ -35,57 +22,15 @@ interface CallPrepResponse {
 }
 
 const ProspectCallPrep = () => {
-  const [connector, setConnector] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState<string>('');
   const [bookingText, setBookingText] = useState<string>('');
   const [callPrepData, setCallPrepData] = useState<CallPrepResponse | null>(null);
-  const [isLoadingBooking, setIsLoadingBooking] = useState<boolean>(false);
   const [isPreparingCall, setIsPreparingCall] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('summary');
 
-  const fetchBookingText = async () => {
-    if (!connector) {
-      toast.error("Please select a connector");
-      return;
-    }
-    
-    if (!searchQuery) {
-      toast.error("Please enter a search query");
-      return;
-    }
-    
-    setIsLoadingBooking(true);
-    setError(null);
-    
-    try {
-      const { data, error } = await supabase.functions.invoke('fetch-booking', {
-        body: {
-          connector,
-          searchQuery
-        }
-      });
-      
-      if (error) {
-        console.error('Error fetching booking text:', error);
-        setError(error.message || 'Failed to fetch booking text');
-        toast.error('Failed to fetch booking text');
-      } else if (data) {
-        setBookingText(data.bookingText || '');
-        toast.success('Booking text retrieved successfully');
-      }
-    } catch (err) {
-      console.error('Exception fetching booking text:', err);
-      setError(err instanceof Error ? err.message : 'Unknown error occurred');
-      toast.error('An error occurred while fetching booking text');
-    } finally {
-      setIsLoadingBooking(false);
-    }
-  };
-
   const prepareForCall = async () => {
     if (!bookingText) {
-      toast.error("Please fetch booking text first");
+      toast.error("Please enter booking text first");
       return;
     }
     
@@ -123,57 +68,11 @@ const ProspectCallPrep = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
-          {/* Step 1: Fetch Booking Text */}
+          {/* Step 1: Enter Booking Text */}
           <div className="border rounded-md p-4">
-            <h3 className="text-lg font-medium mb-4">Step 1: Fetch Booking Text</h3>
+            <h3 className="text-lg font-medium mb-4">Step 1: Enter Booking Text</h3>
             <div className="space-y-4">
               <div className="space-y-1">
-                <label htmlFor="connector" className="text-sm font-medium">Connector</label>
-                <Select 
-                  value={connector} 
-                  onValueChange={setConnector}
-                >
-                  <SelectTrigger id="connector" className="w-full">
-                    <SelectValue placeholder="Select a connector" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {connectors.map((conn) => (
-                      <SelectItem key={conn.value} value={conn.value}>
-                        {conn.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="space-y-1">
-                <label htmlFor="searchQuery" className="text-sm font-medium">Search Query</label>
-                <Input 
-                  id="searchQuery"
-                  placeholder="e.g., subject:Second Opinion Service Call"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              
-              <Button 
-                onClick={fetchBookingText} 
-                disabled={isLoadingBooking}
-                className="w-full"
-              >
-                {isLoadingBooking ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Fetching...
-                  </>
-                ) : (
-                  'Fetch Booking Text'
-                )}
-              </Button>
-            </div>
-
-            {bookingText && (
-              <div className="mt-4">
                 <label htmlFor="bookingText" className="text-sm font-medium">Booking Text</label>
                 <Textarea 
                   id="bookingText"
@@ -181,9 +80,15 @@ const ProspectCallPrep = () => {
                   onChange={(e) => setBookingText(e.target.value)}
                   rows={6}
                   className="font-mono text-xs"
+                  placeholder="Enter booking text in the format: 
+Invitee: John Smith
+Email: john.smith@example.com
+Time: April 30, 2025 at 2:00 PM EST
+Goals: Retirement planning and portfolio review
+Assets: $750,000"
                 />
               </div>
-            )}
+            </div>
           </div>
 
           {/* Step 2: Prepare for Call */}
@@ -308,7 +213,7 @@ const ProspectCallPrep = () => {
         </div>
       </CardContent>
       <CardFooter className="text-sm text-muted-foreground">
-        This tool helps you prepare for prospect calls by fetching relevant booking information and generating talking points.
+        This tool helps you prepare for prospect calls by analyzing booking information and generating talking points.
       </CardFooter>
     </Card>
   );

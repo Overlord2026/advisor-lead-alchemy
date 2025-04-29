@@ -5,21 +5,25 @@ import ProspectCallPrep from "@/components/ProspectCallPrep";
 
 const Home = () => {
   return (
-    <div className="container mx-auto space-y-8">
-      <h1 className="text-2xl font-bold mb-6">System Diagnostics</h1>
+    <div className="container mx-auto space-y-8 pb-8">
+      <h1 className="text-3xl font-bold mb-6">Advisor Tools & Diagnostics</h1>
       
-      <div className="mb-8">
-        <ConnectorHealthCheck />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="md:col-span-3">
+          <ConnectorHealthCheck />
+        </div>
       </div>
       
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Booking Text Fetcher</h2>
-        <BookingTextFetcher />
-      </div>
-      
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Prospect Call Preparation</h2>
-        <ProspectCallPrep />
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Data Retrieval</h2>
+          <BookingTextFetcher />
+        </div>
+        
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Client Preparation</h2>
+          <ProspectCallPrep />
+        </div>
       </div>
     </div>
   );
