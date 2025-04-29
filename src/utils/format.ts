@@ -1,4 +1,3 @@
-
 /**
  * Utility functions for formatting dates, currency and numbers
  */
@@ -48,13 +47,20 @@ export function formatDate(date: Date | string, format: 'short' | 'medium' | 'lo
 /**
  * Format a currency value for display
  * @param value - The value to format
- * @param currency - The currency code (USD, EUR, etc.)
+ * @param options - Either a currency code string or a boolean to use abbreviated format
  * @returns The formatted currency string
  */
-export function formatCurrency(value: number, currency: string = 'USD'): string {
+export function formatCurrency(value: number, options: string | boolean = 'USD'): string {
+  // If the second parameter is true, use the abbreviated format
+  if (typeof options === 'boolean' && options === true) {
+    return formatNumber(value, 1);
+  }
+  
+  // Otherwise use the currency code (or default to 'USD')
+  const currencyCode = typeof options === 'string' ? options : 'USD';
   return new Intl.NumberFormat(undefined, {
     style: 'currency',
-    currency: currency
+    currency: currencyCode
   }).format(value);
 }
 
