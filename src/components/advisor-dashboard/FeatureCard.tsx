@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { ChevronRight, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui";
 import { LucideIcon } from "lucide-react";
 
 export interface FeatureCardProps {
@@ -30,12 +30,12 @@ const FeatureCard = ({
   onClick
 }: FeatureCardProps) => {
   return (
-    <Card className={`overflow-hidden border-none ${className}`}>
+    <Card className={`overflow-hidden border border-border ${className}`}>
       <CardContent className="p-6">
         <div className="flex flex-col h-full">
           <div className="flex justify-between items-start mb-4">
-            <div className="p-3 bg-white/10 rounded-lg">
-              <Icon className="h-8 w-8 text-white" />
+            <div className="p-3 bg-primary/10 rounded-lg">
+              <Icon className="h-8 w-8 text-primary" />
             </div>
             {aiEnhanced && (
               <div className="ai-badge">
@@ -45,16 +45,16 @@ const FeatureCard = ({
             )}
           </div>
           
-          <h3 className="text-xl font-bold mb-2">{title}</h3>
+          <h3 className="text-xl font-bold mb-2 text-foreground">{title}</h3>
           
-          <p className="text-sm text-white/80 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             {description}
           </p>
           
-          <ul className="text-sm text-white/80 mb-6 space-y-1">
+          <ul className="text-sm text-muted-foreground mb-6 space-y-1">
             {features.map((feature, index) => (
               <li key={index} className="flex items-center">
-                <div className="h-1.5 w-1.5 bg-white/80 rounded-full mr-2"></div>
+                <div className="h-1.5 w-1.5 bg-primary rounded-full mr-2"></div>
                 {feature}
               </li>
             ))}
@@ -64,7 +64,7 @@ const FeatureCard = ({
             <Button 
               asChild={!onClick} 
               variant="secondary" 
-              className="w-full"
+              className="w-full hover:bg-primary hover:text-primary-foreground"
               onClick={onClick}
             >
               {onClick ? (

@@ -17,6 +17,14 @@ import { AppProvider } from "@/contexts/AppContext";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 
+// Import styles
+import "./styles/sales-process.css";
+import "./styles/questionnaires.css";
+import "./styles/recordings.css";
+import "./styles/roi-tracker.css";
+import "./styles/email-templates.css";
+import "./styles/calendar.css";
+
 const queryClient = new QueryClient();
 
 const App = () => (

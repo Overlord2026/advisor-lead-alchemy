@@ -18,7 +18,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useApp } from "@/contexts/AppContext";
 import { NotificationCenter } from "@/components/NotificationCenter";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui";
 
 const NavigationContent = () => {
   const location = useLocation();
@@ -61,7 +61,7 @@ const Header = () => {
   const { toggleSidebar } = useApp();
 
   return (
-    <header className="bg-background border-b p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <header className="bg-card border-b border-border p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
       <div className="flex gap-4 items-center">
         <SidebarTrigger onClick={toggleSidebar} />
         <Link to="/advisor" className="flex items-center">
@@ -76,7 +76,7 @@ const Header = () => {
         <Button 
           variant="ghost"
           size="sm"
-          className="text-sm text-muted-foreground hover:text-foreground"
+          className="text-sm text-muted-foreground hover:text-primary"
           onClick={() => 
             toast({
               title: "Welcome!",
@@ -104,7 +104,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full bg-background">
       <Sidebar>
         <SidebarHeader className="p-4">
           <div className="flex items-center">
@@ -115,6 +115,10 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
       </Sidebar>
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
+        <div className="tagline w-full">
+          <span>Organize</span>
+          <span>Maximize</span>
+        </div>
         <main className="flex-1 overflow-auto p-6 pt-20">{children}</main>
       </div>
     </div>
