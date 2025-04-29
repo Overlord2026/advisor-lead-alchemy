@@ -8,6 +8,7 @@ import FeatureCards from "@/components/features/FeatureCards";
 import IntegrationShowcase from "@/components/IntegrationShowcase";
 import BenefitsGrid from "@/components/BenefitsGrid";
 import CustomerTestimonial from "@/components/CustomerTestimonial";
+import VideoTour from "@/components/VideoTour";
 
 const Home = () => {
   return (
@@ -22,6 +23,8 @@ const Home = () => {
       <BenefitsGrid />
       
       <CustomerTestimonial />
+      
+      <VideoTour />
       
       <h1 className="text-3xl font-bold mb-6 mt-12">Advisor Tools & Diagnostics</h1>
       
