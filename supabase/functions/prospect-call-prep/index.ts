@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 // Define CORS headers
@@ -7,10 +6,16 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Define response interface
+// Define response interface with all required fields
 interface CallPrepResponse {
-  summary: string;
-  agenda: string[];
+  summaryBullets: string[];
+  emailSubject: string;
+  emailBody: string;
+  videoScript: string;
+  
+  // Keep the original fields for backward compatibility
+  summary?: string;
+  agenda?: string[];
   riskProfile?: string;
   wealthProfile?: string;
   recommendedProducts?: string[];
@@ -51,9 +56,25 @@ const handler = async (req: Request): Promise<Response> => {
     const goals = goalsMatch ? goalsMatch[1] : "Unknown";
     const assets = assetsMatch ? assetsMatch[1] : "Unknown";
 
-    // For this demo, generate a response based on the extracted info
+    // Create the meeting summary
+    const meetingSummary = `Meeting with ${prospectName} (${prospectEmail}) at ${meetingTime}. They have ${assets} in investable assets and are interested in ${goals}.`;
+    
+    // Generate the response with all required fields
     const prepResponse: CallPrepResponse = {
-      summary: `Meeting with ${prospectName} (${prospectEmail}) at ${meetingTime}. They have ${assets} in assets and are interested in ${goals}.`,
+      // New required fields
+      summaryBullets: [
+        `Client: ${prospectName} has ${assets} in investable assets`,
+        `Primary goal: ${goals}`,
+        `Meeting scheduled for: ${meetingTime}`,
+        `Risk profile assessment needed`,
+        `Prepare retirement income analysis`
+      ],
+      emailSubject: `Follow-up: Our Discussion About ${goals} - Next Steps`,
+      emailBody: `Dear ${prospectName},\n\nThank you for taking the time to meet with me today to discuss your financial goals around ${goals}.\n\nBased on your current assets of ${assets} and retirement objectives, I've outlined a preliminary strategy that focuses on generating sustainable income while preserving your principal.\n\nI've attached a summary document with the options we discussed, including:\n\n1. Dividend-focused portfolio allocation\n2. Municipal bond ladder strategy\n3. Projected income scenarios\n\nI'll follow up early next week to schedule our next meeting where we can review these options in more detail.\n\nPlease don't hesitate to reach out if you have any questions in the meantime.\n\nBest regards,\n\nYour Financial Advisor`,
+      videoScript: `Hi ${prospectName}, this is Your Financial Advisor following up on our conversation about your retirement income goals.\n\nI wanted to personally thank you for sharing your financial situation with me and trusting us with your ${assets} in investable assets.\n\nBased on our discussion about ${goals}, I've prepared three potential strategies that could help you generate the reliable income you're looking for while preserving your principal.\n\nI'm particularly excited about the dividend growth approach we discussed, which has helped several of my clients in similar situations achieve 4-5% annual income with moderate growth potential.\n\nI've sent you an email with more details, and I look forward to our next conversation where we can dive deeper into these options.\n\nThanks again, and please call me directly if you have any questions before our next meeting.`,
+      
+      // Keep original fields for backward compatibility
+      summary: meetingSummary,
       agenda: [
         "Introduction and rapport building",
         "Discussion about retirement goals",
