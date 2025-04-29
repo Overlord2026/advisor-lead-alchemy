@@ -1,7 +1,7 @@
 
 import { toast } from "../toast";
 import { CalendarConnection, CalendarEvent, CalendarProvider } from "./types";
-import { calendarEvents, connectedCalendars } from "./mockData";
+import { calendarEvents, connectedCalendars, availableProviders } from "./mockData";
 
 /**
  * Get all connected calendar providers
@@ -130,7 +130,6 @@ export const createCalendarEvent = async (
  * Get available calendar providers
  */
 export const getAvailableProviders = () => {
-  // Import the providers from mockData
-  const { availableProviders } = require('./mockData');
+  // Import directly from mockData instead of using require()
   return availableProviders;
 };
