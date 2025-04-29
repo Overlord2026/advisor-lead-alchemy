@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -48,7 +49,7 @@ import {
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 
-import { type Questionnaire, type Question } from "./QuestionnairesTab";
+import { type Questionnaire, type Question } from "./types";
 
 interface QuestionnaireBuilderProps {
   questionnaire?: Questionnaire | null;
