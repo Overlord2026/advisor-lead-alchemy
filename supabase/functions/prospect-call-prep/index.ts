@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 // Define CORS headers
@@ -32,9 +33,13 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { bookingText } = await req.json();
     
-    if (!bookingText) {
+    // Validate input
+    if (!bookingText || bookingText.trim() === '') {
       return new Response(
-        JSON.stringify({ error: 'Booking text is required' }),
+        JSON.stringify({ 
+          error: 'Booking text is required',
+          missingFields: ['bookingText']
+        }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -49,12 +54,12 @@ const handler = async (req: Request): Promise<Response> => {
     const goalsMatch = bookingText.match(/Goals: ([^\n]+)/);
     const assetsMatch = bookingText.match(/Assets: ([^\n$]+)/);
 
-    // Prepare call prep response with extracted info
-    const prospectName = nameMatch ? nameMatch[1] : "Unknown";
-    const prospectEmail = emailMatch ? emailMatch[1] : "Unknown";
-    const meetingTime = timeMatch ? timeMatch[1] : "Unknown";
-    const goals = goalsMatch ? goalsMatch[1] : "Unknown";
-    const assets = assetsMatch ? assetsMatch[1] : "Unknown";
+    // Check for missing key information and use defaults if necessary
+    const prospectName = nameMatch ? nameMatch[1] : "Prospect";
+    const prospectEmail = emailMatch ? emailMatch[1] : "prospect@example.com";
+    const meetingTime = timeMatch ? timeMatch[1] : "Upcoming meeting";
+    const goals = goalsMatch ? goalsMatch[1] : "financial planning";
+    const assets = assetsMatch ? assetsMatch[1] : "unspecified amount";
 
     // Create the meeting summary
     const meetingSummary = `Meeting with ${prospectName} (${prospectEmail}) at ${meetingTime}. They have ${assets} in investable assets and are interested in ${goals}.`;

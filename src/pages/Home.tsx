@@ -13,6 +13,7 @@ const Home = () => {
     const testCallPrep = async () => {
       try {
         const prospectId = '123';
+        // Test with valid data
         const bookingText = "Invitee: Jane Doe\nEmail: jane@example.com\nTime: May 1 2:00 PM ET\nGoals: retirement income from stock portfolio\nAssets: $750,000\nZoom link: https://zoom.us/test";
         
         const { data, error } = await supabase.functions.invoke('prospect-call-prep', {
@@ -30,6 +31,22 @@ const Home = () => {
         } else {
           console.log('Call prep test response:', data);
           toast.success('Call prep API test successful!');
+          
+          // Test with empty input to verify error handling
+          const { data: emptyData, error: emptyError } = await supabase.functions.invoke('prospect-call-prep', {
+            body: {
+              bookingText: "",
+            },
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (emptyError) {
+            console.log('Empty booking text correctly rejected:', emptyError);
+          } else {
+            console.log('Empty booking text response:', emptyData);
+          }
         }
       } catch (err) {
         console.error('Exception in call prep test:', err);
