@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast } from "sonner";
 import { 
@@ -11,7 +10,7 @@ import {
   Table, TableBody, TableCell, TableHead, 
   TableHeader, TableRow 
 } from "@/components/ui/table";
-import { Badge } from "@/shared/ui";
+import { Badge, customBadgeVariants } from "@/shared/ui";
 import RecordingCard from "./RecordingCard";
 import RecordingPlayer from "./RecordingPlayer";
 import StartMeetingDialog from "./dialogs/StartMeetingDialog";
@@ -223,7 +222,10 @@ export default function RecordingsTab() {
                     <TableCell>{recording.date}</TableCell>
                     <TableCell>{recording.duration}</TableCell>
                     <TableCell>
-                      <Badge variant={recording.status.includes("Complete") ? "success" : "outline"}>
+                      <Badge 
+                        className={recording.status?.includes("Complete") ? customBadgeVariants.success : ""}
+                        variant="outline"
+                      >
                         {recording.status}
                       </Badge>
                     </TableCell>
