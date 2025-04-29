@@ -8,6 +8,7 @@ import FeatureCards from '@/components/advisor-dashboard/FeatureCards';
 import ProcessFlow from '@/components/advisor-dashboard/ProcessFlow';
 import StatsCards from '@/components/advisor-dashboard/StatsCards';
 import ClientsOverview from '@/components/advisor-dashboard/ClientsOverview';
+import GhlIntegrationSection from '@/components/advisor-dashboard/GhlIntegrationSection';
 
 const AdvisorDashboard = () => {
   useEffect(() => {
@@ -27,6 +28,11 @@ const AdvisorDashboard = () => {
 
       {/* Client Wealth Management Section */}
       <ClientsOverview />
+
+      {/* GHL Integration Section */}
+      <div id="ghl-integration">
+        <GhlIntegrationSection />
+      </div>
 
       {/* Process Flow Section */}
       <ProcessFlow />
