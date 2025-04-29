@@ -1,32 +1,8 @@
 
-import { toast } from "@/utils/toast";
-
-export type PracticeManagementProvider = 
-  | 'advyzon'
-  | 'redtail'
-  | 'salesforce'
-  | 'wealthbox'
-  | 'practifi'
-  | 'ghl';
-
-interface IntegrationStatus {
-  id: string;
-  name: string;
-  provider: PracticeManagementProvider;
-  logoUrl: string;
-  connected: boolean;
-  lastSynced?: string;
-  category: 'crm' | 'calendar' | 'recording' | 'document' | 'all';
-}
-
-interface IntegrationFeature {
-  name: string;
-  supported: boolean;
-  description: string;
-}
+import { IntegrationFeature, IntegrationStatus, PracticeManagementProvider } from "./types";
 
 // Mock data for available practice management systems
-const availableIntegrations: IntegrationStatus[] = [
+export const availableIntegrations: IntegrationStatus[] = [
   {
     id: 'advyzon-1',
     name: 'Advyzon',
@@ -79,7 +55,7 @@ const availableIntegrations: IntegrationStatus[] = [
 ];
 
 // Integration features by provider
-const integrationFeaturesByProvider: Record<PracticeManagementProvider, IntegrationFeature[]> = {
+export const integrationFeaturesByProvider: Record<PracticeManagementProvider, IntegrationFeature[]> = {
   advyzon: [
     { name: 'Client Data Sync', supported: true, description: 'Sync client profiles and account information' },
     { name: 'Document Sharing', supported: true, description: 'Share documents between platforms' },
@@ -122,120 +98,4 @@ const integrationFeaturesByProvider: Record<PracticeManagementProvider, Integrat
     { name: 'SMS Campaigns', supported: true, description: 'Run SMS marketing campaigns' },
     { name: 'Funnel Builder', supported: true, description: 'Create marketing funnels' }
   ]
-};
-
-/**
- * Get all available integrations
- */
-export const getAvailableIntegrations = (category?: 'crm' | 'calendar' | 'recording' | 'document' | 'all'): IntegrationStatus[] => {
-  if (category) {
-    return availableIntegrations.filter(integration => 
-      integration.category === category || integration.category === 'all'
-    );
-  }
-  return availableIntegrations;
-};
-
-/**
- * Get integration features for a specific provider
- */
-export const getIntegrationFeatures = (provider: PracticeManagementProvider): IntegrationFeature[] => {
-  return integrationFeaturesByProvider[provider] || [];
-};
-
-/**
- * Connect to a practice management provider
- */
-export const connectProvider = async (
-  provider: PracticeManagementProvider,
-  credentials: Record<string, string>
-): Promise<boolean> => {
-  try {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Find the provider in our list
-    const integrationIndex = availableIntegrations.findIndex(i => i.provider === provider);
-    
-    if (integrationIndex !== -1) {
-      // Update the connection status
-      availableIntegrations[integrationIndex].connected = true;
-      availableIntegrations[integrationIndex].lastSynced = new Date().toISOString();
-      
-      toast.success(`Successfully connected to ${availableIntegrations[integrationIndex].name}`);
-      return true;
-    }
-    
-    toast.error(`Provider ${provider} not found`);
-    return false;
-  } catch (error) {
-    console.error('Error connecting to provider:', error);
-    toast.error(`Failed to connect to ${provider}. Please try again.`);
-    return false;
-  }
-};
-
-/**
- * Disconnect from a practice management provider
- */
-export const disconnectProvider = async (providerId: string): Promise<boolean> => {
-  try {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Find the provider in our list
-    const integrationIndex = availableIntegrations.findIndex(i => i.id === providerId);
-    
-    if (integrationIndex !== -1) {
-      const providerName = availableIntegrations[integrationIndex].name;
-      
-      // Update the connection status
-      availableIntegrations[integrationIndex].connected = false;
-      availableIntegrations[integrationIndex].lastSynced = undefined;
-      
-      toast.success(`Successfully disconnected from ${providerName}`);
-      return true;
-    }
-    
-    toast.error('Provider not found');
-    return false;
-  } catch (error) {
-    console.error('Error disconnecting provider:', error);
-    toast.error('Failed to disconnect. Please try again.');
-    return false;
-  }
-};
-
-/**
- * Sync data with a practice management provider
- */
-export const syncProviderData = async (
-  providerId: string,
-  dataType: 'clients' | 'documents' | 'tasks' | 'portfolios' | 'all'
-): Promise<number> => {
-  try {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Find the provider
-    const integration = availableIntegrations.find(i => i.id === providerId);
-    
-    if (!integration || !integration.connected) {
-      toast.error('Provider not connected. Please connect first.');
-      return 0;
-    }
-    
-    // Mock successful sync of random number of items
-    const itemCount = Math.floor(Math.random() * 20) + 5;
-    
-    // Update last synced timestamp
-    integration.lastSynced = new Date().toISOString();
-    
-    toast.success(`Successfully synced ${itemCount} ${dataType} from ${integration.name}`);
-    return itemCount;
-  } catch (error) {
-    console.error('Error syncing data:', error);
-    toast.error('Failed to sync data. Please try again.');
-    return 0;
-  }
 };

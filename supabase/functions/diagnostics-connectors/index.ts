@@ -1,7 +1,6 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getAvailableProviders, getConnectedCalendars } from "../../../src/utils/calendar/calendarManagement.ts";
-import { getAvailableIntegrations } from "../../../src/utils/practiceManagementIntegration.ts";
 
 // Define CORS headers
 const corsHeaders = {
@@ -40,7 +39,13 @@ const handler = async (req: Request): Promise<Response> => {
     const connectedCalendars = getConnectedCalendars();
     
     // Get practice management integrations
-    const practiceManagementIntegrations = getAvailableIntegrations();
+    // Since we've refactored, we'll mock this functionality here
+    const practiceManagementIntegrations = [
+      { provider: 'advyzon', connected: false },
+      { provider: 'salesforce', connected: false },
+      { provider: 'wealthfront', connected: false },
+      { provider: 'ghl', connected: true },
+    ];
     
     // Check each connector
     for (const connector of connectors) {

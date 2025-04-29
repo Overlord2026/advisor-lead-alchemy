@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ExternalLink, RefreshCw, Check, X, Link } from "lucide-react";
-import { getAvailableIntegrations, getIntegrationFeatures, PracticeManagementProvider, connectProvider, disconnectProvider, syncProviderData } from "@/utils/practiceManagementIntegration";
+import { getAvailableIntegrations, getIntegrationFeatures, PracticeManagementProvider, connectProvider, disconnectProvider, syncProviderData } from "@/utils/practice-management";
 import { toast } from "sonner";
 
 const PracticeManagementSection = () => {
