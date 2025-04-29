@@ -1,53 +1,33 @@
 
-/* Email Templates - Custom styles that can't be easily represented in Tailwind */
+/* Email Templates - Custom styles */
 
-/* Template categories styling */
-.template-category.active {
-  background-color: #e0f2fe;
-  border: 1px solid #4a6cf7;
-}
-
-.category-icon {
-  width: 48px;
-  height: 48px;
-  background-color: white;
+.template-category-icon {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #4a6cf7;
   font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Template card styling */
-.template-icon {
-  width: 40px;
-  height: 40px;
   background-color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #4a6cf7;
-  font-size: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* AI Enhancement section */
 .ai-badge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
   color: #a855f7;
+  font-size: 0.75rem;
   font-weight: 500;
 }
 
-/* Variable reference */
-.variable-item code {
-  font-family: monospace;
-  font-size: 0.75rem;
-  color: #a855f7;
+.ai-badge::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #a855f7;
+  margin-right: 4px;
 }
