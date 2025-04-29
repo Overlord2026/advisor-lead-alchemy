@@ -8,6 +8,7 @@ import { CampaignTable } from "./CampaignTable";
 import { ProspectJourney } from "./ProspectJourney";
 import { AiRecommendations } from "./AiRecommendations";
 import { ROISummary } from "./ROISummary";
+import { ROISpreadsheetTools } from "./ROISpreadsheetTools";
 import { DateRange, ROIData } from "./types";
 import "@/styles/roi-tracker.css";
 
@@ -110,6 +111,11 @@ export const ROITracker = () => {
     }
   };
 
+  const handleDataImport = (importedData: ROIData) => {
+    setRoiData(importedData);
+    toast.success("Custom spreadsheet data imported successfully!");
+  };
+
   const getDateRangeLabel = (range: DateRange): string => {
     switch (range) {
       case "7d": return "Last 7 Days";
@@ -133,6 +139,12 @@ export const ROITracker = () => {
       <DateRangeSelector 
         selectedRange={dateRange}
         onRangeChange={handleDateRangeChange}
+      />
+      
+      {/* Spreadsheet Tools */}
+      <ROISpreadsheetTools 
+        roiData={roiData}
+        onDataImport={handleDataImport}
       />
 
       {/* ROI Summary */}
