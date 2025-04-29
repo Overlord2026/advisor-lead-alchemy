@@ -78,6 +78,8 @@ const getChannelClass = (channelName: string): string => {
   if (channelName.toLowerCase().includes('linkedin')) return 'linkedin';
   if (channelName.toLowerCase().includes('google')) return 'google';
   if (channelName.toLowerCase().includes('referral')) return 'referral';
+  if (channelName.toLowerCase().includes('webinar')) return 'webinar';
+  if (channelName.toLowerCase().includes('seminar')) return 'seminar';
   return '';
 };
 
@@ -86,6 +88,8 @@ const getChannelIcon = (channelName: string): string => {
   if (channelName.toLowerCase().includes('linkedin')) return 'In';
   if (channelName.toLowerCase().includes('google')) return 'G';
   if (channelName.toLowerCase().includes('referral')) return 'R';
+  if (channelName.toLowerCase().includes('webinar')) return 'W';
+  if (channelName.toLowerCase().includes('seminar')) return 'S';
   return '';
 };
 
@@ -94,5 +98,7 @@ const getChannelColor = (channelName: string): string => {
   if (channelName.toLowerCase().includes('linkedin')) return '#0077B5';
   if (channelName.toLowerCase().includes('google')) return '#DB4437';
   if (channelName.toLowerCase().includes('referral')) return '#34A853';
+  if (channelName.toLowerCase().includes('webinar')) return '#9C27B0';
+  if (channelName.toLowerCase().includes('seminar')) return '#FF9800';
   return '#6E59A5';
 };

@@ -18,6 +18,14 @@
   background-color: #34A853;
 }
 
+.channel-icon.webinar {
+  background-color: #9C27B0;
+}
+
+.channel-icon.seminar {
+  background-color: #FF9800;
+}
+
 /* ROI value badges */
 .roi-value.high {
   background-color: #dcfce7;
@@ -103,4 +111,23 @@
 /* Metric card icons */
 .metric-icon {
   font-size: 1.25rem;
+}
+
+/* File upload area styling */
+.spreadsheet-dropzone {
+  border: 2px dashed #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.spreadsheet-dropzone:hover {
+  border-color: #4a6cf7;
+}
+
+.spreadsheet-dropzone.active {
+  border-color: #4a6cf7;
+  background-color: rgba(74, 108, 247, 0.05);
 }

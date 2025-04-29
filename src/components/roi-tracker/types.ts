@@ -62,3 +62,10 @@ export type RecommendationData = {
   value: string;
   icon: ReactNode;
 }
+
+export type SpreadsheetSource = {
+  name: string;
+  source: "csv" | "xlsx" | "google-sheets";
+  lastUpdated: string;
+  fields: string[];
+}
