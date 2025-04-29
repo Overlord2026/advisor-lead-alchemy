@@ -54,3 +54,6 @@ verify_jwt = false
 
 [functions.questionnaire-recommend]
 verify_jwt = false
+
+[functions.diagnostics-connectors]
+verify_jwt = false
