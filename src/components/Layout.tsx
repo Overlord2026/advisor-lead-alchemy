@@ -22,6 +22,7 @@ import { Button } from "@/shared/ui";
 
 const NavigationContent = () => {
   const location = useLocation();
+  console.log("Current location path:", location.pathname);
   const navItems = ADVISOR_NAV_ITEMS;
   
   return (
@@ -32,7 +33,7 @@ const NavigationContent = () => {
           <SidebarMenu>
             {navItems.map((item) => {
               const isActive = location.pathname === item.path || 
-                (item.path === "/advisor" && location.pathname === "/"); // Consider root path as advisor path
+                (item.path === "/advisor" && location.pathname === "/");
                 
               return (
                 <SidebarMenuItem key={item.label}>
@@ -105,9 +106,9 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
       </Sidebar>
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
-        <div className="tagline w-full">
-          <span>Organize</span>
-          <span>Maximize</span>
+        <div className="tagline w-full bg-red-50 text-red-600 border-b border-red-100">
+          <span>Advisor Portal</span>
+          <span>Sales Process Automation</span>
         </div>
         <main className="flex-1 overflow-auto p-6 pt-20">{children}</main>
       </div>
