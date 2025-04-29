@@ -15,19 +15,27 @@ const Home = () => {
         </div>
       </div>
       
+      <nav className="py-4">
+        <ul className="flex space-x-4 overflow-x-auto pb-2">
+          <li><a href="#data-retrieval" className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Data Retrieval</a></li>
+          <li><a href="#pre-call" className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Pre-Call Prep</a></li>
+          <li><a href="#post-call" className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Post-Call Follow-Up</a></li>
+        </ul>
+      </nav>
+      
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div>
+        <div id="data-retrieval">
           <h2 className="text-2xl font-semibold mb-4">Data Retrieval</h2>
           <BookingTextFetcher />
         </div>
         
-        <div>
+        <div id="pre-call">
           <h2 className="text-2xl font-semibold mb-4">Pre-Call Preparation</h2>
           <ProspectCallPrep />
         </div>
       </div>
       
-      <div>
+      <div id="post-call">
         <h2 className="text-2xl font-semibold mb-4 mt-8">Post-Call Follow-Up</h2>
         <PostCallProcessor />
       </div>

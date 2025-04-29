@@ -19,6 +19,7 @@ const PostCallProcessor = () => {
   const [transcriptText, setTranscriptText] = useState<string>('');
   const [postCallData, setPostCallData] = useState<PostCallResponse | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isGeneratingHeyGenScript, setIsGeneratingHeyGenScript] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('summary');
 
@@ -52,6 +53,43 @@ const PostCallProcessor = () => {
       toast.error('An error occurred while processing the transcript');
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const generateHeyGenScript = async () => {
+    if (!postCallData?.emailBody) {
+      toast.error("No email body available to format");
+      return;
+    }
+    
+    setIsGeneratingHeyGenScript(true);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('heygen-script', {
+        body: {
+          emailBody: postCallData.emailBody
+        }
+      });
+      
+      if (error) {
+        console.error('Error generating HeyGen script:', error);
+        toast.error('Failed to generate HeyGen script');
+      } else if (data && data.videoScript) {
+        // Update the postCallData with the new video script
+        setPostCallData({
+          ...postCallData,
+          videoScript: data.videoScript
+        });
+        toast.success('HeyGen script generated successfully');
+        
+        // Switch to the video tab to show the result
+        setActiveTab('video');
+      }
+    } catch (err) {
+      console.error('Exception generating HeyGen script:', err);
+      toast.error('An error occurred while generating the HeyGen script');
+    } finally {
+      setIsGeneratingHeyGenScript(false);
     }
   };
 
@@ -145,13 +183,33 @@ const PostCallProcessor = () => {
                 </TabsContent>
                 
                 <TabsContent value="video">
-                  <div>
+                  <div className="space-y-3">
                     <h4 className="font-medium">Video Script</h4>
                     <Textarea 
                       value={postCallData.videoScript}
                       readOnly
                       className="min-h-[300px]"
                     />
+                    
+                    <Button 
+                      onClick={generateHeyGenScript}
+                      disabled={isGeneratingHeyGenScript} 
+                      variant="outline"
+                      className="mt-2"
+                    >
+                      {isGeneratingHeyGenScript ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Optimizing for HeyGen...
+                        </>
+                      ) : (
+                        'Optimize for HeyGen'
+                      )}
+                    </Button>
+                    
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Click to optimize this script specifically for HeyGen AI video creation.
+                    </p>
                   </div>
                 </TabsContent>
               </Tabs>
