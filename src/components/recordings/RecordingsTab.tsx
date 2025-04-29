@@ -3,10 +3,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { 
   Play, Mic, Upload, Smartphone, Video, 
-  Calendar, Clock, FileAudio, User, Tag
+  Calendar, Clock, FileAudio, User, Tag, Search, Filter
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { 
+  Table, TableBody, TableCell, TableHead, 
+  TableHeader, TableRow 
+} from "@/components/ui/table";
+import { Badge } from "@/shared/ui";
 import RecordingCard from "./RecordingCard";
 import RecordingPlayer from "./RecordingPlayer";
 import StartMeetingDialog from "./dialogs/StartMeetingDialog";
@@ -18,33 +23,55 @@ import { Recording } from "@/types/recordings";
 const mockRecordings: Recording[] = [
   {
     id: "1",
-    title: "Initial Consultation",
+    title: "Initial Discovery",
     prospectName: "John Doe",
     prospectId: "p1",
     type: "Initial Discovery",
-    date: "2025-04-25",
-    duration: "45:12",
+    date: "2025-04-22",
+    duration: "45 min",
     hasAiAnalysis: true,
+    status: "Analysis Complete",
+    email: "john.doe@example.com",
+    initial: "JD"
   },
   {
     id: "2",
-    title: "Investment Strategy Discussion",
-    prospectName: "Sarah Williams",
+    title: "Follow-up Discussion",
+    prospectName: "Mary Smith",
     prospectId: "p2",
-    type: "Financial Planning",
-    date: "2025-04-23",
-    duration: "32:05",
+    type: "Follow-up Discussion",
+    date: "2025-04-21",
+    duration: "32 min",
     hasAiAnalysis: true,
+    status: "Analysis Complete",
+    email: "mary.smith@example.com",
+    initial: "MS"
   },
   {
     id: "3",
-    title: "Estate Planning Follow-up",
-    prospectName: "Michael Johnson",
+    title: "Financial Planning",
+    prospectName: "Robert Johnson",
     prospectId: "p3",
-    type: "Estate Planning",
+    type: "Financial Planning",
     date: "2025-04-20",
-    duration: "28:47",
+    duration: "58 min",
     hasAiAnalysis: false,
+    status: "Processing (85%)",
+    email: "robert@example.com",
+    initial: "RJ"
+  },
+  {
+    id: "4",
+    title: "Estate Planning",
+    prospectName: "Alice Williams",
+    prospectId: "p4",
+    type: "Estate Planning",
+    date: "2025-04-19",
+    duration: "41 min",
+    hasAiAnalysis: true,
+    status: "Analysis Complete",
+    email: "alice.w@example.com",
+    initial: "AW"
   },
 ];
 
@@ -69,6 +96,20 @@ export default function RecordingsTab() {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Meeting Recordings</h1>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setIsUploadDialogOpen(true)}>
+            <Upload className="mr-2 h-4 w-4" />
+            Upload Recording
+          </Button>
+          <Button onClick={() => setIsMeetingDialogOpen(true)}>
+            <Play className="mr-2 h-4 w-4" />
+            Record New Meeting
+          </Button>
+        </div>
+      </div>
+      
       {isPlayerOpen && selectedRecording && (
         <RecordingPlayer 
           recording={selectedRecording} 
@@ -76,103 +117,155 @@ export default function RecordingsTab() {
         />
       )}
       
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Recording Methods</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <Button 
-                onClick={() => setIsMeetingDialogOpen(true)} 
-                variant="outline" 
-                className="h-auto flex-col gap-2 p-4"
-                title="Start Meeting"
-              >
-                <Video className="h-10 w-10 text-primary" />
-                <div className="text-sm font-medium">Google Meet</div>
-              </Button>
-              
-              <Button 
-                onClick={() => setIsRecordingDialogOpen(true)} 
-                variant="outline" 
-                className="h-auto flex-col gap-2 p-4"
-                title="Start Recording"
-              >
-                <Mic className="h-10 w-10 text-primary" />
-                <div className="text-sm font-medium">In-Office Recording</div>
-              </Button>
-              
-              <Button 
-                onClick={() => setIsAppDialogOpen(true)} 
-                variant="outline" 
-                className="h-auto flex-col gap-2 p-4"
-                title="Get App"
-              >
-                <Smartphone className="h-10 w-10 text-primary" />
-                <div className="text-sm font-medium">Mobile App</div>
-              </Button>
-              
-              <Button 
-                onClick={() => setIsUploadDialogOpen(true)} 
-                variant="outline" 
-                className="h-auto flex-col gap-2 p-4"
-                title="Upload File"
-              >
-                <Upload className="h-10 w-10 text-primary" />
-                <div className="text-sm font-medium">Upload Recording</div>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Recordings</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recordings.slice(0, 3).map((recording) => (
-                <div 
-                  key={recording.id}
-                  className="flex items-center justify-between border-b pb-3 last:border-0"
-                >
-                  <div className="overflow-hidden">
-                    <p className="font-medium truncate">{recording.title}</p>
-                    <p className="text-sm text-muted-foreground">{recording.date}</p>
-                  </div>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => openRecordingPlayer(recording)}
-                  >
-                    <Play className="h-4 w-4" />
-                    <span className="sr-only">Play</span>
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      
       <div className="grid gap-6">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle>All Recordings</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {recordings.map((recording) => (
-                <RecordingCard
-                  key={recording.id}
-                  recording={recording}
-                  onPlay={() => openRecordingPlayer(recording)}
-                />
-              ))}
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Recording Methods</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="border rounded-lg p-4 space-y-2">
+              <div className="flex items-start">
+                <Video className="h-5 w-5 mr-2 text-primary" />
+                <div>
+                  <h3 className="font-medium">Google Meet</h3>
+                  <p className="text-sm text-muted-foreground">Record virtual meetings with automatic transcription</p>
+                </div>
+              </div>
+              <Button size="sm" variant="secondary" onClick={() => setIsMeetingDialogOpen(true)}>
+                Start Meeting
+              </Button>
             </div>
-          </CardContent>
-        </Card>
+            
+            <div className="border rounded-lg p-4 space-y-2">
+              <div className="flex items-start">
+                <Mic className="h-5 w-5 mr-2 text-primary" />
+                <div>
+                  <h3 className="font-medium">In-Office</h3>
+                  <p className="text-sm text-muted-foreground">Record in-person meetings using computer microphone</p>
+                </div>
+              </div>
+              <Button size="sm" variant="secondary" onClick={() => setIsRecordingDialogOpen(true)}>
+                Start Recording
+              </Button>
+            </div>
+            
+            <div className="border rounded-lg p-4 space-y-2">
+              <div className="flex items-start">
+                <Smartphone className="h-5 w-5 mr-2 text-primary" />
+                <div>
+                  <h3 className="font-medium">Mobile App</h3>
+                  <p className="text-sm text-muted-foreground">Record meetings on-the-go with our mobile app</p>
+                </div>
+              </div>
+              <Button size="sm" variant="secondary" onClick={() => setIsAppDialogOpen(true)}>
+                Get App
+              </Button>
+            </div>
+            
+            <div className="border rounded-lg p-4 space-y-2">
+              <div className="flex items-start">
+                <Upload className="h-5 w-5 mr-2 text-primary" />
+                <div>
+                  <h3 className="font-medium">Upload</h3>
+                  <p className="text-sm text-muted-foreground">Upload existing recordings from other platforms</p>
+                </div>
+              </div>
+              <Button size="sm" variant="secondary" onClick={() => setIsUploadDialogOpen(true)}>
+                Upload File
+              </Button>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold">Recent Recordings</h2>
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search recordings..." 
+                  className="pl-8 w-[250px]"
+                />
+              </div>
+              <Button variant="outline" size="icon">
+                <Filter className="h-4 w-4" />
+                <span className="sr-only">Filter</span>
+              </Button>
+            </div>
+          </div>
+          
+          <div className="border rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Prospect</TableHead>
+                  <TableHead>Meeting Type</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Duration</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recordings.map((recording) => (
+                  <TableRow key={recording.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium">
+                          {recording.initial}
+                        </div>
+                        <div>
+                          <div className="font-medium">{recording.prospectName}</div>
+                          <div className="text-xs text-muted-foreground">{recording.email}</div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>{recording.type}</TableCell>
+                    <TableCell>{recording.date}</TableCell>
+                    <TableCell>{recording.duration}</TableCell>
+                    <TableCell>
+                      <Badge variant={recording.status.includes("Complete") ? "success" : "outline"}>
+                        {recording.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Button 
+                          size="icon" 
+                          variant="ghost" 
+                          onClick={() => openRecordingPlayer(recording)}
+                        >
+                          <Play className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            
+            <div className="flex items-center justify-center py-4 border-t">
+              <div className="flex items-center gap-1">
+                <Button variant="outline" size="icon" className="h-8 w-8 p-0" disabled>
+                  <span className="sr-only">Previous page</span>
+                  <Play className="h-4 w-4 rotate-180" />
+                </Button>
+                <Button variant="outline" size="sm" className="h-8 w-8 p-0 bg-primary text-primary-foreground">
+                  1
+                </Button>
+                <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                  2
+                </Button>
+                <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                  3
+                </Button>
+                <Button variant="outline" size="icon" className="h-8 w-8 p-0">
+                  <span className="sr-only">Next page</span>
+                  <Play className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <StartMeetingDialog 

@@ -8,4 +8,7 @@ export interface Recording {
   date: string;
   duration: string;
   hasAiAnalysis: boolean;
+  status?: string;
+  email?: string;
+  initial?: string;
 }
