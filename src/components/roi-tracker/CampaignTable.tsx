@@ -2,7 +2,7 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/utils/format";
-import type { CampaignData } from './ROITracker';
+import { CampaignData } from './types';
 
 interface CampaignTableProps {
   campaigns: CampaignData[];

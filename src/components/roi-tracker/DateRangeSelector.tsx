@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { DateRange } from "./ROITracker";
+import { DateRange } from "./types";
 
 interface DateRangeSelectorProps {
   selectedRange: DateRange;

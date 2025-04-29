@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { formatCurrency } from "@/utils/format";
-import type { ChannelData } from './ROITracker';
+import { ChannelData } from './types';
 
 interface RoiChartsProps {
   channelData: ChannelData[];

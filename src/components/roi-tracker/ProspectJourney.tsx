@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Button } from "@/components/ui/button";
 import { InfoIcon } from "lucide-react";
-import type { JourneyData } from './ROITracker';
+import { JourneyData } from './types';
 
 interface ProspectJourneyProps {
   data: JourneyData;

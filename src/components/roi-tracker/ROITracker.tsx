@@ -1,83 +1,15 @@
 
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { 
-  ArrowDownIcon, 
-  ArrowUpIcon, 
-  DownloadIcon,
-  InfoIcon
-} from "lucide-react";
+import { ROITrackerHeader } from "./ROITrackerHeader";
 import { DateRangeSelector } from "./DateRangeSelector";
 import { RoiCharts } from "./RoiCharts";
-import { formatCurrency } from "@/utils/format";
-import "@/styles/roi-tracker.css";
 import { CampaignTable } from "./CampaignTable";
 import { ProspectJourney } from "./ProspectJourney";
 import { AiRecommendations } from "./AiRecommendations";
-
-export type ROIData = {
-  summary: {
-    adSpend: number;
-    adSpendChange: number;
-    conversionRate: number;
-    conversionRateChange: number;
-    prospects: number;
-    prospectsChange: number;
-    aum: number;
-    aumChange: number;
-  };
-  channels: ChannelData[];
-  campaigns: CampaignData[];
-  journey: JourneyData;
-  recommendations: RecommendationData[];
-}
-
-export type ChannelData = {
-  name: string;
-  roi: number;
-  spend: number;
-  prospects: number;
-  clients: number;
-  change: number;
-}
-
-export type CampaignData = {
-  name: string;
-  channel: string;
-  startDate: string;
-  endDate: string;
-  status: string;
-  spend: number;
-  prospects: number;
-  clients: number;
-  roi: number;
-}
-
-export type JourneyData = {
-  stages: {
-    name: string;
-    count: number;
-    percent: number;
-  }[];
-  insights: {
-    text: string;
-    source: string;
-  }[];
-}
-
-export type RecommendationData = {
-  title: string;
-  description: string;
-  priority: "high" | "medium" | "low";
-  impact: string;
-  metric: string;
-  value: string;
-  icon: ReactNode;
-}
-
-export type DateRange = "7d" | "30d" | "90d" | "ytd" | "12m" | "custom";
+import { ROISummary } from "./ROISummary";
+import { DateRange, ROIData } from "./types";
+import "@/styles/roi-tracker.css";
 
 export const ROITracker = () => {
   const [loading, setLoading] = useState(true);
@@ -196,18 +128,7 @@ export const ROITracker = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold">ROI Tracker</h2>
-          <p className="text-muted-foreground">Track and analyze your marketing and sales performance</p>
-        </div>
-        <div className="flex gap-3">
-          <Button variant="outline" size="sm" onClick={() => toast.info("Exporting report...")}>
-            <DownloadIcon className="mr-2 h-4 w-4" />
-            Export Report
-          </Button>
-        </div>
-      </div>
+      <ROITrackerHeader />
 
       <DateRangeSelector 
         selectedRange={dateRange}
@@ -215,43 +136,18 @@ export const ROITracker = () => {
       />
 
       {/* ROI Summary */}
-      <div>
-        <h3 className="text-lg font-semibold mb-4">ROI Summary</h3>
-        <div className="grid gap-4 md:grid-cols-4">
-          {roiData && (
-            <>
-              <MetricCard
-                title="Total Ad Spend"
-                value={formatCurrency(roiData.summary.adSpend)}
-                change={roiData.summary.adSpendChange}
-                icon="$"
-                inverse={false}
-              />
-              <MetricCard
-                title="Conversion Rate"
-                value={`${roiData.summary.conversionRate.toFixed(1)}%`}
-                change={roiData.summary.conversionRateChange}
-                icon="%"
-                inverse={false}
-              />
-              <MetricCard
-                title="New Prospects"
-                value={roiData.summary.prospects.toString()}
-                change={roiData.summary.prospectsChange}
-                icon="👥"
-                inverse={false}
-              />
-              <MetricCard
-                title="New AUM"
-                value={formatCurrency(roiData.summary.aum, true)}
-                change={roiData.summary.aumChange}
-                icon="💰"
-                inverse={false}
-              />
-            </>
-          )}
-        </div>
-      </div>
+      {roiData && (
+        <ROISummary 
+          adSpend={roiData.summary.adSpend}
+          adSpendChange={roiData.summary.adSpendChange}
+          conversionRate={roiData.summary.conversionRate}
+          conversionRateChange={roiData.summary.conversionRateChange}
+          prospects={roiData.summary.prospects}
+          prospectsChange={roiData.summary.prospectsChange}
+          aum={roiData.summary.aum}
+          aumChange={roiData.summary.aumChange}
+        />
+      )}
 
       {/* ROI by Channel */}
       <div>
@@ -280,38 +176,6 @@ export const ROITracker = () => {
         <AiRecommendations recommendations={roiData?.recommendations || []} />
       </div>
     </div>
-  );
-};
-
-type MetricCardProps = {
-  title: string;
-  value: string;
-  change: number;
-  icon: string;
-  inverse?: boolean; // Changed from string to boolean
-};
-
-const MetricCard = ({ title, value, change, icon, inverse = false }: MetricCardProps) => {
-  const isPositive = inverse ? change < 0 : change > 0;
-  
-  return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="flex items-center justify-between mb-3">
-          <div className="metric-icon w-10 h-10 rounded-full flex items-center justify-center text-white bg-primary/10 text-primary">
-            {icon}
-          </div>
-          <div className={`text-sm ${isPositive ? "text-green-600" : "text-red-600"} flex items-center`}>
-            {isPositive ? <ArrowUpIcon className="h-4 w-4 mr-1" /> : <ArrowDownIcon className="h-4 w-4 mr-1" />}
-            {Math.abs(change)}% vs. previous
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="mt-1 text-2xl font-bold">{value}</p>
-        </div>
-      </CardContent>
-    </Card>
   );
 };
 
