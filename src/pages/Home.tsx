@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     console.log("Home component - Forcing redirect to Advisor Dashboard");
     
-    // Example function to test the call prep API
+    // Example function to test the call prep API - NOT automatically called
     const testCallPrep = async () => {
       try {
         const prospectId = '123';
@@ -36,7 +36,8 @@ const Home = () => {
       }
     };
 
-    // Uncomment the line below to test the API
+    // Function is defined but NOT called automatically
+    // Uncomment the line below ONLY when you want to test the API
     // testCallPrep();
   }, []);
   

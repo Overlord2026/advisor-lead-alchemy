@@ -24,20 +24,6 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const url = new URL(req.url);
-  const pathParts = url.pathname.split('/');
-  
-  // Extract prospect ID from URL path
-  // Expected format: /prospect/:id/call-prep
-  const prospectId = pathParts[2];
-
-  if (!prospectId) {
-    return new Response(
-      JSON.stringify({ error: 'Prospect ID is required' }),
-      { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-  }
-
   try {
     const { bookingText } = await req.json();
     
@@ -48,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log(`Processing call prep for prospect ID: ${prospectId}`);
+    console.log(`Processing call prep request`);
     console.log(`Booking text: ${bookingText}`);
 
     // Extract information from booking text
@@ -66,7 +52,6 @@ const handler = async (req: Request): Promise<Response> => {
     const assets = assetsMatch ? assetsMatch[1] : "Unknown";
 
     // For this demo, generate a response based on the extracted info
-    // In a real implementation, this might involve AI analysis, database lookups, etc.
     const prepResponse: CallPrepResponse = {
       summary: `Meeting with ${prospectName} (${prospectEmail}) at ${meetingTime}. They have ${assets} in assets and are interested in ${goals}.`,
       agenda: [
