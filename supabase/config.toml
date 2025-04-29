@@ -57,3 +57,6 @@ verify_jwt = false
 
 [functions.diagnostics-connectors]
 verify_jwt = false
+
+[functions.fetch-booking]
+verify_jwt = false
