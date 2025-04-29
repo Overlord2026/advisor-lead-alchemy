@@ -14,7 +14,7 @@ import ClosingCTA from "@/components/ClosingCTA";
 
 const Home = () => {
   return (
-    <div className="container mx-auto space-y-8 pb-8">
+    <div className="container mx-auto px-4 space-y-8 pb-8 pt-20">
       <HeroSection />
       
       <h1 className="text-3xl font-bold mb-6">Core Workflow Pillars</h1>
