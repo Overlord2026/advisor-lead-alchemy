@@ -1,24 +1,16 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import SharedHeader from "@/components/SharedHeader";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col">
       {/* Header */}
-      <header className="bg-black w-full py-3 px-6 shadow-md border-b border-gold/20 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <img 
-            src="/boutique-logo.svg" 
-            alt="Boutique Family Office" 
-            className="h-10 w-auto"
-          />
-          <span className="text-white text-xl font-semibold">Boutique Family Office</span>
-        </div>
-      </header>
+      <SharedHeader portalType="home" />
 
       {/* Main content */}
-      <main className="flex-1 flex flex-col items-center justify-center p-6">
+      <main className="flex-1 flex flex-col items-center justify-center p-6 mt-14">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
           Welcome to <span className="text-primary">Boutique Family Office</span>
         </h1>

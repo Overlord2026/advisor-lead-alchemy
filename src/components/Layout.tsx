@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { ADVISOR_NAV_ITEMS } from "@/constants/navigation";
@@ -19,7 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useApp } from "@/contexts/AppContext";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { Button } from "@/shared/ui";
-import BannerHeader from "./BannerHeader";
+import SharedHeader from "./SharedHeader";
 
 const NavigationContent = () => {
   const location = useLocation();
@@ -93,7 +92,7 @@ const Header = () => {
 const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <BannerHeader />
+      <SharedHeader portalType="advisor" />
       <Sidebar>
         <SidebarHeader className="p-4 mt-[48px] md:mt-[56px]">
           <div className="flex items-center">
