@@ -3,6 +3,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
+import useFeatureFlag from "@/hooks/useFeatureFlag";
 
 interface NavigationItem {
   label: string;
@@ -23,6 +24,10 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
   const location = useLocation();
   const { isMobile } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  
+  // Feature flags
+  const useRoleBasedNavigation = useFeatureFlag("useRoleBasedNavigation");
+  const enableResponsiveDesign = useFeatureFlag("enableResponsiveDesign");
 
   // Default navigation items based on portal type
   const defaultNavItems: Record<string, NavigationItem[]> = {
@@ -49,7 +54,8 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
   };
 
   // Use provided navItems or default ones based on portal type
-  const navigationItems = navItems.length > 0 ? navItems : defaultNavItems[portalType] || [];
+  const navigationItems = navItems.length > 0 ? navItems : 
+    (useRoleBasedNavigation ? defaultNavItems[portalType] || [] : []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -74,7 +80,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       </Link>
       
       {/* Mobile Menu Button */}
-      {navigationItems.length > 0 && isMobile && (
+      {navigationItems.length > 0 && enableResponsiveDesign && isMobile && (
         <button
           onClick={toggleMobileMenu}
           className="md:hidden text-white focus:outline-none"
@@ -91,7 +97,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       
       {/* Desktop Navigation */}
       {navigationItems.length > 0 && (
-        <div className="hidden md:flex items-center space-x-6" data-testid="desktop-nav">
+        <div className={`${enableResponsiveDesign ? "hidden md:flex" : "flex"} items-center space-x-6`} data-testid="desktop-nav">
           <nav>
             <ul className="flex space-x-6">
               {navigationItems.map((item) => (
@@ -115,7 +121,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       )}
       
       {/* Mobile Navigation */}
-      {navigationItems.length > 0 && isMobile && mobileMenuOpen && (
+      {navigationItems.length > 0 && enableResponsiveDesign && isMobile && mobileMenuOpen && (
         <div 
           className="md:hidden absolute top-full left-0 right-0 bg-black border-b border-gold/20 shadow-lg"
           data-testid="mobile-nav"

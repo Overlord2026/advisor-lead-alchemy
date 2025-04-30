@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { ADVISOR_NAV_ITEMS } from "@/constants/navigation";
@@ -19,6 +20,7 @@ import { useApp } from "@/contexts/AppContext";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { Button } from "@/shared/ui";
 import SharedHeader from "./SharedHeader";
+import useFeatureFlag from "@/hooks/useFeatureFlag";
 
 const NavigationContent = () => {
   const location = useLocation();
@@ -90,24 +92,42 @@ const Header = () => {
 };
 
 const LayoutContent = ({ children }: { children: React.ReactNode }) => {
+  const useSharedHeader = useFeatureFlag("useSharedHeader");
+  const useNewLayoutStructure = useFeatureFlag("useNewLayoutStructure");
+
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <SharedHeader portalType="advisor" />
+      {useSharedHeader && <SharedHeader portalType="advisor" />}
+      
       <Sidebar>
-        <SidebarHeader className="p-4 mt-[48px] md:mt-[56px]">
+        <SidebarHeader className={`p-4 ${useSharedHeader ? "mt-[48px] md:mt-[56px]" : ""}`}>
           <div className="flex items-center">
             <span className="ml-2 font-semibold">Advisor Portal</span>
           </div>
         </SidebarHeader>
         <NavigationContent />
       </Sidebar>
+      
       <div className="flex flex-col flex-1 overflow-hidden">
-        <Header />
-        <div className="w-full bg-primary/10 text-primary font-medium border-b border-primary/20 py-1 px-4 text-sm mt-[96px] md:mt-[112px] flex justify-between">
-          <span>Advisor Portal</span>
-          <span>Sales Process Automation</span>
-        </div>
-        <main className="flex-1 overflow-auto p-6 pt-6 mt-[24px]">{children}</main>
+        {useNewLayoutStructure ? (
+          <>
+            <Header />
+            <div className="w-full bg-primary/10 text-primary font-medium border-b border-primary/20 py-1 px-4 text-sm mt-[96px] md:mt-[112px] flex justify-between">
+              <span>Advisor Portal</span>
+              <span>Sales Process Automation</span>
+            </div>
+            <main className="flex-1 overflow-auto p-6 pt-6 mt-[24px]">{children}</main>
+          </>
+        ) : (
+          // Legacy layout structure
+          <>
+            <header className="bg-card border-b border-border p-4 flex justify-between items-center">
+              <h1 className="text-xl font-bold">Advisor Portal</h1>
+              <NotificationCenter />
+            </header>
+            <main className="flex-1 overflow-auto p-6">{children}</main>
+          </>
+        )}
       </div>
     </div>
   );

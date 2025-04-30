@@ -13,6 +13,8 @@ import CalendarIntegrationPage from "./pages/advisor/CalendarIntegrationPage";
 import GhlTrainingPage from "./pages/advisor/GhlTrainingPage";
 import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
 import { AppProvider } from "@/contexts/AppContext";
+import { FeatureFlagProvider } from "@/contexts/FeatureFlagContext";
+import FeatureFlagToggler from "@/components/FeatureFlagToggler";
 import { Toaster } from "sonner";
 import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
 import Home from "./pages/Home";
@@ -32,38 +34,41 @@ const App = () => {
   
   return (
     <QueryClientProvider client={queryClient}>
-      <AppProvider>
-        <TooltipProvider>
-          <BrowserRouter>
-            <Routes>
-              {/* Root path shows landing page with portal options */}
-              <Route path="/" element={<Home />} />
-              
-              {/* Advisor routes */}
-              <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
-              <Route path="/advisor/prospects" element={<Layout><ProspectDashboard /></Layout>} />
-              <Route path="/advisor/recordings" element={<Layout><RecordingsPage /></Layout>} />
-              <Route path="/advisor/questionnaires" element={<Layout><QuestionnairesPage /></Layout>} />
-              <Route path="/advisor/templates" element={<Layout><TemplatesPage /></Layout>} />
-              <Route path="/advisor/roi" element={<Layout><RoiTrackerPage /></Layout>} />
-              <Route path="/advisor/calendar" element={<Layout><CalendarIntegrationPage /></Layout>} />
-              <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
-              <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
-              
-              {/* Client routes - redirect to advisor for now */}
-              <Route path="/client/*" element={<Navigate to="/advisor" replace />} />
-              
-              {/* Prospect routes - redirect to advisor for now */}
-              <Route path="/prospect/*" element={<Navigate to="/advisor" replace />} />
-              
-              {/* Force redirect for any unmatched routes */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-            <ShadcnToaster />
-            <Toaster />
-          </BrowserRouter>
-        </TooltipProvider>
-      </AppProvider>
+      <FeatureFlagProvider>
+        <AppProvider>
+          <TooltipProvider>
+            <BrowserRouter>
+              <Routes>
+                {/* Root path shows landing page with portal options */}
+                <Route path="/" element={<Home />} />
+                
+                {/* Advisor routes */}
+                <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
+                <Route path="/advisor/prospects" element={<Layout><ProspectDashboard /></Layout>} />
+                <Route path="/advisor/recordings" element={<Layout><RecordingsPage /></Layout>} />
+                <Route path="/advisor/questionnaires" element={<Layout><QuestionnairesPage /></Layout>} />
+                <Route path="/advisor/templates" element={<Layout><TemplatesPage /></Layout>} />
+                <Route path="/advisor/roi" element={<Layout><RoiTrackerPage /></Layout>} />
+                <Route path="/advisor/calendar" element={<Layout><CalendarIntegrationPage /></Layout>} />
+                <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
+                <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
+                
+                {/* Client routes - redirect to advisor for now */}
+                <Route path="/client/*" element={<Navigate to="/advisor" replace />} />
+                
+                {/* Prospect routes - redirect to advisor for now */}
+                <Route path="/prospect/*" element={<Navigate to="/advisor" replace />} />
+                
+                {/* Force redirect for any unmatched routes */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+              <FeatureFlagToggler />
+              <ShadcnToaster />
+              <Toaster />
+            </BrowserRouter>
+          </TooltipProvider>
+        </AppProvider>
+      </FeatureFlagProvider>
     </QueryClientProvider>
   );
 };
