@@ -6,11 +6,16 @@ import { toMatchImageSnapshot } from 'jest-image-snapshot';
 expect.extend({ toMatchImageSnapshot });
 
 // Mock window.matchMedia for responsive design testing
-window.matchMedia = window.matchMedia || function() {
+window.matchMedia = window.matchMedia || function(query) {
   return {
     matches: false,
+    media: query,
+    onchange: null,
     addListener: function() {},
-    removeListener: function() {}
+    removeListener: function() {},
+    addEventListener: function() {},
+    removeEventListener: function() {},
+    dispatchEvent: function() { return false; }
   };
 };
 

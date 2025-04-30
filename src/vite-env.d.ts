@@ -13,5 +13,5 @@ declare namespace jest {
 
 // Add window.matchMedia mock
 interface Window {
-  matchMedia: ((query: string) => MediaQueryList) & ((query: string) => MediaQueryList);
+  matchMedia: (query: string) => MediaQueryList;
 }
