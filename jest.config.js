@@ -19,5 +19,10 @@ module.exports = {
     'ts-jest': {
       tsconfig: 'tsconfig.json'
     }
-  }
+  },
+  moduleDirectories: ["node_modules", "src"],
+  verbose: true,
+  collectCoverage: true,
+  coverageReporters: ["text", "lcov"],
+  coverageDirectory: "coverage"
 };

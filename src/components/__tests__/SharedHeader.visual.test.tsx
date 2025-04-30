@@ -2,13 +2,9 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { toMatchImageSnapshot } from "jest-image-snapshot";
 import puppeteer from "puppeteer";
 import SharedHeader from "../SharedHeader";
 import { useApp } from "@/contexts/AppContext";
-
-// Add the custom matcher
-expect.extend({ toMatchImageSnapshot });
 
 // Mock the AppContext hook
 jest.mock("@/contexts/AppContext", () => ({
@@ -28,7 +24,7 @@ describe("SharedHeader Visual Regression Tests", () => {
     
     // Mock useApp for the browser environment
     await page.evaluateOnNewDocument(() => {
-      window.useApp = () => ({
+      (window as any).useApp = () => ({
         isMobile: false,
         toggleSidebar: () => {},
       });
@@ -79,7 +75,7 @@ describe("SharedHeader Visual Regression Tests", () => {
     
     // Mock mobile environment
     await page.evaluateOnNewDocument(() => {
-      window.useApp = () => ({
+      (window as any).useApp = () => ({
         isMobile: true,
         toggleSidebar: () => {},
       });
