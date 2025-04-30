@@ -13,7 +13,8 @@ import RoiTrackerPage from "./pages/advisor/RoiTrackerPage";
 import CalendarIntegrationPage from "./pages/advisor/CalendarIntegrationPage";
 import GhlTrainingPage from "./pages/advisor/GhlTrainingPage";
 import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
-import ClientDemo from "./pages/ClientDemo"; // Import our new client demo
+import ClientDemo from "./pages/ClientDemo";
+import ProspectDemo from "./pages/ProspectDemo"; // Import our new prospect demo
 import { AppProvider } from "@/contexts/AppContext";
 import { Toaster } from "sonner";
 import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
@@ -53,6 +54,9 @@ const App = () => {
               
               {/* Client routes */}
               <Route path="/client" element={<Layout><ClientDemo /></Layout>} />
+              
+              {/* Prospect routes */}
+              <Route path="/prospect" element={<Layout><ProspectDemo /></Layout>} />
               
               {/* Force redirect for any unmatched routes */}
               <Route path="*" element={<Navigate to="/" replace />} />

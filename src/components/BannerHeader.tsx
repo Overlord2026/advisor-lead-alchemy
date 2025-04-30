@@ -11,7 +11,7 @@ export interface BannerHeaderProps {
   /** Organization name, defaults to "Boutique Family Office" */
   orgName?: string;
   /** Whether the header is for advisor or client view */
-  variant?: "advisor" | "client";
+  variant?: "advisor" | "client" | "prospect";
   /** User's name, displays initial in avatar if provided */
   userName?: string;
   /** Additional CSS classes */
@@ -42,16 +42,22 @@ const BannerHeader: React.FC<BannerHeaderProps> = ({
         { label: "Prospects", path: "/advisor/prospects" },
         { label: "ROI Tracker", path: "/advisor/roi" },
       ]
+    : variant === "prospect"
+    ? [
+        { label: "Dashboard", path: "/prospect" },
+        { label: "Services", path: "/prospect/services" },
+        { label: "Resources", path: "/prospect/resources" },
+      ]
     : [
-        { label: "Dashboard", path: "/" },
-        { label: "Planning", path: "/planning" },
-        { label: "Documents", path: "/documents" },
+        { label: "Dashboard", path: "/client" },
+        { label: "Planning", path: "/client/planning" },
+        { label: "Documents", path: "/client/documents" },
       ];
 
   const items = navItems.length > 0 ? navItems : defaultNavItems;
   
   // Calculate home path based on variant
-  const homePath = variant === "advisor" ? "/advisor" : "/";
+  const homePath = variant === "advisor" ? "/advisor" : variant === "prospect" ? "/prospect" : "/client";
 
   // Get user initials for avatar
   const userInitials = userName ? userName.charAt(0).toUpperCase() : "U";
