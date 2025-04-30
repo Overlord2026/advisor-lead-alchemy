@@ -13,8 +13,7 @@ import CalendarIntegrationPage from "./pages/advisor/CalendarIntegrationPage";
 import GhlTrainingPage from "./pages/advisor/GhlTrainingPage";
 import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
 import { AppProvider } from "@/contexts/AppContext";
-import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "sonner";
 import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
 
 // Import styles
@@ -27,12 +26,6 @@ import "./styles/calendar.css";
 
 const queryClient = new QueryClient();
 
-// Force redirect to advisor dashboard
-const forceRedirectToAdvisor = () => {
-  console.log("Forcing redirect to advisor dashboard");
-  return <Navigate to="/advisor" replace />;
-};
-
 const App = () => {
   console.log("App rendering - current path:", window.location.pathname);
   
@@ -44,15 +37,6 @@ const App = () => {
             <Routes>
               {/* Root path forces redirect to advisor dashboard */}
               <Route path="/" element={<Navigate to="/advisor" replace />} />
-              
-              {/* Redirect ALL client-facing routes to advisor dashboard */}
-              <Route path="/home" element={<Navigate to="/advisor" replace />} />
-              <Route path="/documents" element={<Navigate to="/advisor" replace />} />
-              <Route path="/accounts" element={<Navigate to="/advisor" replace />} />
-              <Route path="/onboarding" element={<Navigate to="/advisor" replace />} />
-              <Route path="/training" element={<Navigate to="/advisor" replace />} />
-              <Route path="/client-portal" element={<Navigate to="/advisor" replace />} />
-              <Route path="/financial-portal" element={<Navigate to="/advisor" replace />} />
               
               {/* Advisor routes */}
               <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />

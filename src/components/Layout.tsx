@@ -104,11 +104,11 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
       </Sidebar>
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
-        <div className="tagline w-full bg-red-50 text-red-600 border-b border-red-100 mt-[96px] md:mt-[112px]">
+        <div className="w-full bg-primary/10 text-primary font-medium border-b border-primary/20 py-1 px-4 text-sm mt-[96px] md:mt-[112px] flex justify-between">
           <span>Advisor Portal</span>
           <span>Sales Process Automation</span>
         </div>
-        <main className="flex-1 overflow-auto p-6 pt-6 mt-[96px] md:mt-[112px]">{children}</main>
+        <main className="flex-1 overflow-auto p-6 pt-6 mt-[24px]">{children}</main>
       </div>
     </div>
   );
