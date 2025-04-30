@@ -15,6 +15,7 @@ import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
 import { AppProvider } from "@/contexts/AppContext";
 import { Toaster } from "sonner";
 import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
+import Home from "./pages/Home";
 
 // Import styles
 import "./styles/sales-process.css";
@@ -35,8 +36,8 @@ const App = () => {
         <TooltipProvider>
           <BrowserRouter>
             <Routes>
-              {/* Root path forces redirect to advisor dashboard */}
-              <Route path="/" element={<Navigate to="/advisor" replace />} />
+              {/* Root path shows landing page with portal options */}
+              <Route path="/" element={<Home />} />
               
               {/* Advisor routes */}
               <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
@@ -49,8 +50,14 @@ const App = () => {
               <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
               <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
               
+              {/* Client routes - redirect to advisor for now */}
+              <Route path="/client/*" element={<Navigate to="/advisor" replace />} />
+              
+              {/* Prospect routes - redirect to advisor for now */}
+              <Route path="/prospect/*" element={<Navigate to="/advisor" replace />} />
+              
               {/* Force redirect for any unmatched routes */}
-              <Route path="*" element={<Navigate to="/advisor" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <ShadcnToaster />
             <Toaster />

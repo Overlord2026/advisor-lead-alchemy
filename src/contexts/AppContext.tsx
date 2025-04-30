@@ -28,13 +28,10 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const isMobile = useIsMobile();
-  
-  // Sidebar state
-  const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
-  
-  // Notifications state
+  // Initialize with default value for isMobile
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const isMobile = useIsMobile();
   
   // Update sidebar state when mobile state changes
   useEffect(() => {
