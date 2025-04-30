@@ -12,6 +12,7 @@ import RoiTrackerPage from "./pages/advisor/RoiTrackerPage";
 import CalendarIntegrationPage from "./pages/advisor/CalendarIntegrationPage";
 import GhlTrainingPage from "./pages/advisor/GhlTrainingPage";
 import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
+import ClientDemo from "./pages/ClientDemo"; // Import our new client demo
 import { AppProvider } from "@/contexts/AppContext";
 import { Toaster } from "sonner";
 import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
@@ -48,6 +49,9 @@ const App = () => {
               <Route path="/advisor/calendar" element={<Layout><CalendarIntegrationPage /></Layout>} />
               <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
               <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
+              
+              {/* Client routes */}
+              <Route path="/client" element={<Layout><ClientDemo /></Layout>} />
               
               {/* Force redirect for any unmatched routes */}
               <Route path="*" element={<Navigate to="/advisor" replace />} />
