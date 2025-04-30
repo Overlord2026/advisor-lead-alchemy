@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
+import Home from "./pages/Home";
 import AdvisorDashboard from "./pages/AdvisorDashboard";
 import ProspectDashboard from "./pages/advisor/ProspectDashboard";
 import RecordingsPage from "./pages/advisor/RecordingsPage";
@@ -36,8 +37,8 @@ const App = () => {
         <TooltipProvider>
           <BrowserRouter>
             <Routes>
-              {/* Root path forces redirect to advisor dashboard */}
-              <Route path="/" element={<Navigate to="/advisor" replace />} />
+              {/* Root path shows the portal selector home page */}
+              <Route path="/" element={<Home />} />
               
               {/* Advisor routes */}
               <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
@@ -54,7 +55,7 @@ const App = () => {
               <Route path="/client" element={<Layout><ClientDemo /></Layout>} />
               
               {/* Force redirect for any unmatched routes */}
-              <Route path="*" element={<Navigate to="/advisor" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <ShadcnToaster />
             <Toaster />
