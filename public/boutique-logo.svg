@@ -7,6 +7,6 @@
     <path d="M30 15L50 15L65 35L50 55L30 55Z" stroke="#FFC700" stroke-width="2" fill="none"/>
     <path d="M20 35L70 35" stroke="#FFC700" stroke-width="2"/>
     <circle cx="40" cy="35" r="5" fill="#FFC700"/>
-    <text x="95" y="45" font-family="Arial, sans-serif" font-weight="bold" font-size="36" fill="white">BOUTIQUE FAMILY OFFICE</text>
+    <text x="95" y="45" font-family="Arial, sans-serif" font-weight="bold" font-size="36" fill="white">ROCHE FAMILY OFFICE</text>
   </g>
 </svg>

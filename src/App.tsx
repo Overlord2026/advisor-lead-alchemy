@@ -3,7 +3,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
-import Home from "./pages/Home";
 import AdvisorDashboard from "./pages/AdvisorDashboard";
 import ProspectDashboard from "./pages/advisor/ProspectDashboard";
 import RecordingsPage from "./pages/advisor/RecordingsPage";
@@ -13,8 +12,6 @@ import RoiTrackerPage from "./pages/advisor/RoiTrackerPage";
 import CalendarIntegrationPage from "./pages/advisor/CalendarIntegrationPage";
 import GhlTrainingPage from "./pages/advisor/GhlTrainingPage";
 import IntegrationsTrainingPage from "./pages/advisor/IntegrationsTrainingPage";
-import ClientDemo from "./pages/ClientDemo";
-import ProspectDemo from "./pages/ProspectDemo"; // Import our new prospect demo
 import { AppProvider } from "@/contexts/AppContext";
 import { Toaster } from "sonner";
 import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
@@ -38,8 +35,8 @@ const App = () => {
         <TooltipProvider>
           <BrowserRouter>
             <Routes>
-              {/* Root path shows the portal selector home page */}
-              <Route path="/" element={<Home />} />
+              {/* Root path forces redirect to advisor dashboard */}
+              <Route path="/" element={<Navigate to="/advisor" replace />} />
               
               {/* Advisor routes */}
               <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
@@ -52,14 +49,8 @@ const App = () => {
               <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
               <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
               
-              {/* Client routes */}
-              <Route path="/client" element={<Layout><ClientDemo /></Layout>} />
-              
-              {/* Prospect routes */}
-              <Route path="/prospect" element={<Layout><ProspectDemo /></Layout>} />
-              
               {/* Force redirect for any unmatched routes */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/advisor" replace />} />
             </Routes>
             <ShadcnToaster />
             <Toaster />
