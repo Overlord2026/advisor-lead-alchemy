@@ -56,10 +56,14 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
   };
 
   return (
-    <header className="bg-black w-full py-3 px-6 shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gold/20 flex items-center justify-between">
+    <header 
+      className="bg-black w-full py-3 px-6 shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gold/20 flex items-center justify-between"
+      data-testid={`shared-header-${portalType}`}
+    >
       <Link 
         to={portalType === "home" ? "/" : `/${portalType}`} 
         className="flex items-center space-x-3 hover:opacity-90 transition-opacity"
+        data-testid="shared-header-logo"
       >
         <img 
           src="/boutique-logo.svg" 
@@ -75,6 +79,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
           onClick={toggleMobileMenu}
           className="md:hidden text-white focus:outline-none"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          data-testid="mobile-menu-toggle"
         >
           {mobileMenuOpen ? (
             <X className="h-6 w-6" />
@@ -86,7 +91,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       
       {/* Desktop Navigation */}
       {navigationItems.length > 0 && (
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-6" data-testid="desktop-nav">
           <nav>
             <ul className="flex space-x-6">
               {navigationItems.map((item) => (
@@ -98,6 +103,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
                         ? "text-primary"
                         : "text-white/80 hover:text-primary"
                     } transition-colors`}
+                    data-testid={`nav-item-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {item.label}
                   </Link>
@@ -110,7 +116,10 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       
       {/* Mobile Navigation */}
       {navigationItems.length > 0 && isMobile && mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-black border-b border-gold/20 shadow-lg">
+        <div 
+          className="md:hidden absolute top-full left-0 right-0 bg-black border-b border-gold/20 shadow-lg"
+          data-testid="mobile-nav"
+        >
           <nav className="px-6 py-4">
             <ul className="flex flex-col space-y-3">
               {navigationItems.map((item) => (
@@ -123,6 +132,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
                         : "text-white/80 hover:text-primary"
                     } transition-colors`}
                     onClick={() => setMobileMenuOpen(false)}
+                    data-testid={`mobile-nav-item-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {item.label}
                   </Link>
