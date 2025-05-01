@@ -22,7 +22,7 @@ export class LeadSourceService {
    */
   static async getLeadSource(id: string): Promise<LeadSource> {
     const { data, error } = await supabase.functions.invoke<{ data: LeadSource[] }>("lead-sources", {
-      query: { id }
+      body: { id }
     });
     
     if (error) {
@@ -77,7 +77,7 @@ export class LeadSourceService {
   static async deleteLeadSource(id: string): Promise<void> {
     const { error } = await supabase.functions.invoke("lead-sources", {
       method: "DELETE",
-      query: { id }
+      body: { id }
     });
     
     if (error) {
@@ -94,7 +94,6 @@ export class LeadSourceService {
       "lead-sources-test", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        responseType: "json",
         body: { id }
       }
     );
@@ -133,7 +132,8 @@ export class LeadSourceService {
     limit: number = 20
   ): Promise<PaginatedResponse<LeadSourceLog>> {
     const { data, error } = await supabase.functions.invoke<PaginatedResponse<LeadSourceLog>>("lead-sources-logs", {
-      query: { 
+      body: { 
+        leadSourceId,
         page: page.toString(), 
         limit: limit.toString() 
       }
