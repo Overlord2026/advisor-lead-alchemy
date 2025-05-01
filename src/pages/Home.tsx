@@ -15,7 +15,7 @@ const Home = () => {
           Welcome to <span className="text-primary">Boutique Family Office</span>
         </h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full">
+        <div className="grid grid-cols-1 gap-8 max-w-6xl w-full">
           {/* Advisor Portal */}
           <div className="bg-card border border-border rounded-lg p-6 flex flex-col items-center text-center transition-all hover:shadow-lg">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
@@ -30,25 +30,6 @@ const Home = () => {
             <Link 
               to="/advisor" 
               className="bg-primary hover:bg-primary/90 text-white py-2 px-6 rounded-md font-medium transition-colors"
-            >
-              Enter Portal
-            </Link>
-          </div>
-          
-          {/* Prospect Portal */}
-          <div className="bg-card border border-border rounded-lg p-6 flex flex-col items-center text-center transition-all hover:shadow-lg">
-            <div className="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-semibold mb-2 text-white">Prospect Portal</h2>
-            <p className="text-muted-foreground mb-6">
-              Learn about our services, schedule a consultation, and start your journey.
-            </p>
-            <Link 
-              to="/prospect" 
-              className="bg-amber-500 hover:bg-amber-600 text-white py-2 px-6 rounded-md font-medium transition-colors"
             >
               Enter Portal
             </Link>

@@ -52,23 +52,6 @@ describe("SharedHeader Visual Regression Tests", () => {
     });
   });
   
-  test("client header should visually match snapshot", async () => {
-    // Navigate to test page with client header
-    await page.goto("http://localhost:3000/client");
-    
-    // Wait for header to render
-    await page.waitForSelector("[data-testid='shared-header-client']");
-    
-    // Take screenshot
-    const screenshot = await page.screenshot();
-    
-    // Compare with baseline
-    expect(screenshot).toMatchImageSnapshot({
-      customSnapshotsDir: "__image_snapshots__/client",
-      customSnapshotIdentifier: "client-header",
-    });
-  });
-
   test("mobile header should visually match snapshot", async () => {
     // Set mobile viewport
     await page.setViewport({ width: 375, height: 667 });

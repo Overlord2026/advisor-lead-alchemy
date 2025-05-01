@@ -51,24 +51,8 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
 
 // Environment-specific overrides
 export const getEnvironmentFlags = (): Partial<FeatureFlags> => {
-  // Development environment
-  if (process.env.NODE_ENV === 'development') {
-    return {
-      debugMode: true,
-      enableClientFeatures: false, // Force disable client features even in dev
-    };
-  }
-  
-  // Test environment
-  if (process.env.NODE_ENV === 'test') {
-    return {
-      debugMode: true,
-      enableClientFeatures: false, // Force disable client features even in test
-    };
-  }
-  
-  // Production - no overrides, use defaults or remote config
+  // All environments will have client features disabled
   return {
-    enableClientFeatures: false, // Force disable client features in production
+    enableClientFeatures: false // Force disable client features in ALL environments
   };
 };

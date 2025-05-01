@@ -9,8 +9,8 @@ export function useHousehold() {
   const { data, isLoading: loading } = useQuery<Household>({
     queryKey: ['household'],
     queryFn: async () => {
-      // TODO: Replace this with actual API call once Supabase is integrated
-      return { name: "Demo Household" };
+      // Return empty data instead of "Demo Household"
+      return { name: "" };
     },
   });
 

@@ -28,7 +28,15 @@ import "./styles/roi-tracker.css";
 import "./styles/email-templates.css";
 import "./styles/calendar.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Force data refresh to prevent cached data from previous builds
+      staleTime: 0,
+      retry: false,
+    },
+  },
+});
 
 const App = () => {
   console.log("App rendering - current path:", window.location.pathname);
@@ -55,9 +63,7 @@ const App = () => {
                 <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
                 <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
                 
-                {/* Force redirect all other routes including client paths */}
-                <Route path="/client/*" element={<Navigate to="/advisor" replace />} />
-                <Route path="/prospect/*" element={<Navigate to="/advisor" replace />} />
+                {/* Redirect any unexpected routes to the home page */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
               <FeatureFlagToggler />

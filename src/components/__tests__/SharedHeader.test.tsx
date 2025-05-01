@@ -36,17 +36,17 @@ describe("SharedHeader Component", () => {
     expect(screen.getByText("ROI Tracker")).toBeInTheDocument();
   });
 
-  test("renders prospect navigation items when portalType is prospect", () => {
+  test("renders no navigation items when portalType is prospect", () => {
     render(
       <MemoryRouter>
         <SharedHeader portalType="prospect" />
       </MemoryRouter>
     );
     
-    // Check for prospect-specific navigation items
-    expect(screen.getByText("Home")).toBeInTheDocument();
-    expect(screen.getByText("Services")).toBeInTheDocument();
-    expect(screen.getByText("Contact")).toBeInTheDocument();
+    // Should find no navigation items as prospect navigation is empty
+    expect(screen.queryByText("Home")).not.toBeInTheDocument();
+    expect(screen.queryByText("Services")).not.toBeInTheDocument();
+    expect(screen.queryByText("Contact")).not.toBeInTheDocument();
   });
 
   test("renders home navigation items when portalType is home", () => {
@@ -58,7 +58,8 @@ describe("SharedHeader Component", () => {
     
     // Check for home-specific navigation items
     expect(screen.getByText("Advisor Portal")).toBeInTheDocument();
-    expect(screen.getByText("Prospect Portal")).toBeInTheDocument();
+    // Should not find client portal link
+    expect(screen.queryByText("Prospect Portal")).not.toBeInTheDocument();
   });
 
   test("renders mobile menu when isMobile is true", () => {
