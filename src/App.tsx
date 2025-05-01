@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import AdvisorDashboard from "./pages/AdvisorDashboard";
 import ProspectDashboard from "./pages/advisor/ProspectDashboard";
+import LeadSourcesPage from "./pages/advisor/LeadSourcesPage";
 import RecordingsPage from "./pages/advisor/RecordingsPage";
 import QuestionnairesPage from "./pages/advisor/QuestionnairesPage";
 import TemplatesPage from "./pages/advisor/TemplatesPage";
@@ -45,6 +46,7 @@ const App = () => {
                 {/* Advisor routes */}
                 <Route path="/advisor" element={<Layout><AdvisorDashboard /></Layout>} />
                 <Route path="/advisor/prospects" element={<Layout><ProspectDashboard /></Layout>} />
+                <Route path="/advisor/lead-sources" element={<Layout><LeadSourcesPage /></Layout>} />
                 <Route path="/advisor/recordings" element={<Layout><RecordingsPage /></Layout>} />
                 <Route path="/advisor/questionnaires" element={<Layout><QuestionnairesPage /></Layout>} />
                 <Route path="/advisor/templates" element={<Layout><TemplatesPage /></Layout>} />

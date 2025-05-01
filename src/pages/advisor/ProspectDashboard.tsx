@@ -1,11 +1,11 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BarChart, Users, Calendar, Search, ArrowRight, Filter, PlusCircle } from "lucide-react";
+import { BarChart, Users, Calendar, Search, ArrowRight, Filter, PlusCircle, FileSpreadsheet } from "lucide-react";
 import { toast } from "@/utils/toast";
 import DashboardHeader from "@/components/advisor-dashboard/DashboardHeader";
+import { Link } from "react-router-dom";
 
 const ProspectDashboard = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -15,6 +15,17 @@ const ProspectDashboard = () => {
       <div className="flex items-center justify-between">
         <DashboardHeader title="Prospect Dashboard" />
         <div className="flex items-center gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs"
+            asChild
+          >
+            <Link to="/advisor/lead-sources">
+              <FileSpreadsheet className="h-3 w-3 mr-1" />
+              Lead Sources
+            </Link>
+          </Button>
           <Button variant="outline" size="sm" className="text-xs">
             <Filter className="h-3 w-3 mr-1" />
             Filter
@@ -132,6 +143,10 @@ const ProspectDashboard = () => {
                     className="pl-8 pr-4 py-2 text-sm rounded-md border border-border bg-background w-64"
                   />
                 </div>
+                <Link to="/advisor/lead-sources" className="flex items-center text-sm text-primary hover:underline">
+                  <FileSpreadsheet className="h-4 w-4 mr-1" />
+                  Manage Lead Sources
+                </Link>
               </div>
             </div>
             

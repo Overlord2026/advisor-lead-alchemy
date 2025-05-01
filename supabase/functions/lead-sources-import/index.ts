@@ -1,0 +1,172 @@
+
+import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.29.0";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    // Only allow POST requests
+    if (req.method !== "POST") {
+      return new Response(JSON.stringify({ error: "Method not allowed" }), { 
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+        status: 405 
+      });
+    }
+
+    // Create a Supabase client with the Auth context of the logged-in user
+    const supabase = createClient(
+      "https://pxmpxujdorfqrxkiaxxw.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4bXB4dWpkb3JmcXJ4a2lheHh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU2NDEyNTUsImV4cCI6MjA2MTIxNzI1NX0.n4HUr9iugP1s0KcPgiXQopRh_OpAYEUYpBNrkzToCos",
+      {
+        global: {
+          headers: { Authorization: req.headers.get("Authorization") || "" },
+        },
+      }
+    );
+
+    const { leadSourceId, data } = await req.json();
+
+    if (!leadSourceId) {
+      return new Response(JSON.stringify({ error: "Lead source ID is required" }), {
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+        status: 400
+      });
+    }
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return new Response(JSON.stringify({ error: "Import data must be a non-empty array" }), {
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+        status: 400
+      });
+    }
+
+    // Get the lead source
+    const { data: leadSource, error: sourceError } = await supabase
+      .from("lead_sources")
+      .select("*")
+      .eq("id", leadSourceId)
+      .single();
+
+    if (sourceError) {
+      return new Response(JSON.stringify({ error: `Lead source not found: ${sourceError.message}` }), {
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+        status: 404
+      });
+    }
+
+    // Create a log entry
+    const { data: log, error: logError } = await supabase
+      .from("lead_source_logs")
+      .insert({
+        lead_source_id: leadSourceId,
+        status: "pending",
+        message: `Processing ${data.length} records`,
+        started_at: new Date().toISOString(),
+        records_processed: data.length
+      })
+      .select()
+      .single();
+
+    if (logError) {
+      throw logError;
+    }
+
+    try {
+      // Process records
+      const recordsImported = [];
+      const recordsFailed = [];
+      const errors = [];
+
+      for (const record of data) {
+        try {
+          // Extract prospect data
+          const prospect = {
+            first_name: record.firstName || record.first_name,
+            last_name: record.lastName || record.last_name,
+            email: record.email,
+            phone: record.phone || record.phoneNumber,
+            source: leadSource.name,
+            lead_source_id: leadSourceId,
+            metadata: record // Store the full record in metadata
+          };
+
+          // Insert the prospect
+          const { data: insertedProspect, error: insertError } = await supabase
+            .from("prospects")
+            .insert(prospect)
+            .select()
+            .single();
+
+          if (insertError) {
+            recordsFailed.push(record);
+            errors.push({ record, error: insertError.message });
+          } else {
+            recordsImported.push(insertedProspect);
+          }
+        } catch (recordError) {
+          recordsFailed.push(record);
+          errors.push({ record, error: recordError.message });
+        }
+      }
+
+      // Update the log
+      await supabase
+        .from("lead_source_logs")
+        .update({
+          status: recordsFailed.length === 0 ? "success" : "partial",
+          message: `Imported ${recordsImported.length} of ${data.length} records`,
+          records_imported: recordsImported.length,
+          records_failed: recordsFailed.length,
+          details: { errors },
+          completed_at: new Date().toISOString()
+        })
+        .eq("id", log.id);
+
+      // Update the last sync time for the lead source
+      await supabase
+        .from("lead_sources")
+        .update({
+          last_sync_at: new Date().toISOString()
+        })
+        .eq("id", leadSourceId);
+
+      return new Response(JSON.stringify({ 
+        success: true, 
+        imported: recordsImported.length,
+        failed: recordsFailed.length,
+        log_id: log.id
+      }), {
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+        status: 200
+      });
+    } catch (importError) {
+      // Update the log with the error
+      await supabase
+        .from("lead_source_logs")
+        .update({
+          status: "error",
+          message: "Import failed",
+          error: importError.message,
+          completed_at: new Date().toISOString()
+        })
+        .eq("id", log.id);
+
+      throw importError;
+    }
+  } catch (error) {
+    console.error("Error in lead-sources-import function:", error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders },
+      status: 500
+    });
+  }
+});

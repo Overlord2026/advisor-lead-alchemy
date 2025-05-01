@@ -60,3 +60,18 @@ verify_jwt = false
 
 [functions.fetch-booking]
 verify_jwt = false
+
+[functions.lead-sources]
+verify_jwt = true
+
+[functions.lead-sources-test]
+verify_jwt = true
+
+[functions.lead-sources-import]
+verify_jwt = true
+
+[functions.lead-sources-logs]
+verify_jwt = true
+
+[functions.lead-sources-retry]
+verify_jwt = true
