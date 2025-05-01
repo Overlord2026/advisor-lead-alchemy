@@ -119,7 +119,6 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
             <main className="flex-1 overflow-auto p-6 pt-6 mt-[24px]">{children}</main>
           </>
         ) : (
-          // Legacy layout structure
           <>
             <header className="bg-card border-b border-border p-4 flex justify-between items-center">
               <h1 className="text-xl font-bold">Advisor Portal</h1>

@@ -36,7 +36,7 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   
   // Application features - only advisor features enabled
   enableAdvisorFeatures: true,
-  enableClientFeatures: false,
+  enableClientFeatures: false, // Client features completely disabled
   
   // UI/UX improvements - disabled by default (for gradual rollout)
   enableNewDashboard: false,
@@ -55,6 +55,7 @@ export const getEnvironmentFlags = (): Partial<FeatureFlags> => {
   if (process.env.NODE_ENV === 'development') {
     return {
       debugMode: true,
+      enableClientFeatures: false, // Force disable client features even in dev
     };
   }
   
@@ -62,9 +63,12 @@ export const getEnvironmentFlags = (): Partial<FeatureFlags> => {
   if (process.env.NODE_ENV === 'test') {
     return {
       debugMode: true,
+      enableClientFeatures: false, // Force disable client features even in test
     };
   }
   
   // Production - no overrides, use defaults or remote config
-  return {};
+  return {
+    enableClientFeatures: false, // Force disable client features in production
+  };
 };
