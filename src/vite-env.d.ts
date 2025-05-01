@@ -16,5 +16,22 @@ interface Window {
   matchMedia: (query: string) => MediaQueryList;
 }
 
-// Ensure puppeteer module is recognized
-declare module 'puppeteer';
+// Define puppeteer types to fix build errors
+declare module 'puppeteer' {
+  export interface Browser {
+    close(): Promise<void>;
+    newPage(): Promise<Page>;
+  }
+  
+  export interface Page {
+    setViewport(options: { width: number; height: number }): Promise<void>;
+    evaluateOnNewDocument(fn: Function): Promise<void>;
+    goto(url: string): Promise<void>;
+    waitForSelector(selector: string): Promise<void>;
+    screenshot(options?: { fullPage?: boolean }): Promise<Buffer>;
+    close(): Promise<void>;
+  }
+  
+  export function launch(options?: any): Promise<Browser>;
+}
+

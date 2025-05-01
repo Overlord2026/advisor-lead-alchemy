@@ -22,15 +22,15 @@ const FeatureCards = () => {
       />
       
       <FeatureCard 
-        title="Meeting Intelligence"
+        title="Meeting Recording & Intelligence"
         description="Record, transcribe, and analyze client meetings to extract insights and automate follow-up actions."
         Icon={Mic}
         linkTo="/advisor/recordings"
         linkText="Access Recordings"
         features={[
-          "AI transcription",
-          "Key moment detection",
-          "Action item extraction"
+          "One-click meeting recording",
+          "AI transcription & summary",
+          "Key moment detection"
         ]}
         className="card-gradient-indigo"
       />

@@ -5,6 +5,8 @@ import { initSalesProcessAutomation } from "@/utils/salesProcessAutomation";
 import DashboardHeader from '@/components/advisor-dashboard/DashboardHeader';
 import FeatureCards from '@/components/advisor-dashboard/FeatureCards';
 import ProcessFlow from '@/components/advisor-dashboard/ProcessFlow';
+import QuickActions from '@/components/advisor-dashboard/QuickActions';
+import RecentRecordings from '@/components/advisor-dashboard/RecentRecordings';
 
 const AdvisorDashboard = () => {
   useEffect(() => {
@@ -22,6 +24,12 @@ const AdvisorDashboard = () => {
         subtitle="A comprehensive platform designed to streamline your entire sales workflow from lead generation to client onboarding."
       />
 
+      {/* Quick Actions */}
+      <QuickActions />
+      
+      {/* Recent Recordings */}
+      <RecentRecordings />
+      
       {/* Feature Cards */}
       <FeatureCards />
       
