@@ -15,3 +15,6 @@ declare namespace jest {
 interface Window {
   matchMedia: (query: string) => MediaQueryList;
 }
+
+// Ensure puppeteer module is recognized
+declare module 'puppeteer';
