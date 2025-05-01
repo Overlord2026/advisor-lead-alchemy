@@ -77,26 +77,15 @@ describe("SharedHeader Component", () => {
     expect(screen.getByLabelText("Open menu")).toBeInTheDocument();
   });
 
-  test("renders logo and title correctly", () => {
-    render(
-      <MemoryRouter>
-        <SharedHeader portalType="advisor" logoText="Custom Title" />
-      </MemoryRouter>
-    );
-    
-    // Check for logo and custom title
-    expect(screen.getByAltText("Boutique Family Office")).toBeInTheDocument();
-    expect(screen.getByText("Custom Title")).toBeInTheDocument();
-  });
-
-  test("uses default logo text when not provided", () => {
+  test("renders logo correctly", () => {
     render(
       <MemoryRouter>
         <SharedHeader portalType="advisor" />
       </MemoryRouter>
     );
     
-    expect(screen.getByText("Boutique Family Office")).toBeInTheDocument();
+    // Check for logo without text
+    expect(screen.getByAltText("Boutique Family Office")).toBeInTheDocument();
   });
 
   test("uses custom navigation items when provided", () => {
