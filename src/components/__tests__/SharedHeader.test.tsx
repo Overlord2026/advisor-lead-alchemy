@@ -36,19 +36,6 @@ describe("SharedHeader Component", () => {
     expect(screen.getByText("ROI Tracker")).toBeInTheDocument();
   });
 
-  test("renders client navigation items when portalType is client", () => {
-    render(
-      <MemoryRouter>
-        <SharedHeader portalType="client" />
-      </MemoryRouter>
-    );
-    
-    // Check for client-specific navigation items
-    expect(screen.getByText("Dashboard")).toBeInTheDocument();
-    expect(screen.getByText("Documents")).toBeInTheDocument();
-    expect(screen.getByText("Schedule")).toBeInTheDocument();
-  });
-
   test("renders prospect navigation items when portalType is prospect", () => {
     render(
       <MemoryRouter>
@@ -71,7 +58,6 @@ describe("SharedHeader Component", () => {
     
     // Check for home-specific navigation items
     expect(screen.getByText("Advisor Portal")).toBeInTheDocument();
-    expect(screen.getByText("Client Portal")).toBeInTheDocument();
     expect(screen.getByText("Prospect Portal")).toBeInTheDocument();
   });
 

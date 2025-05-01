@@ -34,9 +34,9 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   useSharedHeader: true,
   useNewLayoutStructure: true,
   
-  // Application features - both enabled by default
+  // Application features - only advisor features enabled
   enableAdvisorFeatures: true,
-  enableClientFeatures: true,
+  enableClientFeatures: false,
   
   // UI/UX improvements - disabled by default (for gradual rollout)
   enableNewDashboard: false,

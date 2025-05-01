@@ -55,9 +55,6 @@ const App = () => {
                 <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
                 <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
                 
-                {/* Client routes - redirect to advisor for now */}
-                <Route path="/client/*" element={<Navigate to="/advisor" replace />} />
-                
                 {/* Prospect routes - redirect to advisor for now */}
                 <Route path="/prospect/*" element={<Navigate to="/advisor" replace />} />
                 

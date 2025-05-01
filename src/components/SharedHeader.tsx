@@ -12,7 +12,7 @@ interface NavigationItem {
 
 interface SharedHeaderProps {
   logoText?: string;
-  portalType: "advisor" | "client" | "prospect" | "home";
+  portalType: "advisor" | "prospect" | "home";
   navItems?: NavigationItem[];
 }
 
@@ -36,11 +36,6 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       { label: "Prospects", path: "/advisor/prospects" },
       { label: "ROI Tracker", path: "/advisor/roi" },
     ],
-    client: [
-      { label: "Dashboard", path: "/client" },
-      { label: "Documents", path: "/client/documents" },
-      { label: "Schedule", path: "/client/schedule" },
-    ],
     prospect: [
       { label: "Home", path: "/prospect" },
       { label: "Services", path: "/prospect/services" },
@@ -48,7 +43,6 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
     ],
     home: [
       { label: "Advisor Portal", path: "/advisor" },
-      { label: "Client Portal", path: "/client" },
       { label: "Prospect Portal", path: "/prospect" },
     ],
   };
