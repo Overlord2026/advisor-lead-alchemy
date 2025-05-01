@@ -1,8 +1,0 @@
-
-<svg width="240" height="60" viewBox="0 0 240 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M25 10L55 10L85 35L55 50L25 50Z" stroke="#FFC700" stroke-width="2" fill="none"/>
-  <path d="M45 15L65 15L80 35L65 45L45 45Z" stroke="#FFC700" stroke-width="2" fill="none"/>
-  <path d="M35 35L85 35" stroke="#FFC700" stroke-width="2"/>
-  <circle cx="55" cy="35" r="5" fill="#FFC700"/>
-  <text x="100" y="38" font-family="Arial, sans-serif" font-weight="bold" font-size="18" fill="#FFC700">BOUTIQUE FAMILY OFFICE</text>
-</svg>

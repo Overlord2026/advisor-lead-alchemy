@@ -23,7 +23,7 @@ export interface FeatureFlags {
   debugMode: boolean;
 }
 
-// Define the default state of feature flags
+// Define the default state of feature flags - ensure advisor features are enabled
 export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   // Navigation features - enabled by default
   useNewNavigation: true,
@@ -36,18 +36,20 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   // Application features - only advisor features enabled
   enableAdvisorFeatures: true,
   
-  // UI/UX improvements - disabled by default (for gradual rollout)
+  // UI/UX improvements
   enableNewDashboard: false,
   enableResponsiveDesign: true,
   
-  // Integration features - disabled by default (for testing)
+  // Integration features
   enableDataSharingBetweenApps: false,
   
-  // Testing features - disabled by default
+  // Testing features
   debugMode: false,
 };
 
-// Environment-specific overrides
+// Environment-specific overrides - ensure advisor features are enabled
 export const getEnvironmentFlags = (): Partial<FeatureFlags> => {
-  return {};
+  return {
+    enableAdvisorFeatures: true,
+  };
 };

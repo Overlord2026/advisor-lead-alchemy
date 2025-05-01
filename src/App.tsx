@@ -34,7 +34,7 @@ const queryClient = new QueryClient({
     queries: {
       // Force data refresh to prevent cached data from previous builds
       staleTime: 0,
-      cacheTime: 0, // Don't cache any queries
+      gcTime: 0, // Using gcTime instead of cacheTime (fixed build error)
       retry: false,
     },
   },
@@ -43,8 +43,42 @@ const queryClient = new QueryClient({
 // Clear any existing React Query cache
 queryClient.clear();
 
+// Function to clear any client portal related items from storage
+const clearClientPortalData = () => {
+  // Clear localStorage items related to client portal
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && (
+      key.includes('client') || 
+      key.includes('household') || 
+      key.includes('feature-flags')
+    )) {
+      keysToRemove.push(key);
+    }
+  }
+  
+  // Remove the identified keys
+  keysToRemove.forEach(key => localStorage.removeItem(key));
+  
+  // Clear sessionStorage as well
+  sessionStorage.clear();
+  
+  console.log("Cleared all client portal related data from storage");
+};
+
 const App = () => {
   console.log("App rendering - current path:", window.location.pathname);
+  
+  // Clear client portal data on app initialization
+  React.useEffect(() => {
+    clearClientPortalData();
+    
+    // Redirect from client routes if somehow loaded
+    if (window.location.pathname.includes('/client')) {
+      window.location.href = '/advisor';
+    }
+  }, []);
   
   return (
     <QueryClientProvider client={queryClient}>
@@ -68,8 +102,11 @@ const App = () => {
                 <Route path="/advisor/training/ghl-integration" element={<Layout><GhlTrainingPage /></Layout>} />
                 <Route path="/advisor/training/integrations" element={<Layout><IntegrationsTrainingPage /></Layout>} />
                 
-                {/* Redirect any unexpected routes to the home page */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+                {/* Catch-all for client portal routes - redirect to advisor dashboard */}
+                <Route path="/client/*" element={<Navigate to="/advisor" replace />} />
+                
+                {/* Redirect any unexpected routes to the advisor dashboard */}
+                <Route path="*" element={<Navigate to="/advisor" replace />} />
               </Routes>
               <FeatureFlagToggler />
               <ShadcnToaster />

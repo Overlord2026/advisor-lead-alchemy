@@ -27,7 +27,7 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
   const useRoleBasedNavigation = useFeatureFlag("useRoleBasedNavigation");
   const enableResponsiveDesign = useFeatureFlag("enableResponsiveDesign");
 
-  // Default navigation items based on portal type
+  // Default navigation items based on portal type - only advisor options
   const defaultNavItems: Record<string, NavigationItem[]> = {
     advisor: [
       { label: "Dashboard", path: "/advisor" },

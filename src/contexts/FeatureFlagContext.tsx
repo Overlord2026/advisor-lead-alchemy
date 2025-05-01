@@ -14,49 +14,54 @@ const FeatureFlagContext = createContext<FeatureFlagContextType | undefined>(und
 export const FeatureFlagProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [features, setFeatures] = useState<FeatureFlags>(DEFAULT_FEATURE_FLAGS);
 
-  // Clear any cached client feature flags and load persisted feature flag overrides
+  // Clear ALL cached feature flags and load fresh defaults
   useEffect(() => {
-    // First clear the entire cached flags to remove any client-related flags
+    // First clear the entire cached flags
     localStorage.removeItem("feature-flags");
     
-    // Then load any persisted feature flag overrides
-    const persistedFlags = localStorage.getItem("feature-flags");
-    if (persistedFlags) {
-      try {
-        const parsedFlags = JSON.parse(persistedFlags);
-        // Make sure we never enable any client features
-        setFeatures(prevFlags => ({
-          ...prevFlags,
-          ...parsedFlags
-        }));
-      } catch (error) {
-        console.error("Failed to parse persisted feature flags", error);
-        localStorage.removeItem("feature-flags");
-      }
-    }
+    // Force advisor-only features
+    const advisorOnlyFlags: FeatureFlags = {
+      ...DEFAULT_FEATURE_FLAGS,
+      enableAdvisorFeatures: true,
+    };
+    
+    setFeatures(advisorOnlyFlags);
+    localStorage.setItem("feature-flags", JSON.stringify(advisorOnlyFlags));
   }, []);
 
-  // Persist feature flag changes to local storage
-  useEffect(() => {
-    localStorage.setItem("feature-flags", JSON.stringify(features));
-  }, [features]);
-
   const isFeatureEnabled = (featureName: keyof FeatureFlags) => {
+    // Special case: always enable advisor features, never enable client features
+    if (featureName === "enableAdvisorFeatures") return true;
+    
     return features[featureName] || false;
   };
 
   const toggleFeature = (featureName: keyof FeatureFlags) => {
-    setFeatures(prevFlags => ({
-      ...prevFlags,
-      [featureName]: !prevFlags[featureName]
-    }));
+    // Prevent toggling advisor features off
+    if (featureName === "enableAdvisorFeatures") return;
+    
+    setFeatures(prevFlags => {
+      const newFlags = {
+        ...prevFlags,
+        [featureName]: !prevFlags[featureName]
+      };
+      localStorage.setItem("feature-flags", JSON.stringify(newFlags));
+      return newFlags;
+    });
   };
 
   const setFeatureState = (featureName: keyof FeatureFlags, state: boolean) => {
-    setFeatures(prevFlags => ({
-      ...prevFlags,
-      [featureName]: state
-    }));
+    // Prevent setting advisor features to false
+    if (featureName === "enableAdvisorFeatures" && !state) return;
+    
+    setFeatures(prevFlags => {
+      const newFlags = {
+        ...prevFlags,
+        [featureName]: state
+      };
+      localStorage.setItem("feature-flags", JSON.stringify(newFlags));
+      return newFlags;
+    });
   };
 
   return (
