@@ -28,15 +28,20 @@ import "./styles/roi-tracker.css";
 import "./styles/email-templates.css";
 import "./styles/calendar.css";
 
+// Create a new QueryClient with cache-busting configuration
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // Force data refresh to prevent cached data from previous builds
       staleTime: 0,
+      cacheTime: 0, // Don't cache any queries
       retry: false,
     },
   },
 });
+
+// Clear any existing React Query cache
+queryClient.clear();
 
 const App = () => {
   console.log("App rendering - current path:", window.location.pathname);

@@ -12,7 +12,7 @@ const Home = () => {
       {/* Main content */}
       <main className="flex-1 flex flex-col items-center justify-center p-6 mt-14">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
-          Welcome to <span className="text-primary">Boutique Family Office</span>
+          Welcome to <span className="text-primary">Advisor Portal</span>
         </h1>
         
         <div className="grid grid-cols-1 gap-8 max-w-6xl w-full">
@@ -39,7 +39,7 @@ const Home = () => {
       
       {/* Footer */}
       <footer className="bg-black/50 text-white/50 text-center py-4 text-sm">
-        <p>© {new Date().getFullYear()} Boutique Family Office. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Advisor Portal. All rights reserved.</p>
       </footer>
     </div>
   );

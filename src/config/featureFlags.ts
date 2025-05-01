@@ -11,7 +11,6 @@ export interface FeatureFlags {
   
   // Application features
   enableAdvisorFeatures: boolean;
-  enableClientFeatures: boolean;
   
   // UI/UX improvements
   enableNewDashboard: boolean;
@@ -36,7 +35,6 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   
   // Application features - only advisor features enabled
   enableAdvisorFeatures: true,
-  enableClientFeatures: false, // Client features completely disabled
   
   // UI/UX improvements - disabled by default (for gradual rollout)
   enableNewDashboard: false,
@@ -51,8 +49,5 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
 
 // Environment-specific overrides
 export const getEnvironmentFlags = (): Partial<FeatureFlags> => {
-  // All environments will have client features disabled
-  return {
-    enableClientFeatures: false // Force disable client features in ALL environments
-  };
+  return {};
 };

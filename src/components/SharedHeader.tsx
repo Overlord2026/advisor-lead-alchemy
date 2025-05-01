@@ -11,7 +11,7 @@ interface NavigationItem {
 }
 
 interface SharedHeaderProps {
-  portalType: "advisor" | "prospect" | "home";
+  portalType: "advisor" | "home";
   navItems?: NavigationItem[];
 }
 
@@ -34,7 +34,6 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       { label: "Prospects", path: "/advisor/prospects" },
       { label: "ROI Tracker", path: "/advisor/roi" },
     ],
-    prospect: [],  // Empty prospect navigation
     home: [
       { label: "Advisor Portal", path: "/advisor" },
     ],
@@ -61,8 +60,8 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
           data-testid="shared-header-logo"
         >
           <img 
-            src="/boutique-logo.svg" 
-            alt="Boutique Family Office" 
+            src="/logo.svg" 
+            alt="Advisor Portal" 
             className="h-10 w-auto"
           />
         </Link>

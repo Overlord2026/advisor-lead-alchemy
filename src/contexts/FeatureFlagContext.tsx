@@ -14,12 +14,17 @@ const FeatureFlagContext = createContext<FeatureFlagContextType | undefined>(und
 export const FeatureFlagProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [features, setFeatures] = useState<FeatureFlags>(DEFAULT_FEATURE_FLAGS);
 
-  // Load any persisted feature flag overrides from local storage on init
+  // Clear any cached client feature flags and load persisted feature flag overrides
   useEffect(() => {
+    // First clear the entire cached flags to remove any client-related flags
+    localStorage.removeItem("feature-flags");
+    
+    // Then load any persisted feature flag overrides
     const persistedFlags = localStorage.getItem("feature-flags");
     if (persistedFlags) {
       try {
         const parsedFlags = JSON.parse(persistedFlags);
+        // Make sure we never enable any client features
         setFeatures(prevFlags => ({
           ...prevFlags,
           ...parsedFlags
