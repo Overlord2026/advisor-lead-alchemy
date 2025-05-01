@@ -7,7 +7,7 @@ export class LeadSourceService {
    * Fetch all lead sources
    */
   static async getLeadSources(): Promise<LeadSource[]> {
-    const { data, error } = await supabase.functions.invoke<{ data: LeadSource[] }>("lead-sources");
+    const { data, error } = await supabase.functions.invoke("lead-sources");
     
     if (error) {
       console.error("Error fetching lead sources:", error);
@@ -21,7 +21,7 @@ export class LeadSourceService {
    * Get a specific lead source by ID
    */
   static async getLeadSource(id: string): Promise<LeadSource> {
-    const { data, error } = await supabase.functions.invoke<{ data: LeadSource[] }>("lead-sources", {
+    const { data, error } = await supabase.functions.invoke("lead-sources", {
       body: { id }
     });
     
@@ -41,7 +41,7 @@ export class LeadSourceService {
    * Create a new lead source
    */
   static async createLeadSource(leadSource: Partial<LeadSource>): Promise<LeadSource> {
-    const { data, error } = await supabase.functions.invoke<{ data: LeadSource }>("lead-sources", {
+    const { data, error } = await supabase.functions.invoke("lead-sources", {
       method: "POST",
       body: leadSource
     });
@@ -58,7 +58,7 @@ export class LeadSourceService {
    * Update an existing lead source
    */
   static async updateLeadSource(id: string, updates: Partial<LeadSource>): Promise<LeadSource> {
-    const { data, error } = await supabase.functions.invoke<{ data: LeadSource }>("lead-sources", {
+    const { data, error } = await supabase.functions.invoke("lead-sources", {
       method: "PUT",
       body: { id, ...updates }
     });
@@ -90,13 +90,10 @@ export class LeadSourceService {
    * Test a lead source connection
    */
   static async testLeadSource(id: string): Promise<{ success: boolean; message: string; details: Record<string, any> }> {
-    const { data, error } = await supabase.functions.invoke<{ success: boolean; message: string; details: Record<string, any> }>(
-      "lead-sources-test", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: { id }
-      }
-    );
+    const { data, error } = await supabase.functions.invoke("lead-sources-test", {
+      method: "POST",
+      body: { id }
+    });
     
     if (error) {
       console.error(`Error testing lead source ${id}:`, error);
@@ -110,7 +107,7 @@ export class LeadSourceService {
    * Import data from a lead source
    */
   static async importLeadSource(leadSourceId: string, data: any[]): Promise<ImportResult> {
-    const { data: result, error } = await supabase.functions.invoke<ImportResult>("lead-sources-import", {
+    const { data: result, error } = await supabase.functions.invoke("lead-sources-import", {
       method: "POST",
       body: { leadSourceId, data }
     });
@@ -131,7 +128,7 @@ export class LeadSourceService {
     page: number = 1, 
     limit: number = 20
   ): Promise<PaginatedResponse<LeadSourceLog>> {
-    const { data, error } = await supabase.functions.invoke<PaginatedResponse<LeadSourceLog>>("lead-sources-logs", {
+    const { data, error } = await supabase.functions.invoke("lead-sources-logs", {
       body: { 
         leadSourceId,
         page: page.toString(), 
@@ -151,7 +148,7 @@ export class LeadSourceService {
    * Retry a failed import
    */
   static async retryImport(leadSourceId: string, logId: string): Promise<{ success: boolean; new_log_id: string }> {
-    const { data, error } = await supabase.functions.invoke<{ success: boolean; new_log_id: string }>("lead-sources-retry", {
+    const { data, error } = await supabase.functions.invoke("lead-sources-retry", {
       method: "POST",
       body: { leadSourceId, logId }
     });
