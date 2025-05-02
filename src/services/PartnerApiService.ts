@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { PartnerApiMapping, PartnerWebhook, ProspectEvent } from "@/types/partnerApi";
 
@@ -18,7 +17,15 @@ export class PartnerApiService {
       throw new Error(`Failed to fetch API mapping: ${error.message}`);
     }
     
-    return data;
+    // Convert the JSON mapping field to Record<string, string>
+    if (data) {
+      return {
+        ...data,
+        mapping: data.mapping as unknown as Record<string, string>
+      };
+    }
+    
+    return null;
   }
   
   /**
@@ -45,7 +52,10 @@ export class PartnerApiService {
         throw new Error(`Failed to update API mapping: ${error.message}`);
       }
       
-      return data as PartnerApiMapping;
+      return {
+        ...data,
+        mapping: data.mapping as unknown as Record<string, string>
+      };
     } else {
       // Create new mapping
       const { data, error } = await supabase
@@ -59,7 +69,10 @@ export class PartnerApiService {
         throw new Error(`Failed to create API mapping: ${error.message}`);
       }
       
-      return data as PartnerApiMapping;
+      return {
+        ...data,
+        mapping: data.mapping as unknown as Record<string, string>
+      };
     }
   }
   
