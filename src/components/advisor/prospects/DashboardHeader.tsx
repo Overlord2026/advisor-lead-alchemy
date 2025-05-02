@@ -1,34 +1,32 @@
 
 import React from 'react';
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { FileSpreadsheet, Filter, PlusCircle } from "lucide-react";
-import DashboardHeader from "@/components/advisor-dashboard/DashboardHeader";
+import { FileSpreadsheet, UserPlus, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import AddProspectModal from './AddProspectModal';
+import { Link } from 'react-router-dom';
 
 const ProspectDashboardHeader = () => {
   return (
-    <div className="flex items-center justify-between">
-      <DashboardHeader title="Prospect Dashboard" />
-      <div className="flex items-center gap-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="text-xs"
-          asChild
-        >
-          <Link to="/advisor/lead-sources">
-            <FileSpreadsheet className="h-3 w-3 mr-1" />
-            Lead Sources
-          </Link>
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Prospect Management</h1>
+        <p className="text-muted-foreground">
+          Track, manage and convert your prospects into clients
+        </p>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Link to="/advisor/lead-sources" className="inline-flex items-center text-sm gap-2 text-muted-foreground hover:text-foreground">
+          <FileSpreadsheet className="h-4 w-4" />
+          <span>Lead Sources</span>
+        </Link>
+        
+        <Button variant="outline" size="sm" className="gap-1">
+          <Download className="h-4 w-4" />
+          <span>Export</span>
         </Button>
-        <Button variant="outline" size="sm" className="text-xs">
-          <Filter className="h-3 w-3 mr-1" />
-          Filter
-        </Button>
-        <Button size="sm" className="bg-primary text-primary-foreground text-xs">
-          <PlusCircle className="h-3 w-3 mr-1" />
-          Add New Prospect
-        </Button>
+        
+        <AddProspectModal />
       </div>
     </div>
   );

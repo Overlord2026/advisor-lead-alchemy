@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, ArrowRight, UserPlus, BarChart, Calendar, Mic } from "lucide-react";
+import { Users, ArrowRight, Calendar, BarChart, Mic } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import AddProspectModal from "@/components/advisor/prospects/AddProspectModal";
 
 interface ClientData {
   id: string;
@@ -69,14 +68,7 @@ const ClientsOverview = () => {
             <h2 className="text-2xl font-bold">Prospect Pipeline</h2>
           </div>
           <div className="flex space-x-2">
-            <Button 
-              variant="outline" 
-              className="bg-white hover:bg-red-50 border-red-200"
-              onClick={() => toast.info("Add prospect feature coming soon!")}
-            >
-              <UserPlus className="mr-2 h-4 w-4" />
-              Add Prospect
-            </Button>
+            <AddProspectModal />
             <Button asChild variant="outline" className="bg-white hover:bg-red-50 border-red-200">
               <Link to="/advisor/prospects">
                 View All Prospects <ArrowRight className="ml-2 h-4 w-4" />
