@@ -1,4 +1,5 @@
 
+import React, { useEffect } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -71,7 +72,7 @@ const App = () => {
   console.log("App rendering - current path:", window.location.pathname);
   
   // Clear client portal data on app initialization
-  React.useEffect(() => {
+  useEffect(() => {
     clearClientPortalData();
     
     // Redirect from client routes if somehow loaded
