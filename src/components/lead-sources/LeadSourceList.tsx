@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -8,7 +7,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { 
   Plus, Trash2, Edit, RefreshCw, 
-  Check, X, Eye, FileSpreadsheet 
+  Check, X, Eye, FileSpreadsheet,
+  Link2, Webhook
 } from "lucide-react";
 import { LeadSourceService } from "@/services/LeadSourceService";
 import { LeadSource } from "@/types/leadSources";
@@ -20,13 +20,17 @@ interface LeadSourceListProps {
   onEditClick: (leadSource: LeadSource) => void;
   onImportClick: (leadSource: LeadSource) => void;
   onViewLogsClick: (leadSource: LeadSource) => void;
+  onApiMappingClick: (leadSource: LeadSource) => void;
+  onWebhooksClick: (leadSource: LeadSource) => void;
 }
 
 const LeadSourceList = ({
   onAddClick,
   onEditClick,
   onImportClick,
-  onViewLogsClick
+  onViewLogsClick,
+  onApiMappingClick,
+  onWebhooksClick
 }: LeadSourceListProps) => {
   const [leadSources, setLeadSources] = useState<LeadSource[]>([]);
   const [loading, setLoading] = useState(true);
@@ -190,6 +194,20 @@ const LeadSourceList = ({
                         <Button 
                           variant="ghost" 
                           size="sm"
+                          onClick={() => onApiMappingClick(source)}
+                        >
+                          <Link2 className="h-4 w-4 mr-1" /> API Map
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => onWebhooksClick(source)}
+                        >
+                          <Webhook className="h-4 w-4 mr-1" /> Webhooks
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
                           onClick={() => onViewLogsClick(source)}
                         >
                           <Eye className="h-4 w-4 mr-1" /> Logs
@@ -219,7 +237,7 @@ const LeadSourceList = ({
         </div>
       )}
       
-      {/* Delete confirmation modal - would actually use the Modal component in a real implementation */}
+      {/* Delete confirmation modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg max-w-md w-full">

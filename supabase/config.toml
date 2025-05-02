@@ -75,3 +75,7 @@ verify_jwt = true
 
 [functions.lead-sources-retry]
 verify_jwt = true
+
+[functions.partner-webhook-test]
+verify_jwt = true
+

@@ -9,6 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      advisor_notifications: {
+        Row: {
+          created_at: string
+          data: Json
+          id: string
+          read: boolean
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data: Json
+          id?: string
+          read?: boolean
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          id?: string
+          read?: boolean
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      asset_classes: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       feedback: {
         Row: {
           category: string
@@ -122,6 +170,102 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_api_mappings: {
+        Row: {
+          id: string
+          lead_source_id: string | null
+          mapping: Json
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          lead_source_id?: string | null
+          mapping: Json
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          lead_source_id?: string | null
+          mapping?: Json
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_api_mappings_lead_source_id_fkey"
+            columns: ["lead_source_id"]
+            isOneToOne: true
+            referencedRelation: "lead_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_webhooks: {
+        Row: {
+          created_at: string | null
+          event_type: string
+          id: string
+          is_active: boolean | null
+          lead_source_id: string | null
+          target_url: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_type: string
+          id?: string
+          is_active?: boolean | null
+          lead_source_id?: string | null
+          target_url: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_type?: string
+          id?: string
+          is_active?: boolean | null
+          lead_source_id?: string | null
+          target_url?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_webhooks_lead_source_id_fkey"
+            columns: ["lead_source_id"]
+            isOneToOne: false
+            referencedRelation: "lead_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prospect_events: {
+        Row: {
+          event_type: string
+          id: string
+          occurred_at: string | null
+          prospect_id: string | null
+        }
+        Insert: {
+          event_type: string
+          id?: string
+          occurred_at?: string | null
+          prospect_id?: string | null
+        }
+        Update: {
+          event_type?: string
+          id?: string
+          occurred_at?: string | null
+          prospect_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prospect_events_prospect_id_fkey"
+            columns: ["prospect_id"]
+            isOneToOne: false
+            referencedRelation: "prospects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       prospects: {
         Row: {
           created_at: string
@@ -210,6 +354,10 @@ export type Database = {
       has_role: {
         Args: { user_id: string; role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
+      }
+      notify_advisor: {
+        Args: { type: string; data: Json }
+        Returns: string
       }
     }
     Enums: {

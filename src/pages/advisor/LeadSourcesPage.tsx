@@ -8,13 +8,15 @@ import LeadSourceList from "@/components/lead-sources/LeadSourceList";
 import LeadSourceForm from "@/components/lead-sources/LeadSourceForm";
 import CSVImport from "@/components/lead-sources/CSVImport";
 import LeadSourceLogs from "@/components/lead-sources/LeadSourceLogs";
+import ApiMappingForm from "@/components/lead-sources/ApiMappingForm";
+import WebhooksManager from "@/components/lead-sources/WebhooksManager";
 import { LeadSourceService } from "@/services/LeadSourceService";
 import { LeadSource } from "@/types/leadSources";
 
 const LeadSourcesPage = () => {
   const [selectedLeadSource, setSelectedLeadSource] = useState<LeadSource | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentView, setCurrentView] = useState<'list' | 'form' | 'import' | 'logs'>('list');
+  const [currentView, setCurrentView] = useState<'list' | 'form' | 'import' | 'logs' | 'api-mapping' | 'webhooks'>('list');
   
   const { 
     isOpen: isModalOpen, 
@@ -44,6 +46,18 @@ const LeadSourcesPage = () => {
   const handleViewLogsClick = (leadSource: LeadSource) => {
     setSelectedLeadSource(leadSource);
     setCurrentView('logs');
+    openModal();
+  };
+  
+  const handleApiMappingClick = (leadSource: LeadSource) => {
+    setSelectedLeadSource(leadSource);
+    setCurrentView('api-mapping');
+    openModal();
+  };
+  
+  const handleWebhooksClick = (leadSource: LeadSource) => {
+    setSelectedLeadSource(leadSource);
+    setCurrentView('webhooks');
     openModal();
   };
 
@@ -80,6 +94,11 @@ const LeadSourcesPage = () => {
   const handleImportSuccess = () => {
     // Could update the lead sources list if needed
   };
+  
+  const handleApiMappingSave = () => {
+    closeModal();
+    setCurrentView('list');
+  };
 
   const renderModalContent = () => {
     switch (currentView) {
@@ -112,6 +131,25 @@ const LeadSourcesPage = () => {
           />
         );
         
+      case 'api-mapping':
+        if (!selectedLeadSource) return null;
+        return (
+          <ApiMappingForm
+            leadSource={selectedLeadSource}
+            onSaved={handleApiMappingSave}
+            onClose={closeModal}
+          />
+        );
+        
+      case 'webhooks':
+        if (!selectedLeadSource) return null;
+        return (
+          <WebhooksManager
+            leadSource={selectedLeadSource}
+            onClose={closeModal}
+          />
+        );
+        
       default:
         return null;
     }
@@ -125,6 +163,10 @@ const LeadSourcesPage = () => {
         return "Import Leads";
       case 'logs':
         return "Import History";
+      case 'api-mapping':
+        return "API Field Mapping";
+      case 'webhooks':
+        return "Webhook Management";
       default:
         return "";
     }
@@ -144,6 +186,8 @@ const LeadSourcesPage = () => {
             onEditClick={handleEditClick}
             onImportClick={handleImportClick}
             onViewLogsClick={handleViewLogsClick}
+            onApiMappingClick={handleApiMappingClick}
+            onWebhooksClick={handleWebhooksClick}
           />
         </CardContent>
       </Card>
@@ -152,7 +196,12 @@ const LeadSourcesPage = () => {
         open={isModalOpen} 
         onOpenChange={onOpenChange}
         title={getModalTitle()}
-        className={currentView === 'import' ? 'max-w-3xl' : currentView === 'logs' ? 'max-w-4xl' : 'max-w-xl'}
+        className={
+          currentView === 'import' ? 'max-w-3xl' : 
+          currentView === 'logs' ? 'max-w-4xl' : 
+          currentView === 'webhooks' ? 'max-w-4xl' :
+          'max-w-xl'
+        }
       >
         {renderModalContent()}
       </Modal>

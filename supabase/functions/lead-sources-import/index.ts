@@ -7,6 +7,76 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Helper function to send webhook notifications
+async function sendWebhookNotifications(supabase, leadSourceId, eventType, payload) {
+  try {
+    // Find active webhooks for this lead source and event type
+    const { data: webhooks, error: webhooksError } = await supabase
+      .from("partner_webhooks")
+      .select("*")
+      .eq("lead_source_id", leadSourceId)
+      .eq("event_type", eventType)
+      .eq("is_active", true);
+
+    if (webhooksError) {
+      console.error(`Error fetching webhooks: ${webhooksError.message}`);
+      return;
+    }
+
+    // Send notifications to all registered webhooks
+    const webhookPromises = webhooks.map(async (webhook) => {
+      try {
+        const response = await fetch(webhook.target_url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            ...payload,
+            event_type: eventType,
+            webhook_id: webhook.id,
+            timestamp: new Date().toISOString()
+          })
+        });
+
+        return {
+          webhook_id: webhook.id,
+          success: response.ok,
+          status: response.status,
+          response_text: await response.text().catch(() => "")
+        };
+      } catch (error) {
+        return {
+          webhook_id: webhook.id,
+          success: false,
+          error: error.message
+        };
+      }
+    });
+
+    // Wait for all webhook notifications to complete
+    const results = await Promise.all(webhookPromises);
+    
+    // Log webhook results
+    for (const result of results) {
+      await supabase
+        .from("lead_source_logs")
+        .insert({
+          lead_source_id: leadSourceId,
+          status: result.success ? "success" : "error",
+          message: `Webhook notification for ${eventType}: ${result.success ? "Success" : "Failed"}`,
+          details: result,
+          completed_at: new Date().toISOString()
+        });
+    }
+
+    return results;
+  } catch (error) {
+    console.error(`Error sending webhook notifications: ${error.message}`);
+    return [];
+  }
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -111,6 +181,14 @@ serve(async (req) => {
             errors.push({ record, error: insertError.message });
           } else {
             recordsImported.push(insertedProspect);
+            
+            // Record 'imported' event for the prospect
+            await supabase
+              .from("prospect_events")
+              .insert({
+                prospect_id: insertedProspect.id,
+                event_type: "imported"
+              });
           }
         } catch (recordError) {
           recordsFailed.push(record);
@@ -138,6 +216,16 @@ serve(async (req) => {
           last_sync_at: new Date().toISOString()
         })
         .eq("id", leadSourceId);
+
+      // Send webhook notifications for imported leads
+      await sendWebhookNotifications(supabase, leadSourceId, "imported", {
+        lead_source_id: leadSourceId,
+        lead_source_name: leadSource.name,
+        imported_count: recordsImported.length,
+        failed_count: recordsFailed.length,
+        total_count: data.length,
+        prospects: recordsImported.map(p => ({ id: p.id, name: `${p.first_name} ${p.last_name}`.trim(), email: p.email }))
+      });
 
       return new Response(JSON.stringify({ 
         success: true, 
