@@ -8,6 +8,7 @@ import PersonalInfoFields from "./form/PersonalInfoFields";
 import ContactInfoFields from "./form/ContactInfoFields";
 import SourceFields from "./form/SourceFields";
 import StatusFields from "./form/StatusFields";
+import NotesField from "./form/NotesField";
 import FormActions from "./form/FormActions";
 
 export type { ProspectFormValues } from "./form/formSchema";
@@ -34,6 +35,7 @@ const ProspectForm = ({ onSubmit, isSubmitting, defaultValues: initialValues = {
         <ContactInfoFields form={form} />
         <SourceFields form={form} />
         <StatusFields form={form} />
+        <NotesField form={form} />
         <FormActions isSubmitting={isSubmitting} />
       </form>
     </Form>

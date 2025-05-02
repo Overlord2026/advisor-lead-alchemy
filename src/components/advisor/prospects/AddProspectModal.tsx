@@ -23,6 +23,7 @@ const AddProspectModal = ({ onSuccess }: AddProspectModalProps) => {
         ...data,
         metadata: data.metadata || {},
         next_meeting: data.next_meeting || null,
+        notes: data.notes || null,
       };
       
       const prospect = await ProspectService.createProspect(formattedData);
