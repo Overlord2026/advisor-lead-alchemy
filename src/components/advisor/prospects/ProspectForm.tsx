@@ -32,6 +32,9 @@ const prospectSchema = z.object({
   stage: z.string().default("Initial Contact").optional().nullable(),
   status: z.string().default("new").optional().nullable(),
   lead_source_id: z.string().uuid().optional().nullable(),
+  // Add the missing properties required by NewProspect type
+  metadata: z.record(z.any()).optional().default({}),
+  next_meeting: z.string().optional().nullable(),
 });
 
 export type ProspectFormValues = z.infer<typeof prospectSchema>;
@@ -55,6 +58,8 @@ const ProspectForm = ({ onSubmit, isSubmitting, defaultValues = {} }: ProspectFo
       stage: "Initial Contact",
       status: "new",
       lead_source_id: null,
+      metadata: {},
+      next_meeting: null,
       ...defaultValues
     },
   });

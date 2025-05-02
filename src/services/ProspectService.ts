@@ -36,14 +36,20 @@ export class ProspectService {
   /**
    * Creates a new prospect
    */
-  static async createProspect(prospect: NewProspect) {
+  static async createProspect(prospect: Partial<NewProspect>) {
+    // Ensure required default values are set
+    const prospectWithDefaults = {
+      ...prospect,
+      status: prospect.status || "new",
+      stage: prospect.stage || "Initial Contact",
+      metadata: prospect.metadata || {},
+      // Make sure next_meeting is properly formatted if provided
+      next_meeting: prospect.next_meeting || null,
+    };
+
     const { data, error } = await supabase
       .from("prospects")
-      .insert([{
-        ...prospect,
-        status: prospect.status || "new",
-        stage: prospect.stage || "Initial Contact",
-      }])
+      .insert([prospectWithDefaults])
       .select()
       .single();
     
