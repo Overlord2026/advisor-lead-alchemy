@@ -133,6 +133,29 @@ serve(async (req) => {
       });
     }
 
+    // Get field mapping for this lead source
+    const { data: mappingRow, error: mapError } = await supabase
+      .from("partner_api_mappings")
+      .select("mapping")
+      .eq("lead_source_id", leadSourceId)
+      .maybeSingle();
+    
+    // Default mapping if no custom mapping exists
+    let fieldMap = {
+      first_name: "firstName",
+      last_name: "lastName",
+      email: "email",
+      phone: "phone"
+    };
+    
+    // Use custom mapping if available
+    if (mappingRow && mappingRow.mapping) {
+      console.log("Using custom field mapping:", mappingRow.mapping);
+      fieldMap = mappingRow.mapping as Record<string, string>;
+    } else {
+      console.log("No custom mapping found, using default mapping");
+    }
+
     // Create a log entry
     const { data: log, error: logError } = await supabase
       .from("lead_source_logs")
@@ -158,16 +181,22 @@ serve(async (req) => {
 
       for (const record of data) {
         try {
-          // Extract prospect data
+          // Extract prospect data using field mapping
           const prospect = {
-            first_name: record.firstName || record.first_name,
-            last_name: record.lastName || record.last_name,
-            email: record.email,
-            phone: record.phone || record.phoneNumber,
             source: leadSource.name,
             lead_source_id: leadSourceId,
             metadata: record // Store the full record in metadata
           };
+          
+          // Apply field mapping
+          for (const [systemField, partnerField] of Object.entries(fieldMap)) {
+            if (partnerField && record[partnerField] !== undefined) {
+              prospect[systemField] = record[partnerField];
+            } else {
+              // Use null as fallback for missing fields
+              prospect[systemField] = null;
+            }
+          }
 
           // Insert the prospect
           const { data: insertedProspect, error: insertError } = await supabase

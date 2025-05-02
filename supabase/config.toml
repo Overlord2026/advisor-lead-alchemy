@@ -1,81 +1,38 @@
 
+# This is the project config file that you should modify
 project_id = "pxmpxujdorfqrxkiaxxw"
 
 [api]
+enabled = true
 port = 54321
 schemas = ["public", "storage", "graphql_public"]
-extra_search_path = ["public", "extensions"]
-max_rows = 1000
 
 [db]
 port = 54322
 
 [studio]
+enabled = true
 port = 54323
+api_url = "http://localhost"
 
 [inbucket]
+enabled = true
 port = 54324
-smtp_port = 54325
-pop3_port = 54326
 
 [storage]
-file_size_limit = "50MiB"
+enabled = true
 
 [auth]
+enabled = true
 site_url = "http://localhost:3000"
-additional_redirect_urls = ["https://localhost:3000"]
-jwt_expiry = 3600
-enable_refresh_token_rotation = true
-refresh_token_reuse_interval = 10
-enable_signup = true
 
-[auth.email]
-enable_signup = true
-double_confirm_changes = true
-enable_confirmations = false
-
-[analytics]
-enabled = false
-port = 54327
-vector_port = 54328
+[realtime]
+enabled = true
 
 [functions]
-[functions.health-check]
-verify_jwt = false
-
-[functions.prospect-call-prep]
-verify_jwt = false
-
-[functions.post-call]
-verify_jwt = false
-
-[functions.heygen-script]
-verify_jwt = false
-
-[functions.questionnaire-recommend]
-verify_jwt = false
-
-[functions.diagnostics-connectors]
-verify_jwt = false
-
-[functions.fetch-booking]
-verify_jwt = false
-
-[functions.lead-sources]
-verify_jwt = true
-
-[functions.lead-sources-test]
-verify_jwt = true
-
 [functions.lead-sources-import]
 verify_jwt = true
-
-[functions.lead-sources-logs]
+[functions.partner-webhooks]
 verify_jwt = true
-
-[functions.lead-sources-retry]
+[functions.apply-rls-policies]
 verify_jwt = true
-
-[functions.partner-webhook-test]
-verify_jwt = true
-
