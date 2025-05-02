@@ -17,11 +17,16 @@ export interface Prospect {
   created_at: string;
   updated_at: string;
   metadata: Record<string, any>;
+  notes: string | null;
 }
 
 // Type for filtering prospects
 export interface ProspectFilter {
   lead_source_id?: string;
+  status?: string;
+  stage?: string;
+  created_at_start?: string;
+  created_at_end?: string;
 }
 
 export class ProspectService {
@@ -32,6 +37,25 @@ export class ProspectService {
       // Apply lead source filter if provided
       if (filter.lead_source_id) {
         query = query.eq("lead_source_id", filter.lead_source_id);
+      }
+      
+      // Apply status filter if provided
+      if (filter.status) {
+        query = query.eq("status", filter.status);
+      }
+      
+      // Apply stage filter if provided
+      if (filter.stage) {
+        query = query.eq("stage", filter.stage);
+      }
+      
+      // Apply date range filter if provided
+      if (filter.created_at_start) {
+        query = query.gte("created_at", filter.created_at_start);
+      }
+      
+      if (filter.created_at_end) {
+        query = query.lte("created_at", filter.created_at_end);
       }
       
       const { data, error } = await query.order("created_at", { ascending: false });

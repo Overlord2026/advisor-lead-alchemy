@@ -1,6 +1,7 @@
 
 import React from 'react';
-import ProspectTableRow, { ProspectRowProps } from "./ProspectTableRow";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import ProspectTableRow, { ProspectRowProps } from './ProspectTableRow';
 
 interface ProspectsTableContentProps {
   prospects: ProspectRowProps[];
@@ -8,53 +9,61 @@ interface ProspectsTableContentProps {
   searchQuery: string;
 }
 
-const ProspectsTableContent: React.FC<ProspectsTableContentProps> = ({ 
-  prospects, 
-  isLoading, 
-  searchQuery 
+const ProspectsTableContent: React.FC<ProspectsTableContentProps> = ({
+  prospects,
+  isLoading,
+  searchQuery
 }) => {
-  // Filter prospects based on search query
-  const filteredProspects = prospects.filter(prospect => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
+  if (isLoading) {
     return (
-      prospect.name.toLowerCase().includes(query) || 
-      prospect.email.toLowerCase().includes(query)
+      <div className="text-center py-8">
+        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <p className="mt-2 text-sm text-muted-foreground">Loading prospects...</p>
+      </div>
     );
-  });
-  
+  }
+
+  if (prospects.length === 0) {
+    return (
+      <div className="text-center py-8">
+        {searchQuery ? (
+          <p className="text-muted-foreground">No prospects matching your filters. Try adjusting your search criteria.</p>
+        ) : (
+          <p className="text-muted-foreground">No prospects found. Add your first prospect to get started.</p>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full">
-        <thead className="text-left border-b border-border">
-          <tr>
-            <th className="py-3 px-4 text-xs font-medium text-muted-foreground">Name</th>
-            <th className="py-3 px-4 text-xs font-medium text-muted-foreground">Source</th>
-            <th className="py-3 px-4 text-xs font-medium text-muted-foreground">HNW Score</th>
-            <th className="py-3 px-4 text-xs font-medium text-muted-foreground">Stage</th>
-            <th className="py-3 px-4 text-xs font-medium text-muted-foreground">Next Meeting</th>
-            <th className="py-3 px-4 text-xs font-medium text-muted-foreground text-right">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
-            <tr>
-              <td colSpan={6} className="text-center py-8">Loading prospects...</td>
+    <ScrollArea className="h-[500px] rounded-md border">
+      <div className="relative min-w-full">
+        <table className="w-full caption-bottom text-sm">
+          <thead className="sticky top-0 bg-card border-b">
+            <tr className="border-b transition-colors hover:bg-muted/50">
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-6">#</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Name</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Email</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Phone</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Source</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Stage</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Created</th>
+              <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Actions</th>
             </tr>
-          ) : filteredProspects.length > 0 ? (
-            filteredProspects.map((prospect, index) => (
-              <ProspectTableRow key={index} {...prospect} />
-            ))
-          ) : (
-            <tr>
-              <td colSpan={6} className="text-center py-8">
-                {searchQuery ? "No prospects match your search" : "No prospects found"}
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody className="divide-y">
+            {prospects.map((prospect, index) => (
+              <ProspectTableRow 
+                key={prospect.id}
+                index={index + 1}
+                {...prospect}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </ScrollArea>
   );
 };
 
