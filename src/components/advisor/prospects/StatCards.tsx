@@ -1,9 +1,23 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Calendar, BarChart } from "lucide-react";
 
-const StatCards = () => {
+interface StatCardsProps {
+  leadSourceId: string | null;
+}
+
+const StatCards = ({ leadSourceId }: StatCardsProps) => {
+  // In a real application, we would fetch stats based on leadSourceId
+  // For now, we'll just log it to show it's being received
+  useEffect(() => {
+    if (leadSourceId) {
+      console.log(`Fetching stats for lead source: ${leadSourceId}`);
+    } else {
+      console.log("Fetching stats for all lead sources");
+    }
+  }, [leadSourceId]);
+
   return (
     <div className="grid gap-6 md:grid-cols-4">
       <Card className="bg-card">

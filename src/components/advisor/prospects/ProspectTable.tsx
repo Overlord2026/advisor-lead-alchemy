@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,7 +8,11 @@ import AddProspectModal from './AddProspectModal';
 import { ProspectService } from '@/services/ProspectService';
 import { toast } from 'sonner';
 
-const ProspectTable = () => {
+interface ProspectTableProps {
+  leadSourceId: string | null;
+}
+
+const ProspectTable = ({ leadSourceId }: ProspectTableProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [prospects, setProspects] = useState<ProspectRowProps[]>([]);
@@ -152,7 +155,8 @@ const ProspectTable = () => {
   const loadProspects = async () => {
     setIsLoading(true);
     try {
-      const data = await ProspectService.getProspects();
+      // Update to use leadSourceId in the fetch if provided
+      const data = await ProspectService.getProspects(leadSourceId);
       
       if (data && data.length > 0) {
         // Map the database prospects to the display format
@@ -205,7 +209,7 @@ const ProspectTable = () => {
   
   useEffect(() => {
     loadProspects();
-  }, []);
+  }, [leadSourceId]);
 
   const getRandomColor = () => {
     const colors = [

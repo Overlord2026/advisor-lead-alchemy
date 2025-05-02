@@ -1,8 +1,20 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 
-const ProspectPipeline = () => {
+interface ProspectPipelineProps {
+  leadSourceId: string | null;
+}
+
+const ProspectPipeline = ({ leadSourceId }: ProspectPipelineProps) => {
+  useEffect(() => {
+    if (leadSourceId) {
+      console.log(`Fetching pipeline data for lead source: ${leadSourceId}`);
+    } else {
+      console.log("Fetching pipeline data for all lead sources");
+    }
+  }, [leadSourceId]);
+
   return (
     <Card className="bg-card">
       <CardContent className="pt-6">
