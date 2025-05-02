@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Modal, useModal } from "@/components/ui/modal";
 import ProspectForm, { ProspectFormValues } from './ProspectForm';
@@ -16,11 +17,12 @@ const AddProspectModal = ({ onSuccess }: AddProspectModalProps) => {
     try {
       setIsSubmitting(true);
       
-      // Convert next_meeting to an actual date if it's provided as a string
+      // Prepare data without converting to Date object
+      // This ensures next_meeting stays as string | null
       let formattedData = {
         ...data,
         metadata: data.metadata || {},
-        next_meeting: data.next_meeting ? new Date(data.next_meeting) : null,
+        next_meeting: data.next_meeting || null,
       };
       
       const prospect = await ProspectService.createProspect(formattedData);
