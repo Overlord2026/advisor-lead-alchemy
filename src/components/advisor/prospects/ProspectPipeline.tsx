@@ -1,6 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
+import { ProspectService, ProspectFilter } from '@/services/ProspectService';
 
 interface ProspectPipelineProps {
   leadSourceId: string | null;
@@ -8,11 +8,25 @@ interface ProspectPipelineProps {
 
 const ProspectPipeline = ({ leadSourceId }: ProspectPipelineProps) => {
   useEffect(() => {
-    if (leadSourceId) {
-      console.log(`Fetching pipeline data for lead source: ${leadSourceId}`);
-    } else {
-      console.log("Fetching pipeline data for all lead sources");
-    }
+    const loadPipelineData = async () => {
+      try {
+        const filter: ProspectFilter = {};
+        if (leadSourceId) {
+          filter.lead_source_id = leadSourceId;
+          console.log(`Fetching pipeline data for lead source: ${leadSourceId}`);
+        } else {
+          console.log("Fetching pipeline data for all lead sources");
+        }
+        
+        // Example of how you would fetch data with the filter
+        // const prospects = await ProspectService.getProspects(filter);
+        // Process pipeline data based on prospects...
+      } catch (error) {
+        console.error("Error loading pipeline data:", error);
+      }
+    };
+    
+    loadPipelineData();
   }, [leadSourceId]);
 
   return (

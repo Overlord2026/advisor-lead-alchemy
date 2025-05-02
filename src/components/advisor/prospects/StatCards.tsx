@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Calendar, BarChart } from "lucide-react";
+import { ProspectService, ProspectFilter } from '@/services/ProspectService';
 
 interface StatCardsProps {
   leadSourceId: string | null;
@@ -9,13 +9,26 @@ interface StatCardsProps {
 
 const StatCards = ({ leadSourceId }: StatCardsProps) => {
   // In a real application, we would fetch stats based on leadSourceId
-  // For now, we'll just log it to show it's being received
   useEffect(() => {
-    if (leadSourceId) {
-      console.log(`Fetching stats for lead source: ${leadSourceId}`);
-    } else {
-      console.log("Fetching stats for all lead sources");
-    }
+    const loadStats = async () => {
+      try {
+        const filter: ProspectFilter = {};
+        if (leadSourceId) {
+          filter.lead_source_id = leadSourceId;
+          console.log(`Fetching stats for lead source: ${leadSourceId}`);
+        } else {
+          console.log("Fetching stats for all lead sources");
+        }
+        
+        // Example of how you would fetch data with the filter
+        // const prospects = await ProspectService.getProspects(filter);
+        // Calculate stats based on prospects...
+      } catch (error) {
+        console.error("Error loading stats:", error);
+      }
+    };
+    
+    loadStats();
   }, [leadSourceId]);
 
   return (

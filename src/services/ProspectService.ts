@@ -1,5 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 
 export interface Prospect {
   id: string;
@@ -18,14 +19,19 @@ export interface Prospect {
   metadata: Record<string, any>;
 }
 
+// Type for filtering prospects
+export interface ProspectFilter {
+  lead_source_id?: string;
+}
+
 export class ProspectService {
-  static async getProspects(leadSourceId: string | null = null): Promise<Prospect[]> {
+  static async getProspects(filter: ProspectFilter = {}): Promise<Prospect[]> {
     try {
       let query = supabase.from("prospects").select();
       
       // Apply lead source filter if provided
-      if (leadSourceId) {
-        query = query.eq("lead_source_id", leadSourceId);
+      if (filter.lead_source_id) {
+        query = query.eq("lead_source_id", filter.lead_source_id);
       }
       
       const { data, error } = await query.order("created_at", { ascending: false });
@@ -34,7 +40,11 @@ export class ProspectService {
         throw error;
       }
       
-      return data || [];
+      // Transform the Json type from Supabase to Record<string, any>
+      return (data || []).map(item => ({
+        ...item,
+        metadata: item.metadata as Record<string, any>
+      }));
     } catch (error) {
       console.error("Error fetching prospects:", error);
       throw error;
@@ -53,7 +63,10 @@ export class ProspectService {
         throw error;
       }
       
-      return data;
+      return {
+        ...data,
+        metadata: data.metadata as Record<string, any>
+      };
     } catch (error) {
       console.error("Error creating prospect:", error);
       throw error;
@@ -73,7 +86,10 @@ export class ProspectService {
         throw error;
       }
       
-      return data;
+      return {
+        ...data,
+        metadata: data.metadata as Record<string, any>
+      };
     } catch (error) {
       console.error("Error updating prospect:", error);
       throw error;

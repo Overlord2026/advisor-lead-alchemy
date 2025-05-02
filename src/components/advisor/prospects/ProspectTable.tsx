@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Search, FileSpreadsheet } from "lucide-react";
 import ProspectTableRow, { ProspectRowProps } from "./ProspectTableRow";
 import AddProspectModal from './AddProspectModal';
-import { ProspectService } from '@/services/ProspectService';
+import { ProspectService, ProspectFilter } from '@/services/ProspectService';
 import { toast } from 'sonner';
 
 interface ProspectTableProps {
@@ -155,8 +155,13 @@ const ProspectTable = ({ leadSourceId }: ProspectTableProps) => {
   const loadProspects = async () => {
     setIsLoading(true);
     try {
-      // Update to use leadSourceId in the fetch if provided
-      const data = await ProspectService.getProspects(leadSourceId);
+      // Create filter object if leadSourceId is provided
+      const filter: ProspectFilter = {};
+      if (leadSourceId) {
+        filter.lead_source_id = leadSourceId;
+      }
+      
+      const data = await ProspectService.getProspects(filter);
       
       if (data && data.length > 0) {
         // Map the database prospects to the display format
