@@ -57,6 +57,138 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_logs: {
+        Row: {
+          created_at: string
+          details: Json
+          event_type: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          details?: Json
+          event_type: string
+          id?: string
+          status: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          details?: Json
+          event_type?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      document_shares: {
+        Row: {
+          created_at: string
+          document_id: string
+          expires_at: string | null
+          id: string
+          permissions: string | null
+          shared_by: string
+          shared_with: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          expires_at?: string | null
+          id?: string
+          permissions?: string | null
+          shared_by: string
+          shared_with: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          expires_at?: string | null
+          id?: string
+          permissions?: string | null
+          shared_by?: string
+          shared_with?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_shares_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_shares_shared_by_fkey"
+            columns: ["shared_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_shares_shared_with_fkey"
+            columns: ["shared_with"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          created_at: string
+          description: string | null
+          file_path: string
+          file_size: number | null
+          file_type: string | null
+          id: string
+          is_public: boolean | null
+          metadata: Json | null
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          file_path: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          is_public?: boolean | null
+          metadata?: Json | null
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          file_path?: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          is_public?: boolean | null
+          metadata?: Json | null
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       feedback: {
         Row: {
           category: string
@@ -236,6 +368,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          display_name: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          role: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          role?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          role?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       prospect_events: {
         Row: {

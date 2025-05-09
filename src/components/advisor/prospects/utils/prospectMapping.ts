@@ -23,6 +23,7 @@ export const mapProspectToRowProps = (prospect: Prospect): ProspectRowProps => {
     .substring(0, 2);
   
   return {
+    id: prospect.id,
     initials: initials || "?",
     bgColor: getRandomColor(),
     textColor: "text-blue-600",
@@ -48,7 +49,9 @@ export const mapProspectToRowProps = (prospect: Prospect): ProspectRowProps => {
     },
     nextMeeting: prospect.next_meeting 
       ? new Date(prospect.next_meeting).toLocaleDateString() 
-      : 'Not scheduled'
+      : 'Not scheduled',
+    createdAt: prospect.created_at,
+    status: prospect.status
   };
 };
 
@@ -57,6 +60,7 @@ export const mapProspectToRowProps = (prospect: Prospect): ProspectRowProps => {
  */
 export const getSampleProspects = (): ProspectRowProps[] => [
   {
+    id: "1",
     initials: "JD",
     bgColor: "bg-blue-100",
     textColor: "text-blue-600",
@@ -80,9 +84,12 @@ export const getSampleProspects = (): ProspectRowProps[] => [
       textClass: "text-blue-800",
       borderClass: "border-blue-200"
     },
-    nextMeeting: "Apr 24, 2025"
+    nextMeeting: "Apr 24, 2025",
+    createdAt: "2025-04-20T10:00:00Z",
+    status: "new"
   },
   {
+    id: "2",
     initials: "MS",
     bgColor: "bg-purple-100",
     textColor: "text-purple-600",
@@ -106,9 +113,12 @@ export const getSampleProspects = (): ProspectRowProps[] => [
       textClass: "text-yellow-800",
       borderClass: "border-yellow-200"
     },
-    nextMeeting: "Apr 25, 2025"
+    nextMeeting: "Apr 25, 2025",
+    createdAt: "2025-04-18T14:30:00Z",
+    status: "new"
   },
   {
+    id: "3",
     initials: "RJ",
     bgColor: "bg-green-100",
     textColor: "text-green-600",
@@ -132,9 +142,12 @@ export const getSampleProspects = (): ProspectRowProps[] => [
       textClass: "text-purple-800",
       borderClass: "border-purple-200"
     },
-    nextMeeting: "Apr 26, 2025"
+    nextMeeting: "Apr 26, 2025",
+    createdAt: "2025-04-17T09:15:00Z",
+    status: "active"
   },
   {
+    id: "4",
     initials: "AW",
     bgColor: "bg-orange-100",
     textColor: "text-orange-600",
@@ -158,9 +171,12 @@ export const getSampleProspects = (): ProspectRowProps[] => [
       textClass: "text-green-800",
       borderClass: "border-green-200"
     },
-    nextMeeting: "Apr 27, 2025"
+    nextMeeting: "Apr 27, 2025",
+    createdAt: "2025-04-15T16:45:00Z",
+    status: "active"
   },
   {
+    id: "5",
     initials: "MB",
     bgColor: "bg-blue-100",
     textColor: "text-blue-600",
@@ -184,6 +200,8 @@ export const getSampleProspects = (): ProspectRowProps[] => [
       textClass: "text-red-800",
       borderClass: "border-red-200"
     },
-    nextMeeting: "Apr 28, 2025"
+    nextMeeting: "Apr 28, 2025",
+    createdAt: "2025-04-10T11:20:00Z",
+    status: "active"
   }
 ];

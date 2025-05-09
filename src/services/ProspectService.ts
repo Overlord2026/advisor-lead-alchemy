@@ -67,7 +67,8 @@ export class ProspectService {
       // Transform the Json type from Supabase to Record<string, any>
       return (data || []).map(item => ({
         ...item,
-        metadata: item.metadata as Record<string, any>
+        metadata: item.metadata as Record<string, any>,
+        notes: item.notes || null // Ensure notes field is included
       }));
     } catch (error) {
       console.error("Error fetching prospects:", error);
@@ -89,7 +90,8 @@ export class ProspectService {
       
       return {
         ...data,
-        metadata: data.metadata as Record<string, any>
+        metadata: data.metadata as Record<string, any>,
+        notes: data.notes || null // Ensure notes field is included
       };
     } catch (error) {
       console.error("Error creating prospect:", error);
@@ -112,7 +114,8 @@ export class ProspectService {
       
       return {
         ...data,
-        metadata: data.metadata as Record<string, any>
+        metadata: data.metadata as Record<string, any>,
+        notes: data.notes || null // Ensure notes field is included
       };
     } catch (error) {
       console.error("Error updating prospect:", error);

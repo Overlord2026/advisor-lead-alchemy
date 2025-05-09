@@ -41,22 +41,18 @@ const ProspectsTableContent: React.FC<ProspectsTableContentProps> = ({
         <table className="w-full caption-bottom text-sm">
           <thead className="sticky top-0 bg-card border-b">
             <tr className="border-b transition-colors hover:bg-muted/50">
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-6">#</th>
               <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Name</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Email</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Phone</th>
               <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Source</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">HNW Score</th>
               <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Stage</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Created</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Next Meeting</th>
               <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
-            {prospects.map((prospect, index) => (
+            {prospects.map((prospect) => (
               <ProspectTableRow 
                 key={prospect.id}
-                index={index + 1}
                 {...prospect}
               />
             ))}

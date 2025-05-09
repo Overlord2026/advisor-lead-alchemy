@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export interface ProspectRowProps {
+  id: string;
   initials: string;
   bgColor: string;
   textColor: string;
@@ -28,6 +29,8 @@ export interface ProspectRowProps {
     borderClass: string;
   };
   nextMeeting: string;
+  createdAt: string; // Added for date filtering
+  status: string; // Added for status filtering
 }
 
 const ProspectTableRow: React.FC<ProspectRowProps> = ({
