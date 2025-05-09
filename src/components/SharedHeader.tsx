@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
@@ -52,7 +53,12 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
       {/* Centered Logo */}
       <div className="flex justify-center w-full">
         <Link to={portalType === "home" ? "/" : `/${portalType}`} className="flex items-center hover:opacity-90 transition-opacity" data-testid="shared-header-logo">
-          
+          <img
+            src="/logo.svg"
+            alt="Advisor Lead Alchemy"
+            className="h-10"
+            width={120}
+          />
         </Link>
       </div>
       

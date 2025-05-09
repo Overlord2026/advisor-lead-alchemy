@@ -13,7 +13,6 @@ export const prospectSchema = z.object({
   lead_source_id: z.string().uuid().optional().nullable(),
   metadata: z.record(z.any()).optional().default({}),
   next_meeting: z.string().optional().nullable(),
-  notes: z.string().optional().nullable(),
 });
 
 export type ProspectFormValues = z.infer<typeof prospectSchema>;
@@ -30,5 +29,4 @@ export const defaultValues: ProspectFormValues = {
   lead_source_id: null,
   metadata: {},
   next_meeting: null,
-  notes: null,
 };

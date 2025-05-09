@@ -17,7 +17,6 @@ export interface Prospect {
   created_at: string;
   updated_at: string;
   metadata: Record<string, any>;
-  notes: string | null;
 }
 
 // Type for filtering prospects
@@ -32,7 +31,7 @@ export interface ProspectFilter {
 export class ProspectService {
   static async getProspects(filter: ProspectFilter = {}): Promise<Prospect[]> {
     try {
-      let query = supabase.from("prospects").select("*, notes");
+      let query = supabase.from("prospects").select("*");
       
       // Apply lead source filter if provided
       if (filter.lead_source_id) {
@@ -67,8 +66,7 @@ export class ProspectService {
       // Transform the Json type from Supabase to Record<string, any>
       return (data || []).map(item => ({
         ...item,
-        metadata: item.metadata as Record<string, any>,
-        notes: item.notes || null // Ensure notes field is included
+        metadata: item.metadata as Record<string, any>
       }));
     } catch (error) {
       console.error("Error fetching prospects:", error);
@@ -81,7 +79,7 @@ export class ProspectService {
       const { data, error } = await supabase
         .from("prospects")
         .insert(prospect)
-        .select("*, notes")
+        .select()
         .single();
         
       if (error) {
@@ -90,8 +88,7 @@ export class ProspectService {
       
       return {
         ...data,
-        metadata: data.metadata as Record<string, any>,
-        notes: data.notes || null // Ensure notes field is included
+        metadata: data.metadata as Record<string, any>
       };
     } catch (error) {
       console.error("Error creating prospect:", error);
@@ -105,7 +102,7 @@ export class ProspectService {
         .from("prospects")
         .update(updates)
         .eq("id", id)
-        .select("*, notes")
+        .select()
         .single();
         
       if (error) {
@@ -114,8 +111,7 @@ export class ProspectService {
       
       return {
         ...data,
-        metadata: data.metadata as Record<string, any>,
-        notes: data.notes || null // Ensure notes field is included
+        metadata: data.metadata as Record<string, any>
       };
     } catch (error) {
       console.error("Error updating prospect:", error);
