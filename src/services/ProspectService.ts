@@ -32,7 +32,7 @@ export interface ProspectFilter {
 export class ProspectService {
   static async getProspects(filter: ProspectFilter = {}): Promise<Prospect[]> {
     try {
-      let query = supabase.from("prospects").select();
+      let query = supabase.from("prospects").select("*, notes");
       
       // Apply lead source filter if provided
       if (filter.lead_source_id) {
@@ -81,7 +81,7 @@ export class ProspectService {
       const { data, error } = await supabase
         .from("prospects")
         .insert(prospect)
-        .select()
+        .select("*, notes")
         .single();
         
       if (error) {
@@ -105,7 +105,7 @@ export class ProspectService {
         .from("prospects")
         .update(updates)
         .eq("id", id)
-        .select()
+        .select("*, notes")
         .single();
         
       if (error) {

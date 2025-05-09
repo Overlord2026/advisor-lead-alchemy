@@ -97,11 +97,12 @@ const ProspectTable = ({ leadSourceId }: ProspectTableProps) => {
       }
     }
 
-    // Apply status filter
+    // Apply status filter if provided
     const matchesStatus = !status || prospect.status === status;
     
-    // Apply stage filter
-    const matchesStage = !stage || prospect.stage === stage;
+    // Apply stage filter if provided
+    // Fix the type comparison error by comparing the stage label to the filter value
+    const matchesStage = !stage || prospect.stage.label === stage;
     
     return matchesSearch && matchesDateRange && matchesStatus && matchesStage;
   });

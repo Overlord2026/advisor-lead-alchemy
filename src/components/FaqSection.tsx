@@ -10,20 +10,20 @@ import {
 const FaqSection = () => {
   const faqItems = [
     {
-      question: "Can Lovable write notes in my style?",
-      answer: "Yes—train once, then AI mimics your exact voice and formatting."
+      question: "Can Advisor Lead Alchemy integrate with my existing CRM?",
+      answer: "Yes—we offer seamless integration with most popular CRM platforms used by financial advisors."
     },
     {
-      question: "How do I choose which meetings get captured?",
-      answer: "Toggle auto-capture by default or on a per-meeting basis."
+      question: "How do I manage my prospect pipeline?",
+      answer: "Our intuitive dashboard gives you full visibility of your pipeline with drag-and-drop management."
     },
     {
-      question: "How does it know where to post notes?",
-      answer: "Map meeting types to CRM fields at setup; all notes are editable before sync."
+      question: "Can I customize the prospect stages?",
+      answer: "Yes, you can fully customize the stages to match your firm's unique sales process."
     },
     {
       question: "What about security & compliance?",
-      answer: "End-to-end encryption, SOC-2 audited, full retention controls in your hands."
+      answer: "We provide end-to-end encryption, SOC-2 audited systems, and full retention controls to meet regulatory requirements."
     }
   ];
 

@@ -14,7 +14,7 @@ const VideoTour = () => {
     <section className="py-12 bg-card rounded-lg border border-border mb-8">
       <div className="container px-4 mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2">See Lovable in action</h2>
+          <h2 className="text-3xl font-bold mb-2">See Advisor Lead Alchemy in action</h2>
           <p className="text-xl text-muted-foreground">Watch our 60-second walkthrough to see how easy it is.</p>
         </div>
         
@@ -25,7 +25,7 @@ const VideoTour = () => {
               <iframe 
                 className="absolute top-0 left-0 w-full h-full"
                 src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1" 
-                title="Lovable Demo Video"
+                title="Advisor Lead Alchemy Demo Video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
@@ -48,7 +48,7 @@ const VideoTour = () => {
                   </Button>
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 z-10">
-                  <p className="text-white font-medium text-lg">See how Lovable transforms your meeting workflow</p>
+                  <p className="text-white font-medium text-lg">See how Advisor Lead Alchemy transforms your prospecting workflow</p>
                   <p className="text-gray-300">60-second overview</p>
                 </div>
               </div>

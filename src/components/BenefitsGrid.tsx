@@ -7,34 +7,34 @@ const BenefitsGrid = () => {
   const benefits = [
     {
       icon: <Check className="h-6 w-6 text-primary" />,
-      title: "Dramatically elevate client service",
+      title: "Streamlined prospect management",
       descriptions: [
-        "Stay 100% present in client meetings",
-        "Never let anything slip through the cracks"
+        "Track and manage prospects effortlessly",
+        "Never let a valuable lead slip through the cracks"
       ]
     },
     {
       icon: <Clock className="h-6 w-6 text-primary" />,
-      title: "Spend time on clients, not admin tasks",
+      title: "Optimize your sales process",
       descriptions: [
-        "Spend 4 minutes, not 40, on post-meeting work",
-        "Prep with an AI one-pager for every meeting"
+        "Reduce admin work by 85%",
+        "Focus on building client relationships, not paperwork"
       ]
     },
     {
       icon: <ShieldCheck className="h-6 w-6 text-primary" />,
-      title: "Stay compliant",
+      title: "Maintain compliance",
       descriptions: [
-        "Audit-friendly meeting notes for every meeting",
+        "Audit-friendly prospect tracking",
         "You control client data and retention"
       ]
     },
     {
       icon: <Sparkles className="h-6 w-6 text-primary" />,
-      title: "AI future-proof your firm",
+      title: "Future-proof your advisory practice",
       descriptions: [
-        "Lovable is advisor-centric AI, not generic summaries",
-        "We release new features weekly"
+        "Advanced analytics for pipeline optimization",
+        "Regular new features based on advisor feedback"
       ]
     }
   ];

@@ -19,10 +19,10 @@ const Home = () => {
       <section className="pt-32 pb-16 px-4">
         <div className="container mx-auto max-w-6xl text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Advisor Portal
+            Advisor Lead Alchemy
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto">
-            Streamline your sales process and prospect management
+            Transform your prospect management and accelerate your sales process
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" className="font-medium px-8">

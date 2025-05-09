@@ -22,7 +22,7 @@ const CustomerTestimonial = () => {
             <QuoteIcon className="h-12 w-12 text-primary opacity-70" />
           </div>
           <blockquote className="text-2xl md:text-3xl font-medium mb-8 px-6">
-            "With Lovable, what used to be 40 minutes of typing meeting notes, organizing tasks, and posting to CRM now takes just 3–4 minutes."
+            "With Advisor Lead Alchemy, what used to be hours of prospect management now takes just minutes. Our conversion rates have increased by 40%."
           </blockquote>
           <div className="mb-12">
             <p className="text-lg font-medium">Jack Csenge, CFP</p>
