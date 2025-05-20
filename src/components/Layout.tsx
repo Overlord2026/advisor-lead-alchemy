@@ -30,7 +30,7 @@ const NavigationContent = () => {
   return (
     <SidebarContent>
       <SidebarGroup>
-        <SidebarGroupLabel>Advisor Portal</SidebarGroupLabel>
+        <SidebarGroupLabel>Advisor Platform</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {navItems.map((item) => {
@@ -64,11 +64,11 @@ const Header = () => {
   const { toggleSidebar } = useApp();
 
   return (
-    <header className="bg-card border-b border-border p-4 flex justify-between items-center fixed top-[48px] md:top-[56px] left-0 right-0 z-40">
+    <header className="bg-navy-dark border-b border-border/20 p-4 flex justify-between items-center fixed top-[48px] md:top-[56px] left-0 right-0 z-40 shadow-nav">
       <div className="flex gap-4 items-center">
         <SidebarTrigger onClick={toggleSidebar} />
         <h1 className="text-xl font-bold hidden sm:block">
-          Advisor Portal
+          Advisor Platform
         </h1>
       </div>
       <div className="flex items-center gap-4">
@@ -102,7 +102,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
       <Sidebar>
         <SidebarHeader className={`p-4 ${useSharedHeader ? "mt-[48px] md:mt-[56px]" : ""}`}>
           <div className="flex items-center">
-            <span className="ml-2 font-semibold">Advisor Portal</span>
+            <span className="ml-2 font-semibold">Advisor Platform</span>
           </div>
         </SidebarHeader>
         <NavigationContent />
@@ -112,16 +112,16 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
         {useNewLayoutStructure ? (
           <>
             <Header />
-            <div className="w-full bg-primary/10 text-primary font-medium border-b border-primary/20 py-1 px-4 text-sm mt-[96px] md:mt-[112px] flex justify-between">
-              <span>Advisor Portal</span>
+            <div className="w-full bg-gold/10 text-gold font-medium border-b border-gold/20 py-1 px-4 text-sm mt-[96px] md:mt-[112px] flex justify-between">
+              <span>Advisor Platform</span>
               <span>Sales Process Automation</span>
             </div>
             <main className="flex-1 overflow-auto p-6 pt-6 mt-[24px]">{children}</main>
           </>
         ) : (
           <>
-            <header className="bg-card border-b border-border p-4 flex justify-between items-center">
-              <h1 className="text-xl font-bold">Advisor Portal</h1>
+            <header className="bg-navy-dark border-b border-border/20 p-4 flex justify-between items-center shadow-nav">
+              <h1 className="text-xl font-bold">Advisor Platform</h1>
               <NotificationCenter />
             </header>
             <main className="flex-1 overflow-auto p-6">{children}</main>

@@ -19,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				heading: ['Montserrat', 'sans-serif'],
+			},
 			width: {
 				'1/7': '14.285714%',
 			},
@@ -70,17 +74,26 @@ export default {
 					DEFAULT: '#1a2942',
 					dark: '#13202f',
 					light: '#2c4572',
+					lighter: '#3a5584',
+					subtle: '#203150'
 				},
 				gold: {
 					DEFAULT: '#ffc700',
 					light: '#ffd700',
 					dark: '#e6b400',
+					muted: 'rgba(255, 215, 0, 0.15)',
+					subtle: 'rgba(255, 215, 0, 0.08)'
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			boxShadow: {
+				'elegant': '0 4px 12px rgba(0, 0, 0, 0.08)',
+				'card': '0 2px 8px rgba(0, 0, 0, 0.12)',
+				'nav': '0 2px 10px rgba(0, 0, 0, 0.15)',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -98,11 +111,16 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out'
 			}
 		}
 	},

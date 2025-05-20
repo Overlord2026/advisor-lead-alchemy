@@ -1,40 +1,37 @@
-
 import React, { useState } from 'react';
-import { Modal, useModal } from "@/components/ui/modal";
-import ProspectForm, { ProspectFormValues } from './ProspectForm';
-import { ProspectService } from '@/services/ProspectService';
+import { UserPlus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import ProspectForm, { ProspectFormValues } from '../ProspectForm';
+import { ProspectService } from '@/services/ProspectService';
 
-interface AddProspectModalProps {
-  onSuccess?: (prospectId: string) => void;
-}
-
-const AddProspectModal = ({ onSuccess }: AddProspectModalProps) => {
-  const { isOpen, open, close, onOpenChange } = useModal();
+const AddProspectModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+  };
 
   const handleSubmit = async (data: ProspectFormValues) => {
     try {
       setIsSubmitting(true);
       
-      // Prepare data without converting to Date object
-      // This ensures next_meeting stays as string | null
-      let formattedData = {
-        ...data,
-        metadata: data.metadata || {},
-        next_meeting: data.next_meeting || null,
-        notes: data.notes || null,
-      };
+      // Remove any undefined or empty values
+      Object.keys(data).forEach(key => {
+        if (data[key as keyof ProspectFormValues] === '') {
+          data[key as keyof ProspectFormValues] = null;
+        }
+      });
       
-      const prospect = await ProspectService.createProspect(formattedData);
-      toast.success("Prospect added successfully!");
-      close();
-      if (onSuccess && prospect?.id) {
-        onSuccess(prospect.id);
-      }
+      await ProspectService.createProspect(data);
+      
+      toast.success('Prospect created successfully');
+      setIsOpen(false);
     } catch (error) {
-      console.error("Error adding prospect:", error);
-      toast.error("Failed to add prospect. Please try again.");
+      console.error('Error creating prospect:', error);
+      toast.error('Failed to create prospect');
     } finally {
       setIsSubmitting(false);
     }
@@ -42,24 +39,26 @@ const AddProspectModal = ({ onSuccess }: AddProspectModalProps) => {
 
   return (
     <>
-      <button
-        onClick={open}
-        className="bg-white hover:bg-red-50 border-red-200 border text-red-600 px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2"
-      >
-        <span className="text-sm">Add New Prospect</span>
-      </button>
-
-      <Modal 
-        open={isOpen} 
-        onOpenChange={onOpenChange} 
-        title="Add New Prospect"
-        description="Enter prospect information to create a new prospect record."
-      >
-        <ProspectForm 
-          onSubmit={handleSubmit}
-          isSubmitting={isSubmitting}
-        />
-      </Modal>
+      <Button onClick={() => setIsOpen(true)} size="sm" className="gap-1">
+        <UserPlus className="h-4 w-4" />
+        <span>Add Prospect</span>
+      </Button>
+      
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Add New Prospect</DialogTitle>
+            <DialogDescription>
+              Enter the prospect's information below to add them to your pipeline.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <ProspectForm 
+            onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
+          />
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

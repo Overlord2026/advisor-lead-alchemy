@@ -5,13 +5,13 @@
 
 @layer base {
   :root {
-    --background: 220 47% 15%;
+    --background: 220 47% 16%;
     --foreground: 0 0% 98%;
 
-    --card: 222 47% 11%;
+    --card: 222 47% 12%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 222 47% 12%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 45 100% 60%;
@@ -21,7 +21,7 @@
     --secondary-foreground: 0 0% 98%;
 
     --muted: 220 40% 20%;
-    --muted-foreground: 220 10% 70%;
+    --muted-foreground: 220 10% 75%;
 
     --accent: 45 100% 60%;
     --accent-foreground: 222 47% 11%;
@@ -29,13 +29,13 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 40% 20%;
-    --input: 220 40% 20%;
+    --border: 220 40% 22%;
+    --input: 220 40% 22%;
     --ring: 45 100% 60%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 222 47% 11%;
+    --sidebar-background: 222 47% 12%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 45 100% 60%;
     --sidebar-primary-foreground: 222 47% 11%;
@@ -54,32 +54,49 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
 }
 
-/* Card gradients - updated for dark navy theme */
+/* Card gradients - updated for sophisticated navy theme */
 .card-gradient-blue {
   background: linear-gradient(135deg, #1a2942 0%, #2c4572 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-purple {
   background: linear-gradient(135deg, #1a2942 0%, #3a4a7c 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-indigo {
   background: linear-gradient(135deg, #1a2942 0%, #2c3a64 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-teal {
   background: linear-gradient(135deg, #1a2942 0%, #2c5c6a 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-pink {
   background: linear-gradient(135deg, #1a2942 0%, #4a2d5c 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(26, 41, 66, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* AI Badge - updated for gold accent */
@@ -163,6 +180,30 @@ a.gold-link {
 a.gold-link:hover {
   color: hsl(45, 100%, 70%);
   text-decoration: underline;
+}
+
+/* Card hover effect */
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Dashboard section styling */
+.dashboard-section {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.dashboard-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.15);
 }
 
 /* Remove App.css styles that might conflict */

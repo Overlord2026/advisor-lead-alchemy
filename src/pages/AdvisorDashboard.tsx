@@ -7,6 +7,7 @@ import FeatureCards from '@/components/advisor-dashboard/FeatureCards';
 import ProcessFlow from '@/components/advisor-dashboard/ProcessFlow';
 import QuickActions from '@/components/advisor-dashboard/QuickActions';
 import RecentRecordings from '@/components/advisor-dashboard/RecentRecordings';
+import StatsCards from '@/components/advisor-dashboard/StatsCards';
 
 const AdvisorDashboard = () => {
   useEffect(() => {
@@ -24,17 +25,35 @@ const AdvisorDashboard = () => {
         subtitle="A comprehensive platform designed to streamline your entire sales workflow from lead generation to client onboarding."
       />
 
+      {/* Key Metrics Section */}
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">Key Performance Metrics</h2>
+        <StatsCards />
+      </section>
+      
       {/* Quick Actions */}
-      <QuickActions />
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">Quick Actions</h2>
+        <QuickActions />
+      </section>
       
       {/* Recent Recordings */}
-      <RecentRecordings />
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">Recent Client Interactions</h2>
+        <RecentRecordings />
+      </section>
       
       {/* Feature Cards */}
-      <FeatureCards />
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">Platform Capabilities</h2>
+        <FeatureCards />
+      </section>
       
       {/* Sales Process Flow */}
-      <ProcessFlow />
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">Sales Process Overview</h2>
+        <ProcessFlow />
+      </section>
     </div>
   );
 };

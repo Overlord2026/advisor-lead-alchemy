@@ -30,12 +30,12 @@ const FeatureCard = ({
   onClick
 }: FeatureCardProps) => {
   return (
-    <Card className={`overflow-hidden border border-border ${className}`}>
+    <Card className={`overflow-hidden border-border/30 shadow-card hover:border-gold/20 transition-all feature-card ${className}`}>
       <CardContent className="p-6">
         <div className="flex flex-col h-full">
-          <div className="flex justify-between items-start mb-4">
-            <div className="p-3 bg-primary/10 rounded-lg">
-              <Icon className="h-8 w-8 text-primary" />
+          <div className="flex justify-between items-start mb-5">
+            <div className="p-3 bg-gold/10 rounded-lg backdrop-blur-sm">
+              <Icon className="h-8 w-8 text-gold" />
             </div>
             {aiEnhanced && (
               <div className="ai-badge">
@@ -45,16 +45,16 @@ const FeatureCard = ({
             )}
           </div>
           
-          <h3 className="text-xl font-bold mb-2 text-foreground">{title}</h3>
+          <h3 className="text-xl font-medium mb-2 text-foreground">{title}</h3>
           
           <p className="text-sm text-muted-foreground mb-4">
             {description}
           </p>
           
-          <ul className="text-sm text-muted-foreground mb-6 space-y-1">
+          <ul className="text-sm text-muted-foreground mb-6 space-y-2">
             {features.map((feature, index) => (
               <li key={index} className="flex items-center">
-                <div className="h-1.5 w-1.5 bg-primary rounded-full mr-2"></div>
+                <div className="h-1.5 w-1.5 bg-gold/60 rounded-full mr-2"></div>
                 {feature}
               </li>
             ))}
@@ -64,7 +64,7 @@ const FeatureCard = ({
             <Button 
               asChild={!onClick} 
               variant="secondary" 
-              className="w-full hover:bg-primary hover:text-primary-foreground"
+              className="w-full hover:bg-gold hover:text-navy-dark transition-colors"
               onClick={onClick}
             >
               {onClick ? (
@@ -73,7 +73,7 @@ const FeatureCard = ({
                   <ChevronRight className="h-4 w-4 ml-1" />
                 </>
               ) : (
-                <Link to={linkTo}>
+                <Link to={linkTo} className="w-full flex items-center justify-center">
                   {linkText}
                   <ChevronRight className="h-4 w-4 ml-1" />
                 </Link>

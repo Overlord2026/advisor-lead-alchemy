@@ -10,11 +10,12 @@ interface NotesFieldProps {
 }
 
 const NotesField: React.FC<NotesFieldProps> = ({ form }) => {
+  // This component will now store notes in the metadata field since the direct notes field has been removed
   return (
     <div className="mt-4">
       <FormField
         control={form.control}
-        name="notes"
+        name="metadata.notes"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Notes</FormLabel>
@@ -24,6 +25,14 @@ const NotesField: React.FC<NotesFieldProps> = ({ form }) => {
                 className="min-h-[120px]"
                 {...field}
                 value={field.value || ''}
+                onChange={(e) => {
+                  // Update the metadata.notes field
+                  const currentMetadata = form.getValues('metadata') || {};
+                  form.setValue('metadata', {
+                    ...currentMetadata,
+                    notes: e.target.value
+                  });
+                }}
               />
             </FormControl>
             <FormMessage />

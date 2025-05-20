@@ -22,7 +22,7 @@ const FeatureCards = () => {
       />
       
       <FeatureCard 
-        title="Meeting Recording & Intelligence"
+        title="Meeting Intelligence"
         description="Record, transcribe, and analyze client meetings to extract insights and automate follow-up actions."
         Icon={Mic}
         linkTo="/advisor/recordings"
@@ -88,7 +88,7 @@ const FeatureCards = () => {
           "Automation rules",
           "User permissions"
         ]}
-        className="bg-gradient-to-br from-gray-900 to-gray-800 text-white"
+        className="bg-gradient-to-br from-navy-dark to-navy-light text-white"
         aiEnhanced={false}
         onClick={() => toast.info("Settings module coming soon!")}
       />

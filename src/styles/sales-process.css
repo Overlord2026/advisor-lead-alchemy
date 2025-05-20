@@ -1,30 +1,43 @@
 
 /* Sales Process Automation System Styles */
 
-/* Card gradients - Updated for dark navy theme */
+/* Card gradients - Updated for sophisticated navy theme */
 .card-gradient-blue {
   background: linear-gradient(135deg, #1a2942 0%, #2c4572 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-purple {
   background: linear-gradient(135deg, #1a2942 0%, #3a4a7c 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-indigo {
   background: linear-gradient(135deg, #1a2942 0%, #2c3a64 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-teal {
   background: linear-gradient(135deg, #1a2942 0%, #2c5c6a 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .card-gradient-pink {
   background: linear-gradient(135deg, #1a2942 0%, #4a2d5c 100%);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(26, 41, 66, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* AI Badge - updated for gold accent */
@@ -74,4 +87,28 @@
   height: calc(100% - 2rem);
   width: 1px;
   background: hsl(220, 40%, 20%);
+}
+
+/* Card hover effect */
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Dashboard section styling */
+.dashboard-section {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.dashboard-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.15);
 }
