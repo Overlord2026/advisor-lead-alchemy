@@ -1,12 +1,17 @@
+
 import React, { useState } from 'react';
 import { UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import ProspectForm, { ProspectFormValues } from '../ProspectForm';
+import ProspectForm, { ProspectFormValues } from './form/formSchema';
 import { ProspectService } from '@/services/ProspectService';
 
-const AddProspectModal = () => {
+interface AddProspectModalProps {
+  onSuccess?: () => void;
+}
+
+const AddProspectModal = ({ onSuccess }: AddProspectModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,6 +34,11 @@ const AddProspectModal = () => {
       
       toast.success('Prospect created successfully');
       setIsOpen(false);
+      
+      // Call the onSuccess callback if provided
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       console.error('Error creating prospect:', error);
       toast.error('Failed to create prospect');
