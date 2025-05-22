@@ -4,7 +4,8 @@ import { UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import ProspectForm, { ProspectFormValues } from './form/formSchema';
+import ProspectForm from './ProspectForm';
+import { ProspectFormValues } from './form/formSchema';
 import { ProspectService } from '@/services/ProspectService';
 
 interface AddProspectModalProps {
