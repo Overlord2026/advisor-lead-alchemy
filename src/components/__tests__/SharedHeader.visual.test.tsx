@@ -9,21 +9,30 @@ jest.mock("@/contexts/AppContext", () => ({
   useApp: jest.fn(),
 }));
 
+// Mock the useFeatureFlag hook
+jest.mock("@/hooks/useFeatureFlag", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 const mockUseApp = require("@/contexts/AppContext").useApp;
+const mockUseFeatureFlag = require("@/hooks/useFeatureFlag").default;
 
 describe("SharedHeader Visual Regression Tests", () => {
   beforeEach(() => {
-    // Reset mock before each test
+    // Reset mocks before each test
     mockUseApp.mockReturnValue({
       isMobile: false,
       toggleSidebar: jest.fn(),
     });
+    
+    mockUseFeatureFlag.mockReturnValue(true);
   });
 
   test("advisor header should render without errors", () => {
     const { container } = render(
       <MemoryRouter initialEntries={["/advisor"]}>
-        <SharedHeader />
+        <SharedHeader portalType="advisor" />
       </MemoryRouter>
     );
     
@@ -40,7 +49,7 @@ describe("SharedHeader Visual Regression Tests", () => {
     
     const { container } = render(
       <MemoryRouter initialEntries={["/advisor"]}>
-        <SharedHeader />
+        <SharedHeader portalType="advisor" />
       </MemoryRouter>
     );
     
