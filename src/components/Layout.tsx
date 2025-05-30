@@ -64,7 +64,7 @@ const Header = () => {
   const { toggleSidebar } = useApp();
 
   return (
-    <header className="bg-navy-dark border-b border-border/20 p-4 flex justify-between items-center fixed top-[48px] md:top-[56px] left-0 right-0 z-40 shadow-nav">
+    <header className="bg-navy-dark border-b border-border/20 p-4 flex justify-between items-center fixed top-[40px] md:top-[44px] left-0 right-0 z-40 shadow-nav">
       <div className="flex gap-4 items-center">
         <SidebarTrigger onClick={toggleSidebar} />
         <h1 className="text-xl font-bold hidden sm:block">
@@ -100,7 +100,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
       {useSharedHeader && <SharedHeader portalType="advisor" />}
       
       <Sidebar>
-        <SidebarHeader className={`p-4 ${useSharedHeader ? "mt-[48px] md:mt-[56px]" : ""}`}>
+        <SidebarHeader className={`p-4 ${useSharedHeader ? "mt-[40px] md:mt-[44px]" : ""}`}>
           <div className="flex items-center">
             <span className="ml-2 font-semibold">Advisor Platform</span>
           </div>
@@ -112,7 +112,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
         {useNewLayoutStructure ? (
           <>
             <Header />
-            <div className="w-full bg-gold/10 text-gold font-medium border-b border-gold/20 py-1 px-4 text-sm mt-[96px] md:mt-[112px] flex justify-between">
+            <div className="w-full bg-gold/10 text-gold font-medium border-b border-gold/20 py-1 px-4 text-sm mt-[84px] md:mt-[88px] flex justify-between">
               <span>Advisor Platform</span>
               <span>Sales Process Automation</span>
             </div>
@@ -124,7 +124,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
               <h1 className="text-xl font-bold">Advisor Platform</h1>
               <NotificationCenter />
             </header>
-            <main className="flex-1 overflow-auto p-6">{children}</main>
+            <main className="flex-1 overflow-auto p-6 pt-6 mt-[40px] md:mt-[44px]">{children}</main>
           </>
         )}
       </div>

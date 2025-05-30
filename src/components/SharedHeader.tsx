@@ -56,60 +56,61 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
   
   return (
     <header 
-      className="bg-navy-dark w-full py-3 px-6 shadow-nav fixed top-0 left-0 right-0 z-50 border-b border-gold/10 flex flex-col items-center justify-center" 
+      className="bg-navy-dark w-full py-2 px-6 shadow-nav fixed top-0 left-0 right-0 z-50 border-b border-gold/10" 
       data-testid={`shared-header-${portalType}`}
     >
-      {/* Centered Logo */}
-      <div className="flex justify-center w-full">
-        <Link to={portalType === "home" ? "/" : `/${portalType}`} className="flex items-center hover:opacity-90 transition-opacity" data-testid="shared-header-logo">
-          <img
-            src="/logo.svg"
-            alt="Advisor Platform"
-            className="h-10"
-            width={120}
-          />
-        </Link>
-      </div>
-      
-      {/* Mobile Menu Button (positioned absolutely) */}
-      {navigationItems.length > 0 && enableResponsiveDesign && isMobile && (
-        <button 
-          onClick={toggleMobileMenu} 
-          className="md:hidden text-white focus:outline-none absolute right-6 top-1/2 transform -translate-y-1/2" 
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"} 
-          data-testid="mobile-menu-toggle"
-        >
-          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      )}
-      
-      {/* Desktop Navigation - positioned below logo */}
-      {navigationItems.length > 0 && (
-        <div 
-          className={`${enableResponsiveDesign ? "hidden md:flex" : "flex"} items-center mt-2`} 
-          data-testid="desktop-nav"
-        >
-          <nav>
-            <ul className="flex space-x-6">
-              {navigationItems.map(item => (
-                <li key={item.path}>
-                  <Link 
-                    to={item.path} 
-                    className={`${
-                      location.pathname === item.path 
-                        ? "text-primary font-medium" 
-                        : "text-white/80 hover:text-primary"
-                    } transition-colors`} 
-                    data-testid={`nav-item-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
+        {/* Navigation Items - Left Side */}
+        {navigationItems.length > 0 && (
+          <div 
+            className={`${enableResponsiveDesign ? "hidden md:flex" : "flex"} items-center`} 
+            data-testid="desktop-nav"
+          >
+            <nav>
+              <ul className="flex space-x-6">
+                {navigationItems.map(item => (
+                  <li key={item.path}>
+                    <Link 
+                      to={item.path} 
+                      className={`${
+                        location.pathname === item.path 
+                          ? "text-gold font-medium" 
+                          : "text-white/80 hover:text-gold"
+                      } transition-colors text-sm font-medium`} 
+                      data-testid={`nav-item-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        )}
+
+        {/* Platform Title - Center */}
+        <div className="flex-1 flex justify-center">
+          <Link 
+            to={portalType === "home" ? "/" : `/${portalType}`} 
+            className="text-gold font-bold text-lg tracking-wide hover:opacity-90 transition-opacity" 
+            data-testid="shared-header-title"
+          >
+            ADVISOR PLATFORM
+          </Link>
         </div>
-      )}
+
+        {/* Mobile Menu Button - Right Side */}
+        {navigationItems.length > 0 && enableResponsiveDesign && isMobile && (
+          <button 
+            onClick={toggleMobileMenu} 
+            className="md:hidden text-white focus:outline-none" 
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"} 
+            data-testid="mobile-menu-toggle"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        )}
+      </div>
       
       {/* Mobile Navigation */}
       {navigationItems.length > 0 && enableResponsiveDesign && isMobile && mobileMenuOpen && (
@@ -125,9 +126,9 @@ const SharedHeader: React.FC<SharedHeaderProps> = ({
                     to={item.path} 
                     className={`block ${
                       location.pathname === item.path 
-                        ? "text-primary font-medium" 
-                        : "text-white/80 hover:text-primary"
-                    } transition-colors`} 
+                        ? "text-gold font-medium" 
+                        : "text-white/80 hover:text-gold"
+                    } transition-colors text-sm`} 
                     onClick={() => setMobileMenuOpen(false)} 
                     data-testid={`mobile-nav-item-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                   >
